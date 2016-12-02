@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class Dashboard extends BaseActivity {
 
@@ -15,6 +16,8 @@ public class Dashboard extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
+
+        ButterKnife.bind(this);
 
         tvStatus.setText("Logged in as: " + getUserEmail());
     }

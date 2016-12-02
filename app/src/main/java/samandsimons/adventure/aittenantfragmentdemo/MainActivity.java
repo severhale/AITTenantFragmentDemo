@@ -40,6 +40,9 @@ public class MainActivity extends BaseActivity {
 
         database = FirebaseDatabase.getInstance().getReference();
         firebaseAuth = FirebaseAuth.getInstance();
+
+        etEmail.setText("severhal@oberlin.edu");
+        etPassword.setText("123456");
     }
 
     @OnClick(R.id.btnLogin)
