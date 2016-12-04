@@ -24,11 +24,11 @@ public class Payment {
         this.toId = toId;
     }
 
-    public float getAmount() {
+    public String getAmount() {
         return amount;
     }
 
-    public void setAmount(float amount) {
+    public void setAmount(String amount) {
         this.amount = amount;
     }
 
@@ -48,6 +48,6 @@ public class Payment {
         this.time = time;
     }
 
-    private float amount;
+    private String amount;
     private long time;
 }

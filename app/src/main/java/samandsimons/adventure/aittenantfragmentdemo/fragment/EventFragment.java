@@ -8,11 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import samandsimons.adventure.aittenantfragmentdemo.R;
+import samandsimons.adventure.aittenantfragmentdemo.model.User;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class EventFragment extends Fragment {
+public class EventFragment extends Fragment implements DataFragment{
 
 
     public EventFragment() {
@@ -27,4 +28,8 @@ public class EventFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_event, container, false);
     }
 
+    @Override
+    public void refreshData(User user) {
+
+    }
 }

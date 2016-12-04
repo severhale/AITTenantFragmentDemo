@@ -4,29 +4,19 @@ import android.app.ProgressDialog;
 import android.support.v7.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+
+import samandsimons.adventure.aittenantfragmentdemo.fragment.ProgressActivity;
+import samandsimons.adventure.aittenantfragmentdemo.model.User;
 
 /**
  * Created by Simon on 12/3/2016.
  */
 
-public class BaseActivity extends AppCompatActivity {
+public class BaseActivity extends ProgressActivity {
 
-    private ProgressDialog progressDialog;
+    private User user;
 
-    public void showProgressDialog() {
-        if (progressDialog == null) {
-            progressDialog = new ProgressDialog(this);
-            progressDialog.setMessage("Loading...");
-        }
-
-        progressDialog.show();
-    }
-
-    public void hideProgressDialog() {
-        if (progressDialog != null && progressDialog.isShowing()) {
-            progressDialog.dismiss();
-        }
-    }
 
     public String getUid() {
         return FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -36,6 +26,21 @@ public class BaseActivity extends AppCompatActivity {
         return FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
     }
 
+    public User getUser() {
+        if (user == null) {
+            user = new User(getUserName(), getUserEmail());
+        }
+        return user;
+    }
+
+    public void setUser(User newUser) {
+        if (user == null) {
+            user = newUser;
+        }
+        else {
+            user.setValues(newUser);
+        }
+    }
 
     public String getUserEmail() {
         return FirebaseAuth.getInstance().getCurrentUser().getEmail();

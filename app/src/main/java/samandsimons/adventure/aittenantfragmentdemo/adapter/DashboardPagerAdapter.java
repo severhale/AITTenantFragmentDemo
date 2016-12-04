@@ -9,6 +9,7 @@ import samandsimons.adventure.aittenantfragmentdemo.R;
 import samandsimons.adventure.aittenantfragmentdemo.fragment.EventFragment;
 import samandsimons.adventure.aittenantfragmentdemo.fragment.PaymentFragment;
 import samandsimons.adventure.aittenantfragmentdemo.fragment.PostItFragment;
+import samandsimons.adventure.aittenantfragmentdemo.model.User;
 
 /**
  * Created by Simon on 12/4/2016.
@@ -16,11 +17,17 @@ import samandsimons.adventure.aittenantfragmentdemo.fragment.PostItFragment;
 
 public class DashboardPagerAdapter extends FragmentPagerAdapter {
 
-    Context context;
+    private Context context;
+    private EventFragment eventFragment;
+    private PaymentFragment paymentFragment;
+    private PostItFragment postItFragment;
 
     public DashboardPagerAdapter(FragmentManager fm, Context context) {
         super(fm);
         this.context = context;
+        eventFragment = new EventFragment();
+        paymentFragment = new PaymentFragment();
+        postItFragment = new PostItFragment();
     }
 
     @Override
@@ -41,18 +48,24 @@ public class DashboardPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return new EventFragment();
+                return eventFragment;
             case 1:
-                return new PaymentFragment();
+                return paymentFragment;
             case 2:
-                return new PostItFragment();
+                return postItFragment;
             default:
-                return new EventFragment();
+                return eventFragment;
         }
     }
 
     @Override
     public int getCount() {
         return 3;
+    }
+
+    public void onDataLoaded(User user) {
+        eventFragment.refreshData(user);
+        paymentFragment.refreshData(user);
+        postItFragment.refreshData(user);
     }
 }
