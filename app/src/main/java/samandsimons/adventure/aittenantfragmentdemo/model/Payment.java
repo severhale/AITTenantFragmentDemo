@@ -7,6 +7,8 @@ package samandsimons.adventure.aittenantfragmentdemo.model;
 public class Payment {
     private String fromId;
     private String toId;
+    private String amount;
+    private long time;
 
     public String getFromId() {
         return fromId;
@@ -47,7 +49,4 @@ public class Payment {
         this.amount = amount;
         this.time = time;
     }
-
-    private String amount;
-    private long time;
 }

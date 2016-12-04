@@ -17,6 +17,7 @@ import samandsimons.adventure.aittenantfragmentdemo.model.User;
 public class PostItFragment extends Fragment implements DataFragment {
 
 
+
     public PostItFragment() {
         // Required empty public constructor
     }
@@ -26,7 +27,6 @@ public class PostItFragment extends Fragment implements DataFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_post_it, container, false);
     }
 
     @Override
