@@ -3,15 +3,12 @@ package samandsimons.adventure.aittenantfragmentdemo;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
@@ -20,7 +17,7 @@ import butterknife.ButterKnife;
 import samandsimons.adventure.aittenantfragmentdemo.adapter.DashboardPagerAdapter;
 import samandsimons.adventure.aittenantfragmentdemo.fragment.EventFragment;
 import samandsimons.adventure.aittenantfragmentdemo.fragment.PaymentFragment;
-import samandsimons.adventure.aittenantfragmentdemo.fragment.PostItFragment;
+import samandsimons.adventure.aittenantfragmentdemo.fragment.MessageFragment;
 import samandsimons.adventure.aittenantfragmentdemo.model.User;
 
 public class Dashboard extends BaseActivity {
@@ -71,8 +68,8 @@ public class Dashboard extends BaseActivity {
         PaymentFragment paymentFragment = (PaymentFragment) findFragmentByTag(1);
         paymentFragment.refreshData(user);
 
-        PostItFragment postItFragment = (PostItFragment) findFragmentByTag(2);
-        postItFragment.refreshData(user);
+        MessageFragment messageFragment = (MessageFragment) findFragmentByTag(2);
+        messageFragment.refreshData(user);
     }
 
     private Fragment findFragmentByTag(int page) {

@@ -6,26 +6,32 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import samandsimons.adventure.aittenantfragmentdemo.R;
 import samandsimons.adventure.aittenantfragmentdemo.model.Message;
+import samandsimons.adventure.aittenantfragmentdemo.model.User;
 
 /**
  * Created by samgrund on 12/4/16.
  */
-public class PostItRecyclerAdapter extends RecyclerView.Adapter<PostItRecyclerAdapter.ViewHolder> {
+public class MessageRecyclerAdapter extends RecyclerView.Adapter<MessageRecyclerAdapter.ViewHolder> {
     private List<Message> messageList;
+    SimpleDateFormat sdf;
 
-    public PostItRecyclerAdapter() {
+    public MessageRecyclerAdapter() {
         messageList = new ArrayList<>();
+        sdf = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
         private TextView poster;
         private TextView subject;
         private TextView message;
+        private TextView timestamp;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -33,6 +39,7 @@ public class PostItRecyclerAdapter extends RecyclerView.Adapter<PostItRecyclerAd
             poster = (TextView) itemView.findViewById(R.id.tMessagePoster);
             subject = (TextView) itemView.findViewById(R.id.tvMessageSubject);
             message = (TextView) itemView.findViewById(R.id.tvMessage);
+            timestamp = (TextView) itemView.findViewById(R.id.tvMessageTimestamp);
 
         }
 
@@ -40,22 +47,30 @@ public class PostItRecyclerAdapter extends RecyclerView.Adapter<PostItRecyclerAd
 
 
     @Override
-    public PostItRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MessageRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View note = LayoutInflater.from(parent.getContext()).inflate(
-                R.layout.message,parent,false);
+                R.layout.item_message,parent,false);
         return new ViewHolder(note);
     }
 
     @Override
-    public void onBindViewHolder(PostItRecyclerAdapter.ViewHolder holder, final int position) {
-
+    public void onBindViewHolder(MessageRecyclerAdapter.ViewHolder holder, final int position) {
+        Message message = messageList.get(position);
+        holder.poster.setText(message.getFromDisplay());
+        holder.message.setText(message.getText());
+        holder.subject.setText(message.getSubject());
+        holder.timestamp.setText(sdf.format(new Date(message.getTime())));
     }
 
 
     @Override
     public int getItemCount() {
-        return 0;
+        return messageList.size();
     }
 
+    public void updateForUser(User user) {
+        messageList = user.getMessages();
+        notifyDataSetChanged();
+    }
 
 }

@@ -10,17 +10,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import samandsimons.adventure.aittenantfragmentdemo.R;
-import samandsimons.adventure.aittenantfragmentdemo.adapter.EventRecyclerAdapter;
+import samandsimons.adventure.aittenantfragmentdemo.adapter.MessageRecyclerAdapter;
 import samandsimons.adventure.aittenantfragmentdemo.model.User;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class EventFragment extends Fragment implements DataFragment{
+public class MessageFragment extends Fragment implements DataFragment {
+    private MessageRecyclerAdapter recyclerAdapter;
 
-    private EventRecyclerAdapter recyclerAdapter;
-
-    public EventFragment() {
+    public MessageFragment() {
         // Required empty public constructor
     }
 
@@ -29,9 +28,9 @@ public class EventFragment extends Fragment implements DataFragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_event, container, false);
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.eventRecycler);
-        recyclerAdapter = new EventRecyclerAdapter();
+        View view = inflater.inflate(R.layout.fragment_message, container, false);
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.messageRecycler);
+        recyclerAdapter = new MessageRecyclerAdapter();
         recyclerView.setAdapter(recyclerAdapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setReverseLayout(true);
