@@ -27,6 +27,11 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<MessageRecycler
         sdf = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
     }
 
+    public void addItem(Message newMessage) {
+        messageList.add(newMessage);
+        notifyItemInserted(messageList.size() - 1);
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder{
         private TextView poster;
         private TextView subject;

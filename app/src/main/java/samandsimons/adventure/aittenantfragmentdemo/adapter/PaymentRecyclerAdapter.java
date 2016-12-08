@@ -41,8 +41,7 @@ public class PaymentRecyclerAdapter extends RecyclerView.Adapter<PaymentRecycler
         Payment payment = paymentList.get(position);
         if (userType == User.UserType.LANDLORD) {
             holder.name.setText(payment.getFromId());
-        }
-        else {
+        } else {
             holder.name.setText(payment.getToId());
         }
         holder.amount.setText(payment.getAmount());
@@ -57,11 +56,14 @@ public class PaymentRecyclerAdapter extends RecyclerView.Adapter<PaymentRecycler
     }
 
     public void updateForUser(User user) {
-        Log.d("TAG", "Updating for user with " + user.getPayments().size() + " payments");
         paymentList = user.getPayments();
-        Log.d("TAG", paymentList.get(0).getAmount());
         userType = User.UserType.values()[user.getType()];
         notifyDataSetChanged();
+    }
+
+    public void addItem(Payment newPayment) {
+        paymentList.add(newPayment);
+        notifyItemInserted(paymentList.size() - 1);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

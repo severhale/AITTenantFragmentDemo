@@ -52,8 +52,14 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
         notifyDataSetChanged();
     }
 
+    public void addItem(Event newEvent) {
+        eventList.add(newEvent);
+        notifyItemInserted(eventList.size() - 1);
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView title, description, author, date;
+
         public ViewHolder(View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.tvEventTitle);
