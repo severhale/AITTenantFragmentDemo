@@ -9,7 +9,11 @@ public class Event {
     private String text;
     private long time;
 
+    public Event() {
+    }
+
     public String getFromId() {
+
         return fromId;
     }
 

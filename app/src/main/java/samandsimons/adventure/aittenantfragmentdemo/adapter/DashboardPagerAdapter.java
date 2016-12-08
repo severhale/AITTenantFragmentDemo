@@ -18,16 +18,10 @@ import samandsimons.adventure.aittenantfragmentdemo.model.User;
 public class DashboardPagerAdapter extends FragmentPagerAdapter {
 
     private Context context;
-    private EventFragment eventFragment;
-    private PaymentFragment paymentFragment;
-    private PostItFragment postItFragment;
 
     public DashboardPagerAdapter(FragmentManager fm, Context context) {
         super(fm);
         this.context = context;
-        eventFragment = new EventFragment();
-        paymentFragment = new PaymentFragment();
-        postItFragment = new PostItFragment();
     }
 
     @Override
@@ -48,13 +42,13 @@ public class DashboardPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return eventFragment;
+                return new EventFragment();
             case 1:
-                return paymentFragment;
+                return new PaymentFragment();
             case 2:
-                return postItFragment;
+                return new PostItFragment();
             default:
-                return eventFragment;
+                return new EventFragment();
         }
     }
 
@@ -63,9 +57,4 @@ public class DashboardPagerAdapter extends FragmentPagerAdapter {
         return 3;
     }
 
-    public void onDataLoaded(User user) {
-        eventFragment.refreshData(user);
-        paymentFragment.refreshData(user);
-        postItFragment.refreshData(user);
-    }
 }

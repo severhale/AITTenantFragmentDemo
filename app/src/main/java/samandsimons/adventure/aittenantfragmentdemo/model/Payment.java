@@ -7,6 +7,17 @@ package samandsimons.adventure.aittenantfragmentdemo.model;
 public class Payment {
     private String fromId;
     private String toId;
+    private String amount;
+    private long time;
+    private String message;
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
     public String getFromId() {
         return fromId;
@@ -36,6 +47,9 @@ public class Payment {
         return time;
     }
 
+    public Payment() {
+    }
+
     public void setTime(long time) {
         this.time = time;
     }
@@ -48,6 +62,5 @@ public class Payment {
         this.time = time;
     }
 
-    private String amount;
-    private long time;
+
 }

@@ -1,5 +1,6 @@
 package samandsimons.adventure.aittenantfragmentdemo;
 
+import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +17,9 @@ import com.google.firebase.database.ValueEventListener;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import samandsimons.adventure.aittenantfragmentdemo.adapter.DashboardPagerAdapter;
+import samandsimons.adventure.aittenantfragmentdemo.fragment.EventFragment;
+import samandsimons.adventure.aittenantfragmentdemo.fragment.PaymentFragment;
+import samandsimons.adventure.aittenantfragmentdemo.fragment.PostItFragment;
 import samandsimons.adventure.aittenantfragmentdemo.model.User;
 
 public class Dashboard extends BaseActivity {
@@ -41,7 +45,7 @@ public class Dashboard extends BaseActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
                 setUser(user);
-                pagerAdapter.onDataLoaded(user);
+                refreshFragments(user);
             }
 
             @Override
@@ -53,6 +57,26 @@ public class Dashboard extends BaseActivity {
         tvStatus.setText("Logged in as: " + getUserEmail());
 
         pagerAdapter = new DashboardPagerAdapter(getSupportFragmentManager(), getApplicationContext());
+        pager.setOffscreenPageLimit(3);
         pager.setAdapter(pagerAdapter);
+    }
+
+
+    private void refreshFragments(User user) {
+        EventFragment eventFragment = (EventFragment) findFragmentByTag(0);
+        eventFragment.refreshData(user);
+
+
+        PaymentFragment paymentFragment = (PaymentFragment) findFragmentByTag(1);
+        paymentFragment.refreshData(user);
+
+        PostItFragment postItFragment = (PostItFragment) findFragmentByTag(2);
+        postItFragment.refreshData(user);
+    }
+
+    private Fragment findFragmentByTag(int page) {
+        return getSupportFragmentManager().findFragmentByTag(
+                "android:switcher:" + R.id.dashboardPager + ":" + pagerAdapter.getItemId(page)
+        );
     }
 }

@@ -14,9 +14,7 @@ import samandsimons.adventure.aittenantfragmentdemo.model.User;
  */
 
 public class BaseActivity extends ProgressActivity {
-
     private User user;
-
 
     public String getUid() {
         return FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -26,9 +24,13 @@ public class BaseActivity extends ProgressActivity {
         return FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
     }
 
+    public User.UserType getUserType() {
+        return User.UserType.values()[getUser().getType()];
+    }
+
     public User getUser() {
         if (user == null) {
-            user = new User(getUserName(), getUserEmail());
+            user = new User(getUserName(), getUserEmail(), User.UserType.LANDLORD);
         }
         return user;
     }

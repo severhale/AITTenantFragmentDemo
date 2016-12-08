@@ -8,8 +8,23 @@ import java.util.List;
  */
 
 public class User {
+
+    public enum UserType {
+        LANDLORD,
+        TENANT
+    }
+
     private String username;
     private String email;
+    private int type;
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
 
     private List<Message> messages;
     private List<Payment> payments;
@@ -51,17 +66,18 @@ public class User {
         this.connections = connections;
     }
 
-    public User(String username, String email) {
+    public User(String username, String email, UserType type) {
 
         this.username = username;
         this.email = email;
+        this.type = type.ordinal();
         messages = new ArrayList<>();
-//        messages.add(new Message("0", "0", "test", 0));
         payments = new ArrayList<>();
-//        payments.add(new Payment("0", "0", "55.55", 0));
         events = new ArrayList<>();
-//        events.add(new Event("0", "event is happening", 0));
         connections = new ArrayList<>();
+        messages.add(new Message("0", "0", "test", 0));
+        payments.add(new Payment("0", "0", "55.55", 0));
+        events.add(new Event("0", "event is happening", 0));
 
 
     }

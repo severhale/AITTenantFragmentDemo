@@ -89,7 +89,7 @@ public class MainActivity extends ProgressActivity {
                             fbUser.updateProfile(new UserProfileChangeRequest.Builder().
                                     setDisplayName(usernameFromEmail(fbUser.getEmail())).build());
 
-                            User user = new User(usernameFromEmail(fbUser.getEmail()), fbUser.getEmail());
+                            User user = new User(usernameFromEmail(fbUser.getEmail()), fbUser.getEmail(), User.UserType.LANDLORD);
                             database.child("users").child(fbUser.getUid()).setValue(user);
 
                             Toast.makeText(MainActivity.this, "User created", Toast.LENGTH_SHORT).show();

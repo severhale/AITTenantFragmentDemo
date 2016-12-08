@@ -30,6 +30,9 @@ public class Message {
         return text;
     }
 
+    public Message() {
+    }
+
     public void setText(String text) {
         this.text = text;
     }
