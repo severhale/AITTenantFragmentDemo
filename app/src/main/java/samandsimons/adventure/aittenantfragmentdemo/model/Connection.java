@@ -5,9 +5,32 @@ package samandsimons.adventure.aittenantfragmentdemo.model;
  */
 public class Connection {
 
+    enum State {
+        INCOMING,
+        OUTGOING,
+        CONFIRMED
+    }
+
     private boolean confirmed;
     private String id;
     private String displayName;
+    private int state;
+
+    public State getConnectionType() {
+        return State.values()[state];
+    }
+
+    public void setConnectionType(State type) {
+        state = type.ordinal();
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
 
     public Connection() {
     }
