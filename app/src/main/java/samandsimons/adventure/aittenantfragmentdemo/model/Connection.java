@@ -6,23 +6,20 @@ package samandsimons.adventure.aittenantfragmentdemo.model;
 public class Connection {
 
     private boolean confirmed;
-    private String fromId;
-    private String toId;
-    private String fromDisplayName;
-    private String toDisplayName;
+    private String id;
+    private String displayName;
 
     public Connection() {
     }
 
-    public Connection(boolean confirmed, String fromId, String toId, String fromDisplayName, String toDisplayName) {
+    public Connection(boolean confirmed, String id, String displayName) {
         this.confirmed = confirmed;
-        this.fromId = fromId;
-        this.toId = toId;
-        this.fromDisplayName = fromDisplayName;
-        this.toDisplayName = toDisplayName;
+        this.id = id;
+        this.displayName = displayName;
     }
 
     public boolean isConfirmed() {
+
         return confirmed;
     }
 
@@ -30,35 +27,19 @@ public class Connection {
         this.confirmed = confirmed;
     }
 
-    public String getFromId() {
-        return fromId;
+    public String getId() {
+        return id;
     }
 
-    public void setFromId(String fromId) {
-        this.fromId = fromId;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getToId() {
-        return toId;
+    public String getDisplayName() {
+        return displayName;
     }
 
-    public void setToId(String toId) {
-        this.toId = toId;
-    }
-
-    public String getFromDisplayName() {
-        return fromDisplayName;
-    }
-
-    public void setFromDisplayName(String fromDisplayName) {
-        this.fromDisplayName = fromDisplayName;
-    }
-
-    public String getToDisplayName() {
-        return toDisplayName;
-    }
-
-    public void setToDisplayName(String toDisplayName) {
-        this.toDisplayName = toDisplayName;
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 }

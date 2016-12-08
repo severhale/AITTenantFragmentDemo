@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -28,6 +29,7 @@ public class PaymentRecyclerAdapter extends RecyclerView.Adapter<PaymentRecycler
     User.UserType userType;
 
     public PaymentRecyclerAdapter() {
+        paymentList = new ArrayList<>();
     }
 
     @Override

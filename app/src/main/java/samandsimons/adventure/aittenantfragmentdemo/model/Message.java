@@ -7,6 +7,25 @@ package samandsimons.adventure.aittenantfragmentdemo.model;
 public class Message {
     private String fromId;
     private String toId;
+    private String fromDisplay;
+    private String toDisplay;
+
+    public String getFromDisplay() {
+        return fromDisplay;
+    }
+
+    public void setFromDisplay(String fromDisplay) {
+        this.fromDisplay = fromDisplay;
+    }
+
+    public String getToDisplay() {
+        return toDisplay;
+    }
+
+    public void setToDisplay(String toDisplay) {
+        this.toDisplay = toDisplay;
+    }
+
     private String text;
     private long time;
 

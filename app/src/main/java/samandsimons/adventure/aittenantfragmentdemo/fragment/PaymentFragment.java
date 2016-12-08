@@ -3,6 +3,7 @@ package samandsimons.adventure.aittenantfragmentdemo.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,6 +39,10 @@ public class PaymentFragment extends Fragment implements DataFragment {
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.paymentRecycler);
         recyclerAdapter = new PaymentRecyclerAdapter();
         recyclerView.setAdapter(recyclerAdapter);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        layoutManager.setReverseLayout(true);
+        layoutManager.setStackFromEnd(true);
+        recyclerView.setLayoutManager(layoutManager);
         return view;
     }
 
