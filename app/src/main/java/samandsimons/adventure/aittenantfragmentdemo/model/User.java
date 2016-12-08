@@ -29,7 +29,7 @@ public class User {
     private List<Message> messages;
     private List<Payment> payments;
     private List<Event> events;
-    private List<String> connections;
+    private List<Connection> connections;
 
     public User() {
     }
@@ -58,11 +58,11 @@ public class User {
         this.events = events;
     }
 
-    public List<String> getConnections() {
+    public List<Connection> getConnections() {
         return connections;
     }
 
-    public void setConnections(List<String> connections) {
+    public void setConnections(List<Connection> connections) {
         this.connections = connections;
     }
 
