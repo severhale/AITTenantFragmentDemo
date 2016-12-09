@@ -25,7 +25,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import samandsimons.adventure.aittenantfragmentdemo.R;
-import samandsimons.adventure.aittenantfragmentdemo.adapter.ConnectionsPagerAdapter;
+import samandsimons.adventure.aittenantfragmentdemo.adapter.pager.ConnectionsPagerAdapter;
+import samandsimons.adventure.aittenantfragmentdemo.fragment.dialog.AddConnectionDialogFragment;
+import samandsimons.adventure.aittenantfragmentdemo.fragment.dialog.AddMessageDialogFragment;
 import samandsimons.adventure.aittenantfragmentdemo.model.Connection;
 import samandsimons.adventure.aittenantfragmentdemo.model.Message;
 
