@@ -2,49 +2,43 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:weightSum="3">
+    android:layout_margin="10dp"
+    android:padding="10dp"
+    android:background="#eee"
+    android:orientation="vertical">
 
-
-    <LinearLayout
-        android:layout_width="0dp"
+    <TextView
+        android:id="@+id/tvMessageSubject"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:text="SUBJECT"
+        android:textColor="#000" />
 
-        <TextView
-            android:id="@+id/tMessagePoster"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Name" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@android:drawable/divider_horizontal_textfield" />
 
-        <TextView
-            android:id="@+id/tvMessageSubject"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Subject" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="0dp"
+    <TextView
+        android:id="@+id/tvMessage"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:orientation="vertical">
+        android:text="BODY"
+        android:textColor="#000" />
 
-        <TextView
-            android:id="@+id/tvMessage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="MESSAGE" />
+    <TextView
+        android:id="@+id/tvMessagePoster"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:text="AUTHOR" />
 
-        <TextView
-            android:id="@+id/tvMessageTimestamp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:text="TIMESTAMP"/>
-
-    </LinearLayout>
+    <TextView
+        android:id="@+id/tvMessageTimestamp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:text="TIMESTAMP" />
 
 
 </LinearLayout>

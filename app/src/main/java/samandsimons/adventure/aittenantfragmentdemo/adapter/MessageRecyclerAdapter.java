@@ -41,7 +41,7 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<MessageRecycler
         public ViewHolder(View itemView) {
             super(itemView);
 
-            poster = (TextView) itemView.findViewById(R.id.tMessagePoster);
+            poster = (TextView) itemView.findViewById(R.id.tvMessagePoster);
             subject = (TextView) itemView.findViewById(R.id.tvMessageSubject);
             message = (TextView) itemView.findViewById(R.id.tvMessage);
             timestamp = (TextView) itemView.findViewById(R.id.tvMessageTimestamp);
