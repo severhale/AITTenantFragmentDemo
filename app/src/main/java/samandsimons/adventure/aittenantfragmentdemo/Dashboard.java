@@ -1,21 +1,18 @@
 package samandsimons.adventure.aittenantfragmentdemo;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.GenericTypeIndicator;
-import com.google.firebase.database.ValueEventListener;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import samandsimons.adventure.aittenantfragmentdemo.adapter.DashboardPagerAdapter;
+import samandsimons.adventure.aittenantfragmentdemo.adapter.pager.DashboardPagerAdapter;
 import samandsimons.adventure.aittenantfragmentdemo.fragment.EventFragment;
 import samandsimons.adventure.aittenantfragmentdemo.fragment.PaymentFragment;
 import samandsimons.adventure.aittenantfragmentdemo.fragment.MessageFragment;
@@ -61,6 +58,24 @@ public class Dashboard extends BaseActivity {
         pager.setAdapter(pagerAdapter);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_open_userlist:
+                Intent intentShowUserList = new Intent();
+                intentShowUserList.setClass(Dashboard.this, ConnectionListActivity.class);
+                startActivityForResult(intentShowUserList, 101);
+                return true;
+            default:
+                return true;
+        }
+    }
 
     private void refreshFragments(User user) {
         EventFragment eventFragment = (EventFragment) findFragmentByTag(0);

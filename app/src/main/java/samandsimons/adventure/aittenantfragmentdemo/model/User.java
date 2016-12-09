@@ -126,10 +126,10 @@ public class User {
         return confirmed;
     }
 
-    public List<Connection> getPendingConnections(){
+    public List<Connection> getIncomingConnections(){
         ArrayList<Connection> pending = new ArrayList<Connection>();
         for (Connection connection : connections) {
-            if (connection.getState()!=3){
+            if (connection.getState() == Connection.State.INCOMING.ordinal()){
                 pending.add(connection);
             }
         }

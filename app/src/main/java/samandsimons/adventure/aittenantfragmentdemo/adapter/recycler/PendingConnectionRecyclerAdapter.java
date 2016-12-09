@@ -1,4 +1,4 @@
-package samandsimons.adventure.aittenantfragmentdemo.adapter;
+package samandsimons.adventure.aittenantfragmentdemo.adapter.recycler;
 
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -79,9 +79,9 @@ public class PendingConnectionRecyclerAdapter extends RecyclerView.Adapter<Pendi
     }
 
     public void updateForUser(User user) {
-        Log.d("TAG", "Updating for user with " + user.getPendingConnections().size() + " pending connections.");
+        Log.d("TAG", "Updating for user with " + user.getIncomingConnections().size() + " pending connections.");
 
-        connectionList = user.getPendingConnections();
+        connectionList = user.getIncomingConnections();
 
         notifyDataSetChanged();
     }

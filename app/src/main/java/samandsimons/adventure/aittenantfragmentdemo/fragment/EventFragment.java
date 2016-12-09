@@ -16,7 +16,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 
 import samandsimons.adventure.aittenantfragmentdemo.R;
-import samandsimons.adventure.aittenantfragmentdemo.adapter.EventRecyclerAdapter;
+import samandsimons.adventure.aittenantfragmentdemo.adapter.recycler.EventRecyclerAdapter;
 import samandsimons.adventure.aittenantfragmentdemo.model.Event;
 import samandsimons.adventure.aittenantfragmentdemo.model.User;
 

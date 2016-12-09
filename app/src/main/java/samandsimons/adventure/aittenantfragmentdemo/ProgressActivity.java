@@ -1,4 +1,4 @@
-package samandsimons.adventure.aittenantfragmentdemo.fragment;
+package samandsimons.adventure.aittenantfragmentdemo;
 
 import android.app.ProgressDialog;
 import android.support.v7.app.AppCompatActivity;

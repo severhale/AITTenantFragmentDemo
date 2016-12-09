@@ -1,4 +1,4 @@
-package samandsimons.adventure.aittenantfragmentdemo.adapter;
+package samandsimons.adventure.aittenantfragmentdemo.adapter.recycler;
 
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;

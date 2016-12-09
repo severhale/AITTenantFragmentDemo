@@ -20,7 +20,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import samandsimons.adventure.aittenantfragmentdemo.R;
-import samandsimons.adventure.aittenantfragmentdemo.adapter.MessageRecyclerAdapter;
+import samandsimons.adventure.aittenantfragmentdemo.adapter.recycler.MessageRecyclerAdapter;
+import samandsimons.adventure.aittenantfragmentdemo.fragment.dialog.AddMessageDialogFragment;
 import samandsimons.adventure.aittenantfragmentdemo.model.Connection;
 import samandsimons.adventure.aittenantfragmentdemo.model.Message;
 import samandsimons.adventure.aittenantfragmentdemo.model.User;

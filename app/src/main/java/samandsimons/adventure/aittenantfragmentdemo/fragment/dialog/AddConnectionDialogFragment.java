@@ -1,27 +1,23 @@
-package samandsimons.adventure.aittenantfragmentdemo.fragment;
+package samandsimons.adventure.aittenantfragmentdemo.fragment.dialog;
 
-import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import samandsimons.adventure.aittenantfragmentdemo.ConnectionListInterface;
 import samandsimons.adventure.aittenantfragmentdemo.R;
 import samandsimons.adventure.aittenantfragmentdemo.model.Connection;
 import samandsimons.adventure.aittenantfragmentdemo.model.User;
@@ -34,10 +30,22 @@ public class AddConnectionDialogFragment extends DialogFragment {
     public static final String OUTGOING = "OUTGOING";
     public static final String INCOMING = "INCOMING";
 
-    public AddConnectionDialogFragment() {
+    private ConnectionListInterface connectionListInterface = null;
 
+    public AddConnectionDialogFragment() {
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        if (context instanceof ConnectionListInterface) {
+            connectionListInterface = (ConnectionListInterface) context;
+        } else {
+            throw new RuntimeException("Activity is not implementing ConnectionListInterface.");
+        }
+
+    }
 
     @NonNull
     @Override
@@ -74,10 +82,7 @@ public class AddConnectionDialogFragment extends DialogFragment {
                                     Connection outConnection = new Connection(toId, toDisplayName, Connection.State.OUTGOING.ordinal());
                                     Connection inConnection = new Connection(fromId, fromDisplayName, Connection.State.INCOMING.ordinal());
 
-                                    Intent intent = new Intent();
-                                    intent.putExtra(OUTGOING, outConnection);
-                                    intent.putExtra(INCOMING, inConnection);
-                                    getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
+                                    connectionListInterface.addNewConnection(outConnection, inConnection);
                                 }
                                 @Override
                                 public void onCancelled(DatabaseError databaseError) {

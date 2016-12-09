@@ -1,4 +1,4 @@
-package samandsimons.adventure.aittenantfragmentdemo.adapter;
+package samandsimons.adventure.aittenantfragmentdemo.adapter.pager;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
