@@ -1,4 +1,4 @@
-package samandsimons.adventure.aittenantfragmentdemo.fragment;
+package samandsimons.adventure.aittenantfragmentdemo.fragment.dashboard;
 
 
 import android.app.Activity;

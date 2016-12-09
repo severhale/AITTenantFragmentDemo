@@ -1,4 +1,4 @@
-package samandsimons.adventure.aittenantfragmentdemo.fragment;
+package samandsimons.adventure.aittenantfragmentdemo.fragment.connections;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

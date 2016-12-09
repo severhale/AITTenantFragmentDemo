@@ -12,4 +12,5 @@
     <string name="messages">Messages</string>
     <string name="connections">Connections</string>
     <string name="pending">Pending</string>
+    <string name="requested">Requested</string>
 </resources>

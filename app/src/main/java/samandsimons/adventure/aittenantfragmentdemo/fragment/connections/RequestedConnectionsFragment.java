@@ -1,4 +1,4 @@
-package samandsimons.adventure.aittenantfragmentdemo.fragment;
+package samandsimons.adventure.aittenantfragmentdemo.fragment.connections;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,32 +8,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.firebase.database.DatabaseReference;
-
 import samandsimons.adventure.aittenantfragmentdemo.R;
-import samandsimons.adventure.aittenantfragmentdemo.adapter.recycler.ConfirmedConnectionRecyclerAdapter;
+import samandsimons.adventure.aittenantfragmentdemo.adapter.recycler.RequestedConnectionRecyclerAdapter;
 import samandsimons.adventure.aittenantfragmentdemo.model.Connection;
 
 /**
  * Created by samgrund on 12/9/16.
  */
-public class ConfirmedConnectionsFragment extends Fragment {
+public class RequestedConnectionsFragment extends Fragment{
 
-    private DatabaseReference usersReference;
+    private RequestedConnectionRecyclerAdapter recyclerAdapter;
 
-    private ConfirmedConnectionRecyclerAdapter recyclerAdapter;
-
-    public ConfirmedConnectionsFragment() {
-
+    public RequestedConnectionsFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.confirmed_connections_fragment, container, false);
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.confirmedConnectionRecycler);
-        recyclerAdapter = new ConfirmedConnectionRecyclerAdapter();
+        View view = inflater.inflate(R.layout.requested_connection_fragment, container, false);
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.requestedConnectionRecycler);
+        recyclerAdapter = new RequestedConnectionRecyclerAdapter();
         recyclerView.setAdapter(recyclerAdapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setReverseLayout(true);
@@ -43,7 +38,9 @@ public class ConfirmedConnectionsFragment extends Fragment {
         return view;
     }
 
-    public void addConnection(Connection connection) {
-        recyclerAdapter.addConnection(connection);
+
+    public void addConnection(Connection newConnection) {
+        recyclerAdapter.addConnection(newConnection);
     }
+
 }

@@ -14,9 +14,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import samandsimons.adventure.aittenantfragmentdemo.adapter.pager.ConnectionsPagerAdapter;
+import samandsimons.adventure.aittenantfragmentdemo.fragment.connections.RequestedConnectionsFragment;
 import samandsimons.adventure.aittenantfragmentdemo.fragment.dialog.AddConnectionDialogFragment;
-import samandsimons.adventure.aittenantfragmentdemo.fragment.ConfirmedConnectionsFragment;
-import samandsimons.adventure.aittenantfragmentdemo.fragment.PendingConnectionsFragment;
+import samandsimons.adventure.aittenantfragmentdemo.fragment.connections.ConfirmedConnectionsFragment;
+import samandsimons.adventure.aittenantfragmentdemo.fragment.connections.PendingConnectionsFragment;
 import samandsimons.adventure.aittenantfragmentdemo.model.Connection;
 
 /**
@@ -41,6 +42,7 @@ public class ConnectionListActivity extends BaseActivity implements ConnectionLi
 
         connectionsPagerAdapter = new ConnectionsPagerAdapter(getSupportFragmentManager(), getApplicationContext());
 
+        connectionsPager.setOffscreenPageLimit(3);
         connectionsPager.setAdapter(connectionsPagerAdapter);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabNewMessage);
@@ -68,11 +70,13 @@ public class ConnectionListActivity extends BaseActivity implements ConnectionLi
                                 ConfirmedConnectionsFragment confirmedFragment = (ConfirmedConnectionsFragment) findFragmentByTag(0);
                                 confirmedFragment.addConnection(newConnection);
                                 break;
-                            case OUTGOING:
-                                break;
                             case INCOMING:
                                 PendingConnectionsFragment pendingFragment = (PendingConnectionsFragment) findFragmentByTag(1);
                                 pendingFragment.addConnection(newConnection);
+                                break;
+                            case OUTGOING:
+                                RequestedConnectionsFragment requestedFragment = (RequestedConnectionsFragment) findFragmentByTag(2);
+                                requestedFragment.addConnection(newConnection);
                                 break;
                             default:
                                 break;

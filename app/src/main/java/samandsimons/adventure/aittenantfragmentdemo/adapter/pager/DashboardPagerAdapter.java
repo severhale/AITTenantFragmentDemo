@@ -6,9 +6,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import samandsimons.adventure.aittenantfragmentdemo.R;
-import samandsimons.adventure.aittenantfragmentdemo.fragment.EventFragment;
-import samandsimons.adventure.aittenantfragmentdemo.fragment.PaymentFragment;
-import samandsimons.adventure.aittenantfragmentdemo.fragment.MessageFragment;
+import samandsimons.adventure.aittenantfragmentdemo.fragment.dashboard.EventFragment;
+import samandsimons.adventure.aittenantfragmentdemo.fragment.dashboard.PaymentFragment;
+import samandsimons.adventure.aittenantfragmentdemo.fragment.dashboard.MessageFragment;
 
 /**
  * Created by Simon on 12/4/2016.

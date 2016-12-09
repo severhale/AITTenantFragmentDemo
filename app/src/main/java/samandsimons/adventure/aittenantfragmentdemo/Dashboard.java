@@ -13,9 +13,9 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import samandsimons.adventure.aittenantfragmentdemo.adapter.pager.DashboardPagerAdapter;
-import samandsimons.adventure.aittenantfragmentdemo.fragment.EventFragment;
-import samandsimons.adventure.aittenantfragmentdemo.fragment.PaymentFragment;
-import samandsimons.adventure.aittenantfragmentdemo.fragment.MessageFragment;
+import samandsimons.adventure.aittenantfragmentdemo.fragment.dashboard.EventFragment;
+import samandsimons.adventure.aittenantfragmentdemo.fragment.dashboard.PaymentFragment;
+import samandsimons.adventure.aittenantfragmentdemo.fragment.dashboard.MessageFragment;
 import samandsimons.adventure.aittenantfragmentdemo.model.User;
 
 public class Dashboard extends BaseActivity {

@@ -6,8 +6,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import samandsimons.adventure.aittenantfragmentdemo.R;
-import samandsimons.adventure.aittenantfragmentdemo.fragment.ConfirmedConnectionsFragment;
-import samandsimons.adventure.aittenantfragmentdemo.fragment.PendingConnectionsFragment;
+import samandsimons.adventure.aittenantfragmentdemo.fragment.connections.ConfirmedConnectionsFragment;
+import samandsimons.adventure.aittenantfragmentdemo.fragment.connections.PendingConnectionsFragment;
+import samandsimons.adventure.aittenantfragmentdemo.fragment.connections.RequestedConnectionsFragment;
 
 /**
  * Created by samgrund on 12/9/16.
@@ -28,6 +29,8 @@ public class ConnectionsPagerAdapter extends FragmentPagerAdapter {
                 return context.getString(R.string.connections);
             case 1:
                 return context.getString(R.string.pending);
+            case 2:
+                return context.getString(R.string.requested);
             default:
                 return context.getString(R.string.connections);
         }
@@ -40,6 +43,8 @@ public class ConnectionsPagerAdapter extends FragmentPagerAdapter {
                 return new ConfirmedConnectionsFragment();
             case 1:
                 return new PendingConnectionsFragment();
+            case 2:
+                return new RequestedConnectionsFragment();
             default:
                 return new ConfirmedConnectionsFragment();
         }
@@ -47,6 +52,6 @@ public class ConnectionsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 2;
+        return 3;
     }
 }
