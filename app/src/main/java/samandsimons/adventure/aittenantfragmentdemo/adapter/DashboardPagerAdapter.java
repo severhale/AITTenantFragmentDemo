@@ -8,8 +8,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import samandsimons.adventure.aittenantfragmentdemo.R;
 import samandsimons.adventure.aittenantfragmentdemo.fragment.EventFragment;
 import samandsimons.adventure.aittenantfragmentdemo.fragment.PaymentFragment;
-import samandsimons.adventure.aittenantfragmentdemo.fragment.PostItFragment;
-import samandsimons.adventure.aittenantfragmentdemo.model.User;
+import samandsimons.adventure.aittenantfragmentdemo.fragment.MessageFragment;
 
 /**
  * Created by Simon on 12/4/2016.
@@ -46,7 +45,7 @@ public class DashboardPagerAdapter extends FragmentPagerAdapter {
             case 1:
                 return new PaymentFragment();
             case 2:
-                return new PostItFragment();
+                return new MessageFragment();
             default:
                 return new EventFragment();
         }

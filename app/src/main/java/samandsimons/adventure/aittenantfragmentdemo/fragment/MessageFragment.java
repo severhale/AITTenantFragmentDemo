@@ -16,34 +16,30 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.List;
-
-import samandsimons.adventure.aittenantfragmentdemo.BaseActivity;
 import samandsimons.adventure.aittenantfragmentdemo.R;
-import samandsimons.adventure.aittenantfragmentdemo.adapter.PaymentRecyclerAdapter;
-import samandsimons.adventure.aittenantfragmentdemo.model.Payment;
+import samandsimons.adventure.aittenantfragmentdemo.adapter.MessageRecyclerAdapter;
+import samandsimons.adventure.aittenantfragmentdemo.model.Message;
 import samandsimons.adventure.aittenantfragmentdemo.model.User;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PaymentFragment extends Fragment implements DataFragment {
+public class MessageFragment extends Fragment implements DataFragment {
+    private MessageRecyclerAdapter recyclerAdapter;
 
-    PaymentRecyclerAdapter recyclerAdapter;
-
-    public PaymentFragment() {
+    public MessageFragment() {
         String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        FirebaseDatabase.getInstance().getReference().child("users").child(id).child("payments").
+        FirebaseDatabase.getInstance().getReference().child("users").child(id).child("messages").
                 addChildEventListener(new ChildEventListener() {
                     @Override
                     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                        Payment newPayment = dataSnapshot.getValue(Payment.class);
-                        recyclerAdapter.addItem(newPayment);
+                        Message newMessage = dataSnapshot.getValue(Message.class);
+                        recyclerAdapter.addItem(newMessage);
                     }
 
                     @Override
                     public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
+                        // should we allow people to modify their posts?
                     }
 
                     @Override
@@ -53,7 +49,7 @@ public class PaymentFragment extends Fragment implements DataFragment {
 
                     @Override
                     public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
+                        // shouldn't happen
                     }
 
                     @Override
@@ -61,6 +57,7 @@ public class PaymentFragment extends Fragment implements DataFragment {
 
                     }
                 });
+        // Required empty public constructor
     }
 
 
@@ -68,9 +65,9 @@ public class PaymentFragment extends Fragment implements DataFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_payment, container, false);
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.paymentRecycler);
-        recyclerAdapter = new PaymentRecyclerAdapter();
+        View view = inflater.inflate(R.layout.fragment_message, container, false);
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.messageRecycler);
+        recyclerAdapter = new MessageRecyclerAdapter();
         recyclerView.setAdapter(recyclerAdapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setReverseLayout(true);

@@ -1,21 +1,17 @@
 package samandsimons.adventure.aittenantfragmentdemo.adapter;
 
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import samandsimons.adventure.aittenantfragmentdemo.BaseActivity;
 import samandsimons.adventure.aittenantfragmentdemo.R;
 import samandsimons.adventure.aittenantfragmentdemo.model.Payment;
 import samandsimons.adventure.aittenantfragmentdemo.model.User;
@@ -26,15 +22,17 @@ import samandsimons.adventure.aittenantfragmentdemo.model.User;
 
 public class PaymentRecyclerAdapter extends RecyclerView.Adapter<PaymentRecyclerAdapter.ViewHolder> {
     private List<Payment> paymentList;
-    User.UserType userType;
+    private User.UserType userType;
+    private SimpleDateFormat sdf;
 
     public PaymentRecyclerAdapter() {
         paymentList = new ArrayList<>();
+        sdf = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.payment_item, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_payment, parent, false);
         return new ViewHolder(v);
     }
 
@@ -43,12 +41,10 @@ public class PaymentRecyclerAdapter extends RecyclerView.Adapter<PaymentRecycler
         Payment payment = paymentList.get(position);
         if (userType == User.UserType.LANDLORD) {
             holder.name.setText(payment.getFromId());
-        }
-        else {
+        } else {
             holder.name.setText(payment.getToId());
         }
         holder.amount.setText(payment.getAmount());
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
         holder.date.setText(sdf.format(new Date(payment.getTime())));
         holder.message.setText(payment.getMessage());
         Log.d("TAG", holder.amount.getText().toString());
@@ -60,11 +56,14 @@ public class PaymentRecyclerAdapter extends RecyclerView.Adapter<PaymentRecycler
     }
 
     public void updateForUser(User user) {
-        Log.d("TAG", "Updating for user with " + user.getPayments().size() + " payments");
         paymentList = user.getPayments();
-        Log.d("TAG", paymentList.get(0).getAmount());
         userType = User.UserType.values()[user.getType()];
         notifyDataSetChanged();
+    }
+
+    public void addItem(Payment newPayment) {
+        paymentList.add(newPayment);
+        notifyItemInserted(paymentList.size() - 1);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

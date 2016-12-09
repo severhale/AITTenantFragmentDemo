@@ -8,7 +8,17 @@ public class Event {
     private String fromId;
     private String fromDisplay;
 
-    private String text;
+    private String title;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    private String description;
     private long time;
 
     public String getFromDisplay() {
@@ -31,12 +41,12 @@ public class Event {
         this.fromId = fromId;
     }
 
-    public String getText() {
-        return text;
+    public String getTitle() {
+        return title;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public long getTime() {
@@ -47,10 +57,10 @@ public class Event {
         this.time = time;
     }
 
-    public Event(String fromId, String text, long time) {
+    public Event(String fromId, String title, long time) {
 
         this.fromId = fromId;
-        this.text = text;
+        this.title = title;
         this.time = time;
     }
 }

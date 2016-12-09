@@ -10,8 +10,20 @@ public class Message {
     private String fromDisplay;
     private String toDisplay;
 
+    private String subject;
+    private String text;
+    private long time;
+
     public String getFromDisplay() {
         return fromDisplay;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 
     public void setFromDisplay(String fromDisplay) {
@@ -25,9 +37,6 @@ public class Message {
     public void setToDisplay(String toDisplay) {
         this.toDisplay = toDisplay;
     }
-
-    private String text;
-    private long time;
 
     public String getFromId() {
         return fromId;
