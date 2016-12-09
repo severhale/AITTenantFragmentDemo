@@ -7,13 +7,12 @@ import java.io.Serializable;
  */
 public class Connection implements Serializable {
 
-    enum State {
+    public enum State {
         INCOMING,
         OUTGOING,
         CONFIRMED
     }
 
-    private boolean confirmed;
     private String id;
     private String displayName;
     private int state;
@@ -44,19 +43,10 @@ public class Connection implements Serializable {
     public Connection() {
     }
 
-    public Connection(boolean confirmed, String id, String displayName) {
-        this.confirmed = confirmed;
+    public Connection(String id, String displayName, int state) {
         this.id = id;
         this.displayName = displayName;
-    }
-
-    public boolean isConfirmed() {
-
-        return confirmed;
-    }
-
-    public void setConfirmed(boolean confirmed) {
-        this.confirmed = confirmed;
+        this.state = state;
     }
 
     public String getId() {

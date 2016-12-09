@@ -78,8 +78,6 @@ public class User {
         messages.add(new Message("0", "0", "subject", "body", 0));
         payments.add(new Payment("0", "0", "55.55", 0));
         events.add(new Event("0", "event is happening", 0));
-
-
     }
 
     public String getUsername() {
@@ -106,5 +104,25 @@ public class User {
         setMessages(user.getMessages());
         setPayments(user.getPayments());
         setUsername(user.getUsername());
+    }
+
+    public List<Connection> getConfirmedConnections(){
+        ArrayList<Connection> confirmed = new ArrayList<Connection>();
+        for (Connection connection : connections) {
+            if (connection.getState()==3){
+                confirmed.add(connection);
+            }
+        }
+        return confirmed;
+    }
+
+    public List<Connection> getPendingConnections(){
+        ArrayList<Connection> pending = new ArrayList<Connection>();
+        for (Connection connection : connections) {
+            if (connection.getState()!=3){
+                pending.add(connection);
+            }
+        }
+        return pending;
     }
 }
