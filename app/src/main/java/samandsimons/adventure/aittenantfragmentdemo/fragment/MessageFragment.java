@@ -2,6 +2,7 @@ package samandsimons.adventure.aittenantfragmentdemo.fragment;
 
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -73,6 +74,14 @@ public class MessageFragment extends Fragment implements DataFragment {
         layoutManager.setReverseLayout(true);
         layoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
+
+        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fabNewMessage);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // this is where we start the new dialog fragment to write a message
+            }
+        });
         return view;
     }
 

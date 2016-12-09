@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -31,6 +32,8 @@ public class MainActivity extends ProgressActivity {
     EditText etEmail;
     @BindView(R.id.etPassword)
     EditText etPassword;
+    @BindView(R.id.rbLandlord)
+    RadioButton rbLandlord;
 
     private FirebaseAuth firebaseAuth;
     private DatabaseReference database;
@@ -89,7 +92,8 @@ public class MainActivity extends ProgressActivity {
                             fbUser.updateProfile(new UserProfileChangeRequest.Builder().
                                     setDisplayName(usernameFromEmail(fbUser.getEmail())).build());
 
-                            User user = new User(usernameFromEmail(fbUser.getEmail()), fbUser.getEmail(), User.UserType.LANDLORD);
+                            User.UserType userType = rbLandlord.isChecked() ? User.UserType.LANDLORD : User.UserType.TENANT;
+                            User user = new User(usernameFromEmail(fbUser.getEmail()), fbUser.getEmail(), userType);
                             database.child("users").child(fbUser.getUid()).setValue(user);
 
                             Toast.makeText(MainActivity.this, "User created", Toast.LENGTH_SHORT).show();
