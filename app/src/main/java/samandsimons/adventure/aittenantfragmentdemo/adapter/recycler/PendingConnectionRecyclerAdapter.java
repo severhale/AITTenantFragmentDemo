@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import samandsimons.adventure.aittenantfragmentdemo.R;
+import samandsimons.adventure.aittenantfragmentdemo.fragment.connections.OnConnectionChangedListener;
 import samandsimons.adventure.aittenantfragmentdemo.model.Connection;
 import samandsimons.adventure.aittenantfragmentdemo.model.User;
 
@@ -20,10 +21,12 @@ import samandsimons.adventure.aittenantfragmentdemo.model.User;
  */
 public class PendingConnectionRecyclerAdapter extends RecyclerView.Adapter<PendingConnectionRecyclerAdapter.ViewHolder>{
 
-    List<Connection> connectionList;
+    private List<Connection> connectionList;
+    private OnConnectionChangedListener changedListener;
 
-    public PendingConnectionRecyclerAdapter() {
+    public PendingConnectionRecyclerAdapter(OnConnectionChangedListener changedListener) {
         this.connectionList = new ArrayList<Connection>();
+        this.changedListener = changedListener;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
@@ -59,6 +62,8 @@ public class PendingConnectionRecyclerAdapter extends RecyclerView.Adapter<Pendi
                 connection.setConnectionType(Connection.State.CONFIRMED);
                 connectionList.remove(position);
                 notifyItemRemoved(position);
+                // this is where we do it
+                changedListener.connectionChanged(connection);
             }
         });
 

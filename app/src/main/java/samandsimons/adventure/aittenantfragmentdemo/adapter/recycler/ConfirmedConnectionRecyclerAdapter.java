@@ -23,7 +23,7 @@ public class ConfirmedConnectionRecyclerAdapter extends RecyclerView.Adapter<Con
     List<Connection> connectionList;
 
     public ConfirmedConnectionRecyclerAdapter() {
-        this.connectionList = new ArrayList<Connection>();
+        this.connectionList = User.getCurrentUser().getConnections();
     }
 
     public List<Connection> getConnectionList() {

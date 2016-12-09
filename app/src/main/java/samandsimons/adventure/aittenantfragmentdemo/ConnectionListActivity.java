@@ -21,6 +21,7 @@ import samandsimons.adventure.aittenantfragmentdemo.fragment.dialog.AddConnectio
 import samandsimons.adventure.aittenantfragmentdemo.fragment.connections.ConfirmedConnectionsFragment;
 import samandsimons.adventure.aittenantfragmentdemo.fragment.connections.PendingConnectionsFragment;
 import samandsimons.adventure.aittenantfragmentdemo.model.Connection;
+import samandsimons.adventure.aittenantfragmentdemo.model.User;
 
 /**
  * Created by samgrund on 12/9/16.
@@ -61,37 +62,60 @@ public class ConnectionListActivity extends BaseActivity implements ConnectionLi
     private void setupFirebase() {
         String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
+        setupIncomingListener(id);
+        setupOutgoingListener(id);
+    }
+
+    private void setupOutgoingListener(String id) {
         FirebaseDatabase.getInstance().getReference().child("users")
-                .child(id).child("connections").
+                .child(id).child("connections").child("outgoing").
                 addChildEventListener(new ChildEventListener() {
                     @Override
                     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                         Connection newConnection = dataSnapshot.getValue(Connection.class);
-                        switch (newConnection.getConnectionType()) {
-                            case CONFIRMED:
-                                ConfirmedConnectionsFragment confirmedFragment = (ConfirmedConnectionsFragment) findFragmentByTag(0);
-                                confirmedFragment.addConnection(newConnection);
-                                break;
-                            case INCOMING:
-                                PendingConnectionsFragment pendingFragment = (PendingConnectionsFragment) findFragmentByTag(1);
-                                pendingFragment.addConnection(newConnection);
-                                break;
-                            case OUTGOING:
-                                RequestedConnectionsFragment requestedFragment = (RequestedConnectionsFragment) findFragmentByTag(2);
-                                requestedFragment.addConnection(newConnection);
-                                break;
-                            default:
-                                break;
-
-                        }
+                        RequestedConnectionsFragment requestedFragment = (RequestedConnectionsFragment) findFragmentByTag(2);
+                        requestedFragment.addConnection(newConnection);
 
                     }
+
                     @Override
                     public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                     }
+
                     @Override
                     public void onChildRemoved(DataSnapshot dataSnapshot) {
                     }
+
+                    @Override
+                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+    }
+
+    private void setupIncomingListener(String id) {
+        FirebaseDatabase.getInstance().getReference().child("users")
+                .child(id).child("connections").child("incoming").
+                addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                        Connection newConnection = dataSnapshot.getValue(Connection.class);
+                        PendingConnectionsFragment pendingFragment = (PendingConnectionsFragment) findFragmentByTag(1);
+                        pendingFragment.addConnection(newConnection);
+                    }
+
+                    @Override
+                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                    }
+
+                    @Override
+                    public void onChildRemoved(DataSnapshot dataSnapshot) {
+                    }
+
                     @Override
                     public void onChildMoved(DataSnapshot dataSnapshot, String s) {
                     }
@@ -112,10 +136,10 @@ public class ConnectionListActivity extends BaseActivity implements ConnectionLi
     @Override
     public void addNewConnection(Connection out, Connection in) {
         DatabaseReference usersReference = FirebaseDatabase.getInstance().getReference().child("users");
-        DatabaseReference postToCurrentUser = usersReference.child(in.getId()).child("connections").child(out.getId());
+        DatabaseReference postToCurrentUser = usersReference.child(in.getId()).child("connections").child("outgoing").child(out.getId());
         postToCurrentUser.setValue(out);
 
-        DatabaseReference postToOtherUser = usersReference.child(out.getId()).child("connections").child(in.getId());
+        DatabaseReference postToOtherUser = usersReference.child(out.getId()).child("connections").child("incoming").child(in.getId());
         postToOtherUser.setValue(in);
     }
 }

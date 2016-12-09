@@ -1,10 +1,17 @@
 package samandsimons.adventure.aittenantfragmentdemo.model;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Exclude;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import samandsimons.adventure.aittenantfragmentdemo.fragment.connections.ConfirmedConnectionsFragment;
 
 /**
  * Created by Simon on 12/3/2016.
@@ -18,6 +25,10 @@ public class User {
     public static User getCurrentUser() {
         if (instance == null) {
             instance = new User();
+            instance.setConnections(new ArrayList<Connection>());
+            instance.setMessages(new ArrayList<Message>());
+            instance.setPayments(new ArrayList<Payment>());
+            instance.setEvents(new ArrayList<Event>());
         }
         return instance;
     }

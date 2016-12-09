@@ -36,6 +36,8 @@ public class Dashboard extends BaseActivity {
 
         ButterKnife.bind(this);
 
+        FirebaseListener.startAllListeners();
+
 //        FirebaseDatabase.getInstance().getReference().child("users").child(getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
 //            @Override
 //            public void onDataChange(DataSnapshot dataSnapshot) {

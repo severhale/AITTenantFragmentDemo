@@ -25,6 +25,7 @@ import java.util.List;
 
 import samandsimons.adventure.aittenantfragmentdemo.R;
 import samandsimons.adventure.aittenantfragmentdemo.model.Connection;
+import samandsimons.adventure.aittenantfragmentdemo.model.User;
 
 /**
  * Created by Simon on 12/9/2016.
@@ -68,7 +69,7 @@ public class AddMessageDialogFragment extends DialogFragment {
                 getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
             }
         });
-        List<Connection> possibleRecipients = new ArrayList<>();
+        List<Connection> possibleRecipients = User.getCurrentUser().getConnections();
         spinner = (Spinner) view.findViewById(R.id.spMessageRecipient);
         ArrayAdapter<Connection> adapter = new ArrayAdapter<Connection>(getContext(), android.R.layout.simple_spinner_dropdown_item, possibleRecipients);
         spinner.setAdapter(adapter);
