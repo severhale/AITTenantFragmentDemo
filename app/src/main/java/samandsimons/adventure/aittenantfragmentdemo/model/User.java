@@ -75,7 +75,7 @@ public class User {
         payments = new ArrayList<>();
         events = new ArrayList<>();
         connections = new ArrayList<>();
-        messages.add(new Message("0", "0", "test", 0));
+        messages.add(new Message("0", "0", "subject", "body", 0));
         payments.add(new Payment("0", "0", "55.55", 0));
         events.add(new Event("0", "event is happening", 0));
 

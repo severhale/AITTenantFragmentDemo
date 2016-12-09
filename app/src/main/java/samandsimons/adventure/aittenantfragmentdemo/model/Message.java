@@ -73,10 +73,21 @@ public class Message {
         this.time = time;
     }
 
-    public Message(String fromId, String toId, String text, long time) {
+    public Message(String fromId, String toId, String subject, String text, long time) {
 
         this.fromId = fromId;
         this.toId = toId;
+        this.text = text;
+        this.time = time;
+        this.subject = subject;
+    }
+
+    public Message(String fromId, String toId, String fromDisplay, String toDisplay, String subject, String text, long time) {
+        this.fromId = fromId;
+        this.toId = toId;
+        this.fromDisplay = fromDisplay;
+        this.toDisplay = toDisplay;
+        this.subject = subject;
         this.text = text;
         this.time = time;
     }

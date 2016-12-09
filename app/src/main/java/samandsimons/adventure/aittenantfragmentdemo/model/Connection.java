@@ -1,9 +1,11 @@
 package samandsimons.adventure.aittenantfragmentdemo.model;
 
+import java.io.Serializable;
+
 /**
  * Created by samgrund on 12/8/16.
  */
-public class Connection {
+public class Connection implements Serializable {
 
     enum State {
         INCOMING,
@@ -15,6 +17,13 @@ public class Connection {
     private String id;
     private String displayName;
     private int state;
+
+    // VERY IMPORTANT: We want our connection to only display the email
+    // This way we can use it to populate a spinner
+    @Override
+    public String toString() {
+        return displayName;
+    }
 
     public State getConnectionType() {
         return State.values()[state];
