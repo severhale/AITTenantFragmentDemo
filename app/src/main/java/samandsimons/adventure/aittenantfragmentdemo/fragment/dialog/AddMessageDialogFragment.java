@@ -58,7 +58,7 @@ public class AddMessageDialogFragment extends DialogFragment {
             public void onClick(DialogInterface dialog, int which) {
                 Connection selectedConnection = (Connection) spinner.getSelectedItem();
                 if (selectedConnection == null) {
-                    selectedConnection = new Connection("placeholderid", "placeholder name", 3);
+                    selectedConnection = new Connection("placeholderid", "placeholder name", Connection.State.CONFIRMED);
                     Log.d("TAG", "Connection was null");
                 }
                 Intent intent = new Intent();

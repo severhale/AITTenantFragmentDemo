@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,10 +43,12 @@ public class MessageFragment extends Fragment implements DataFragment {
         id = FirebaseAuth.getInstance().getCurrentUser().getUid();
         displayName = FirebaseAuth.getInstance().getCurrentUser().getEmail();
         usersReference = FirebaseDatabase.getInstance().getReference().child("users");
+        Log.d("TAG", "STARTING LISTENING FOR NEW MESSAGES");
         usersReference.child(id).child("messages").
                 addChildEventListener(new ChildEventListener() {
                     @Override
                     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                        Log.d("TAG", "ADDING MESSAGE");
                         Message newMessage = dataSnapshot.getValue(Message.class);
                         recyclerAdapter.addItem(newMessage);
                     }

@@ -119,7 +119,7 @@ public class User {
     public List<Connection> getConfirmedConnections(){
         ArrayList<Connection> confirmed = new ArrayList<Connection>();
         for (Connection connection : connections) {
-            if (connection.getState()==3){
+            if (connection.getConnectionType()==Connection.State.CONFIRMED){
                 confirmed.add(connection);
             }
         }
@@ -129,7 +129,7 @@ public class User {
     public List<Connection> getIncomingConnections(){
         ArrayList<Connection> pending = new ArrayList<Connection>();
         for (Connection connection : connections) {
-            if (connection.getState() == Connection.State.INCOMING.ordinal()){
+            if (connection.getConnectionType() == Connection.State.INCOMING){
                 pending.add(connection);
             }
         }

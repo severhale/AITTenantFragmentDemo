@@ -18,6 +18,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Dashboard"></activity>
+        <activity android:name=".ConnectionListActivity"></activity>
     </application>
 
 </manifest>

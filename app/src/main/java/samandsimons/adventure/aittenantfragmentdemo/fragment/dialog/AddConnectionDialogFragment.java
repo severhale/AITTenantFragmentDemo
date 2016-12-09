@@ -7,9 +7,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -18,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import samandsimons.adventure.aittenantfragmentdemo.ConnectionListInterface;
+import samandsimons.adventure.aittenantfragmentdemo.MainActivity;
 import samandsimons.adventure.aittenantfragmentdemo.R;
 import samandsimons.adventure.aittenantfragmentdemo.model.Connection;
 import samandsimons.adventure.aittenantfragmentdemo.model.User;
@@ -62,25 +65,25 @@ public class AddConnectionDialogFragment extends DialogFragment {
         alertDialogBuilder.setPositiveButton("Connect", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                String name = etUserName.getText().toString();
+                final String name = etUserName.getText().toString();
                 if (name.equals("")) {
                     etUserName.setError("You must enter a valid username");
                 } else {
-
-                    FirebaseDatabase.getInstance().getReference().child("user").orderByChild("emailAddress").equalTo(name).
+                    FirebaseDatabase.getInstance().getReference().child("emails").child(MainActivity.encodeEmail(name)).
                             addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
-                                    User user = dataSnapshot.getValue(User.class);
-                                    String toDisplayName = user.getEmail();
-                                    String toId = dataSnapshot.getKey();
+                                    if (dataSnapshot.getValue() == null) {
+                                        return;
+                                    }
+                                    String toId = dataSnapshot.getValue(String.class);
 
                                     String fromId = FirebaseAuth.getInstance().getCurrentUser().getUid();
                                     String fromDisplayName = FirebaseAuth.getInstance().getCurrentUser().getEmail();
 
 
-                                    Connection outConnection = new Connection(toId, toDisplayName, Connection.State.OUTGOING.ordinal());
-                                    Connection inConnection = new Connection(fromId, fromDisplayName, Connection.State.INCOMING.ordinal());
+                                    Connection outConnection = new Connection(toId, name, Connection.State.OUTGOING);
+                                    Connection inConnection = new Connection(fromId, fromDisplayName, Connection.State.INCOMING);
 
                                     connectionListInterface.addNewConnection(outConnection, inConnection);
                                 }

@@ -4,7 +4,9 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -34,7 +36,7 @@ public class ConnectionListActivity extends BaseActivity implements ConnectionLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.connection_list_fragment);
+        setContentView(R.layout.activity_connection_list);
 
         setupFirebase();
 
@@ -45,7 +47,7 @@ public class ConnectionListActivity extends BaseActivity implements ConnectionLi
         connectionsPager.setOffscreenPageLimit(3);
         connectionsPager.setAdapter(connectionsPagerAdapter);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabNewMessage);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabNewConnection);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,7 +67,7 @@ public class ConnectionListActivity extends BaseActivity implements ConnectionLi
                     @Override
                     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                         Connection newConnection = dataSnapshot.getValue(Connection.class);
-                        switch (Connection.State.values()[newConnection.getState()]) {
+                        switch (newConnection.getConnectionType()) {
                             case CONFIRMED:
                                 ConfirmedConnectionsFragment confirmedFragment = (ConfirmedConnectionsFragment) findFragmentByTag(0);
                                 confirmedFragment.addConnection(newConnection);
@@ -109,11 +111,11 @@ public class ConnectionListActivity extends BaseActivity implements ConnectionLi
 
     @Override
     public void addNewConnection(Connection out, Connection in) {
-        DatabaseReference usersReference = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference postToCurrentUser = usersReference.child(in.getId()).child("connections").push();
+        DatabaseReference usersReference = FirebaseDatabase.getInstance().getReference().child("users");
+        DatabaseReference postToCurrentUser = usersReference.child(in.getId()).child("connections").child(out.getId());
         postToCurrentUser.setValue(out);
 
-        DatabaseReference postToOtherUser = usersReference.child(out.getId()).child("connections").push();
+        DatabaseReference postToOtherUser = usersReference.child(out.getId()).child("connections").child(in.getId());
         postToOtherUser.setValue(in);
     }
 }

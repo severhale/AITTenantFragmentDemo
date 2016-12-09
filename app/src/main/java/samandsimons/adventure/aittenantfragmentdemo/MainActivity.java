@@ -93,6 +93,7 @@ public class MainActivity extends ProgressActivity {
                             User.UserType userType = rbLandlord.isChecked() ? User.UserType.LANDLORD : User.UserType.TENANT;
                             User user = new User(usernameFromEmail(fbUser.getEmail()), fbUser.getEmail(), userType);
                             database.child("users").child(fbUser.getUid()).setValue(user);
+                            database.child("emails").child(encodeEmail(fbUser.getEmail())).setValue(fbUser.getUid());
 
                             Toast.makeText(MainActivity.this, "User created", Toast.LENGTH_SHORT).show();
                         } else {
@@ -123,5 +124,13 @@ public class MainActivity extends ProgressActivity {
         }
 
         return true;
+    }
+
+    public static String encodeEmail(String email) {
+        return email.replace('.', ' ');
+    }
+
+    public static String decodeEmail(String email) {
+        return email.replace(' ', '.');
     }
 }

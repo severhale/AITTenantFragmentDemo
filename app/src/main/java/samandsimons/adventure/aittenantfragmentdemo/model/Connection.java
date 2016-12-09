@@ -15,7 +15,7 @@ public class Connection implements Serializable {
 
     private String id;
     private String displayName;
-    private int state;
+    private State state;
 
     // VERY IMPORTANT: We want our connection to only display the email
     // This way we can use it to populate a spinner
@@ -25,25 +25,17 @@ public class Connection implements Serializable {
     }
 
     public State getConnectionType() {
-        return State.values()[state];
-    }
-
-    public void setConnectionType(State type) {
-        state = type.ordinal();
-    }
-
-    public int getState() {
         return state;
     }
 
-    public void setState(int state) {
-        this.state = state;
+    public void setConnectionType(State type) {
+        state = type;
     }
 
     public Connection() {
     }
 
-    public Connection(String id, String displayName, int state) {
+    public Connection(String id, String displayName, State state) {
         this.id = id;
         this.displayName = displayName;
         this.state = state;

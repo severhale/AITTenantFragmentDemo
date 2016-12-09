@@ -56,7 +56,7 @@ public class PendingConnectionRecyclerAdapter extends RecyclerView.Adapter<Pendi
         holder.btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                connection.setState(Connection.State.CONFIRMED.ordinal());
+                connection.setConnectionType(Connection.State.CONFIRMED);
                 connectionList.remove(position);
                 notifyItemRemoved(position);
             }
