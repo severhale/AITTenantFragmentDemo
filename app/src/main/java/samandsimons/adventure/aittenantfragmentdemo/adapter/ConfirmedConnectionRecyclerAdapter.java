@@ -27,6 +27,10 @@ public class ConfirmedConnectionRecyclerAdapter extends RecyclerView.Adapter<Con
         this.connectionList = new ArrayList<Connection>();
     }
 
+    public List<Connection> getConnectionList() {
+        return connectionList;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         private TextView name;

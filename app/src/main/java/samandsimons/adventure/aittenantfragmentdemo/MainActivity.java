@@ -65,6 +65,8 @@ public class MainActivity extends ProgressActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         hideProgressDialog();
                         if (task.isSuccessful()) {
+                            FirebaseUser fbUser = task.getResult().getUser();
+                            User.getCurrentUser().setFirebaseUser(fbUser);
                             startActivity(new Intent(MainActivity.this, Dashboard.class));
                             finish();
                         }

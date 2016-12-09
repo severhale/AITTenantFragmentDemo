@@ -24,39 +24,9 @@ import samandsimons.adventure.aittenantfragmentdemo.model.Connection;
  */
 public class PendingConnectionsFragment extends Fragment {
 
-    private DatabaseReference usersReference;
-
     private PendingConnectionRecyclerAdapter recyclerAdapter;
 
     public PendingConnectionsFragment() {
-        String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-        FirebaseDatabase.getInstance().getReference().child("users")
-                .child(id).child("connections").
-                addChildEventListener(new ChildEventListener() {
-                    @Override
-                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                        Connection newConnection = dataSnapshot.getValue(Connection.class);
-                        if (newConnection.getState() == Connection.State.INCOMING.ordinal()){
-                            recyclerAdapter.addConnection(newConnection);
-                        }
-                    }
-                    @Override
-                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                    }
-                    @Override
-                    public void onChildRemoved(DataSnapshot dataSnapshot) {
-                    }
-                    @Override
-                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-
     }
 
     @Override
@@ -76,4 +46,7 @@ public class PendingConnectionsFragment extends Fragment {
     }
 
 
+    public void addConnection(Connection newConnection) {
+        recyclerAdapter.addConnection(newConnection);
+    }
 }

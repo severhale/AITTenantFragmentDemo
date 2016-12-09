@@ -86,6 +86,10 @@ public class PendingConnectionRecyclerAdapter extends RecyclerView.Adapter<Pendi
         notifyDataSetChanged();
     }
 
+    public List<Connection> getConnectionList() {
+        return connectionList;
+    }
+
     @Override
     public int getItemCount() {
         return connectionList.size();

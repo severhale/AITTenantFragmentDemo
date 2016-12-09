@@ -1,5 +1,8 @@
 package samandsimons.adventure.aittenantfragmentdemo.model;
 
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.Exclude;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +11,16 @@ import java.util.List;
  */
 
 public class User {
+
+    @Exclude
+    private static User instance;
+
+    public static User getCurrentUser() {
+        if (instance == null) {
+            instance = new User();
+        }
+        return instance;
+    }
 
     public enum UserType {
         LANDLORD,
@@ -75,9 +88,6 @@ public class User {
         payments = new ArrayList<>();
         events = new ArrayList<>();
         connections = new ArrayList<>();
-        messages.add(new Message("0", "0", "subject", "body", 0));
-        payments.add(new Payment("0", "0", "55.55", 0));
-        events.add(new Event("0", "event is happening", 0));
     }
 
     public String getUsername() {
@@ -124,5 +134,10 @@ public class User {
             }
         }
         return pending;
+    }
+
+    public void setFirebaseUser(FirebaseUser fbUser) {
+        setEmail(fbUser.getEmail());
+        setUsername(fbUser.getDisplayName());
     }
 }

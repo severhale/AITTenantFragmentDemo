@@ -49,4 +49,8 @@ public class ConfirmedConnectionsFragment extends Fragment {
 
         return view;
     }
+
+    public void addConnection(Connection connection) {
+        recyclerAdapter.addConnection(connection);
+    }
 }

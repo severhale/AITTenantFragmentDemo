@@ -16,6 +16,9 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -36,6 +39,49 @@ public class ConnectionListDialogFragment extends DialogFragment {
 
     private ViewPager connectionsPager;
     private ConnectionsPagerAdapter connectionsPagerAdapter;
+
+    public ConnectionListDialogFragment() {
+        String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        FirebaseDatabase.getInstance().getReference().child("users")
+                .child(id).child("connections").
+                addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                        Connection newConnection = dataSnapshot.getValue(Connection.class);
+                        switch (Connection.State.values()[newConnection.getState()]) {
+                            case CONFIRMED:
+                                ConfirmedConnectionsFragment confirmedFragment = (ConfirmedConnectionsFragment) findFragmentByTag(0);
+                                confirmedFragment.addConnection(newConnection);
+                                break;
+                            case OUTGOING:
+                                break;
+                            case INCOMING:
+                                PendingConnectionsFragment pendingFragment = (PendingConnectionsFragment) findFragmentByTag(1);
+                                pendingFragment.addConnection(newConnection);
+                                break;
+                            default:
+                                break;
+
+                        }
+
+                    }
+                    @Override
+                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                    }
+                    @Override
+                    public void onChildRemoved(DataSnapshot dataSnapshot) {
+                    }
+                    @Override
+                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+    }
 
 
     @NonNull
@@ -102,5 +148,11 @@ public class ConnectionListDialogFragment extends DialogFragment {
 
         DatabaseReference postToOtherUser = usersReference.child(out.getId()).child("connections").push();
         postToOtherUser.setValue(in);
+    }
+
+    private Fragment findFragmentByTag(int page) {
+        return getFragmentManager().findFragmentByTag(
+                "android:switcher:" + R.id.connectionsPager + ":" + connectionsPagerAdapter.getItemId(page)
+        );
     }
 }
