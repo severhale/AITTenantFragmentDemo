@@ -28,7 +28,7 @@ public class RequestedConnectionRecyclerAdapter extends RecyclerView.Adapter<Req
     private List<Connection> connectionList;
 
     public RequestedConnectionRecyclerAdapter() {
-        this.connectionList = User.getCurrentUser().getRequestedConnections();
+        this.connectionList = new ArrayList<>(User.getCurrentUser().getRequestedConnections());
     }
 
     public void removeConnection(Connection connection) {
@@ -44,6 +44,7 @@ public class RequestedConnectionRecyclerAdapter extends RecyclerView.Adapter<Req
             return;
         }
         connectionList.remove(index);
+        Log.d("TAG", "REMOVING CONNECTION AT INDEX " + index);
         notifyItemRemoved(index);
     }
 

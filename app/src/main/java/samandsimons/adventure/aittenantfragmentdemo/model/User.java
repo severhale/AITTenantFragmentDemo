@@ -228,7 +228,7 @@ public class User {
             }
         }
         if (index == -1) {
-            Log.w("TAG", "ERROR REMOVING CONNECTION");
+            Log.w("TAG", "ERROR REMOVING CONNECTION IN SINGLETON");
             return;
         }
         requestedConnections.remove(index);

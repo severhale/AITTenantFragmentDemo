@@ -5,6 +5,7 @@ import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,11 +53,13 @@ public class PendingConnectionsFragment extends Fragment {
 
     @Subscribe
     public void onEvent(Events.PendingConnectionEvent event) {
+        Log.d("TAG", "WHY IS THIS HAPPENING");
         addConnection(event.getPending());
     }
 
     @Subscribe
     public void onEvent(Events.PendingConnectionRemoved event) {
+        Log.d("TAG", "Got PendingConnectionRemoved event");
         removeConnection(event.getConnection());
     }
 

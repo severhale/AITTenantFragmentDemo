@@ -27,7 +27,7 @@ public class PendingConnectionRecyclerAdapter extends RecyclerView.Adapter<Pendi
     private List<Connection> connectionList;
 
     public PendingConnectionRecyclerAdapter() {
-        this.connectionList = User.getCurrentUser().getPendingConnections();
+        this.connectionList = new ArrayList<>(User.getCurrentUser().getPendingConnections());
     }
 
     public void removeConnection(Connection connection) {

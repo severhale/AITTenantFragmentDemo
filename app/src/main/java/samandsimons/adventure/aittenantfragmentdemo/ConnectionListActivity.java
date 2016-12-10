@@ -39,13 +39,11 @@ public class ConnectionListActivity extends BaseActivity implements ConnectionLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connection_list);
 
-        setupFirebase();
-
         connectionsPager = (ViewPager) findViewById(R.id.connectionsPager);
 
         connectionsPagerAdapter = new ConnectionsPagerAdapter(getSupportFragmentManager(), getApplicationContext());
 
-        connectionsPager.setOffscreenPageLimit(3);
+        connectionsPager.setOffscreenPageLimit(4);
         connectionsPager.setAdapter(connectionsPagerAdapter);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabNewConnection);
@@ -57,80 +55,6 @@ public class ConnectionListActivity extends BaseActivity implements ConnectionLi
             }
         });
 
-    }
-
-    private void setupFirebase() {
-        String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-        setupIncomingListener(id);
-        setupOutgoingListener(id);
-    }
-
-    private void setupOutgoingListener(String id) {
-        FirebaseDatabase.getInstance().getReference().child("users")
-                .child(id).child("connections").child("outgoing").
-                addChildEventListener(new ChildEventListener() {
-                    @Override
-                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                        Connection newConnection = dataSnapshot.getValue(Connection.class);
-                        RequestedConnectionsFragment requestedFragment = (RequestedConnectionsFragment) findFragmentByTag(2);
-                        requestedFragment.addConnection(newConnection);
-
-                    }
-
-                    @Override
-                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                    }
-
-                    @Override
-                    public void onChildRemoved(DataSnapshot dataSnapshot) {
-                    }
-
-                    @Override
-                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-    }
-
-    private void setupIncomingListener(String id) {
-        FirebaseDatabase.getInstance().getReference().child("users")
-                .child(id).child("connections").child("incoming").
-                addChildEventListener(new ChildEventListener() {
-                    @Override
-                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                        Connection newConnection = dataSnapshot.getValue(Connection.class);
-                        PendingConnectionsFragment pendingFragment = (PendingConnectionsFragment) findFragmentByTag(1);
-                        pendingFragment.addConnection(newConnection);
-                    }
-
-                    @Override
-                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                    }
-
-                    @Override
-                    public void onChildRemoved(DataSnapshot dataSnapshot) {
-                    }
-
-                    @Override
-                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-    }
-
-    private Fragment findFragmentByTag(int page) {
-        return getSupportFragmentManager().findFragmentByTag(
-                "android:switcher:" + R.id.connectionsPager + ":" + connectionsPagerAdapter.getItemId(page)
-        );
     }
 
     @Override
