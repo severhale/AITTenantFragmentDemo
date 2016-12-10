@@ -1,5 +1,7 @@
 package samandsimons.adventure.aittenantfragmentdemo.model;
 
+import com.google.firebase.database.Exclude;
+
 /**
  * Created by Simon on 12/4/2016.
  */
@@ -7,6 +9,9 @@ package samandsimons.adventure.aittenantfragmentdemo.model;
 public class Payment {
 
     public enum states {OUTGOING, INCOMING}
+
+    @Exclude
+    private String key;
 
     private String fromId;
     private String toId;
@@ -105,5 +110,13 @@ public class Payment {
 
     public void setConfirmed(boolean confirmed) {
         this.confirmed = confirmed;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 }

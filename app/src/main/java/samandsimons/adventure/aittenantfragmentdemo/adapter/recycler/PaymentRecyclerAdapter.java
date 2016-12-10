@@ -10,6 +10,11 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
+
+import org.greenrobot.eventbus.EventBus;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,6 +22,7 @@ import java.util.List;
 
 import samandsimons.adventure.aittenantfragmentdemo.Dashboard;
 import samandsimons.adventure.aittenantfragmentdemo.R;
+import samandsimons.adventure.aittenantfragmentdemo.event.Events;
 import samandsimons.adventure.aittenantfragmentdemo.model.Payment;
 import samandsimons.adventure.aittenantfragmentdemo.model.User;
 
@@ -48,6 +54,25 @@ public class PaymentRecyclerAdapter extends RecyclerView.Adapter<PaymentRecycler
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final Payment payment = paymentList.get(position);
 
+        if (payment.getState() == Payment.states.OUTGOING.ordinal()) {
+            holder.btnConfirm.setVisibility(View.GONE);
+        } else {
+            holder.btnConfirm.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    payment.setConfirmed(true);
+
+                    FirebaseDatabase.getInstance().getReference().child("users").child(payment.getFromId()).child("payments")
+                            .child(payment.getKey()).child("confirmed").setValue(true);
+
+                    FirebaseDatabase.getInstance().getReference().child("users").child(payment.getToId()).child("payments")
+                            .child(payment.getKey()).child("confirmed").setValue(true);
+
+                    //paymentConfirmed(holder, payment);
+                }
+            });
+        }
+
         if (payment.isConfirmed()) {
             paymentConfirmed(holder, payment);
         }
@@ -61,15 +86,22 @@ public class PaymentRecyclerAdapter extends RecyclerView.Adapter<PaymentRecycler
         holder.date.setText(sdf.format(new Date(payment.getTime())));
         holder.name.setText(payment.getMessage());
 
-        holder.btnConfirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                payment.setConfirmed(true);
-                paymentConfirmed(holder, payment);
-            }
-        });
-
         Log.d("TAG", holder.amount.getText().toString());
+    }
+
+    public void onPaymentConfirmed(Payment payment) {
+        int index = -1;
+        for (int i = 0; i < paymentList.size(); i++) {
+            if (payment.getFromId().equals(paymentList.get(i).getFromId()) || payment.getToId().equals(paymentList.get(i).getToId())) {
+                index = i;
+                break;
+            }
+        }
+        if (index == -1) {
+            Log.w("TAG", "ERROR REMOVING CONNECTION");
+            return;
+        }
+        notifyItemChanged(index);
     }
 
     private void paymentConfirmed(ViewHolder holder, Payment payment) {

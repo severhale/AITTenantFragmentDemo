@@ -121,5 +121,15 @@ public class Events {
         }
     }
 
+    public static class PaymentConfirmedEvent {
+        private Payment payment;
+
+        public Payment getPayment() { return payment; }
+
+        public PaymentConfirmedEvent(Payment payment) {
+            this.payment = payment;
+        }
+    }
+
 
 }

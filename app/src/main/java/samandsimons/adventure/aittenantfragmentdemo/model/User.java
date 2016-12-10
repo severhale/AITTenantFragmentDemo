@@ -253,8 +253,7 @@ public class User {
     public List<Event> getEventsForUser(String uid) {
         ArrayList<Event> eventsForUser = new ArrayList<Event>();
         for (Event event : events) {
-            HashMap<String, Connection> map = event.getEventUsers();
-            if (map.containsKey(uid)) {
+            if(event.getEventUsers().containsKey(uid)) {
                 eventsForUser.add(event);
             }
         }

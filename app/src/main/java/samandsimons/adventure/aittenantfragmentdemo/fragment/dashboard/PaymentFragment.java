@@ -70,9 +70,9 @@ public class PaymentFragment extends Fragment implements CreateDialogInterface{
                     Connection selectedConnection = (Connection) data.getSerializableExtra(AddPaymentDialogFragment.CONNECTION);
                     String name = data.getStringExtra(AddPaymentDialogFragment.NAME);
                     String amount = data.getStringExtra(AddPaymentDialogFragment.AMOUNT);
-                    Payment newOutgoingPayment = new Payment(id, selectedConnection.getId(), displayName, selectedConnection.getDisplayName(), amount, System.currentTimeMillis(), name, Payment.states.OUTGOING.ordinal());
-                    Payment newIncomingPayment = new Payment(id, selectedConnection.getId(), displayName, selectedConnection.getDisplayName(), amount, System.currentTimeMillis(), name, Payment.states.INCOMING.ordinal());
-                    postPayment(newOutgoingPayment, newIncomingPayment);
+                    Payment newOut = new Payment(id, selectedConnection.getId(), displayName, selectedConnection.getDisplayName(), amount, System.currentTimeMillis(), name, Payment.states.OUTGOING.ordinal());
+                    Payment newIn = new Payment(id, selectedConnection.getId(), displayName, selectedConnection.getDisplayName(), amount, System.currentTimeMillis(), name, Payment.states.INCOMING.ordinal());
+                    postPayment(newOut, newIn);
                 }
                 else if (resultCode == Activity.RESULT_CANCELED) {
                     // probably don't do anything
@@ -99,6 +99,11 @@ public class PaymentFragment extends Fragment implements CreateDialogInterface{
     @Subscribe
     public void onEvent(Events.PaymentEvent event) {
         recyclerAdapter.addItem(event.getPayment());
+    }
+
+    @Subscribe
+    public void onEvent(Events.PaymentConfirmedEvent event) {
+        recyclerAdapter.onPaymentConfirmed(event.getPayment());
     }
 
     @Override
