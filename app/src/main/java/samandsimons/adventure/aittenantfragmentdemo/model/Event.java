@@ -7,8 +7,20 @@ package samandsimons.adventure.aittenantfragmentdemo.model;
 public class Event {
     private String fromId;
     private String fromDisplay;
-
+    private String description;
+    private long time;
     private String title;
+
+    public Event() {
+    }
+
+    public Event(String fromId, String fromDisplay, String description, String title, long time) {
+        this.fromDisplay = fromDisplay;
+        this.description = description;
+        this.fromId = fromId;
+        this.title = title;
+        this.time = time;
+    }
 
     public String getDescription() {
         return description;
@@ -18,18 +30,12 @@ public class Event {
         this.description = description;
     }
 
-    private String description;
-    private long time;
-
     public String getFromDisplay() {
         return fromDisplay;
     }
 
     public void setFromDisplay(String fromDisplay) {
         this.fromDisplay = fromDisplay;
-    }
-
-    public Event() {
     }
 
     public String getFromId() {
@@ -57,10 +63,5 @@ public class Event {
         this.time = time;
     }
 
-    public Event(String fromId, String title, long time) {
 
-        this.fromId = fromId;
-        this.title = title;
-        this.time = time;
-    }
 }

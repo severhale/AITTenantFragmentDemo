@@ -5,10 +5,28 @@ package samandsimons.adventure.aittenantfragmentdemo.model;
  */
 
 public class Payment {
+
     private String fromId;
     private String toId;
     private String fromDisplay;
     private String toDisplay;
+    private String amount;
+    private long time;
+    private String message;
+
+    public Payment() {
+    }
+
+    public Payment(String fromId, String toId, String fromDisplay, String toDisplay, String amount, long time, String message) {
+
+        this.fromId = fromId;
+        this.toId = toId;
+        this.fromDisplay = fromDisplay;
+        this.toDisplay = toDisplay;
+        this.amount = amount;
+        this.time = time;
+        this.message = message;
+    }
 
     public String getFromDisplay() {
         return fromDisplay;
@@ -25,10 +43,6 @@ public class Payment {
     public void setToDisplay(String toDisplay) {
         this.toDisplay = toDisplay;
     }
-
-    private String amount;
-    private long time;
-    private String message;
 
     public String getMessage() {
         return message;
@@ -66,20 +80,12 @@ public class Payment {
         return time;
     }
 
-    public Payment() {
-    }
-
     public void setTime(long time) {
         this.time = time;
     }
 
-    public Payment(String fromId, String toId, String amount, long time) {
 
-        this.fromId = fromId;
-        this.toId = toId;
-        this.amount = amount;
-        this.time = time;
-    }
+
 
 
 }
