@@ -15,8 +15,12 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import samandsimons.adventure.aittenantfragmentdemo.R;
 import samandsimons.adventure.aittenantfragmentdemo.adapter.recycler.PaymentRecyclerAdapter;
+import samandsimons.adventure.aittenantfragmentdemo.event.Events;
 import samandsimons.adventure.aittenantfragmentdemo.model.Payment;
 import samandsimons.adventure.aittenantfragmentdemo.model.User;
 
@@ -63,6 +67,7 @@ public class PaymentFragment extends Fragment implements DataFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        EventBus.getDefault().register(this);
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_payment, container, false);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.paymentRecycler);
@@ -76,7 +81,18 @@ public class PaymentFragment extends Fragment implements DataFragment {
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
     public void refreshData(User user) {
         recyclerAdapter.updateForUser(user);
+    }
+
+    @Subscribe
+    public void onEvent(Events.PaymentEvent event) {
+        recyclerAdapter.addItem(event.getPayment());
     }
 }
