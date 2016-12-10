@@ -60,7 +60,6 @@ public class PaymentRecyclerAdapter extends RecyclerView.Adapter<PaymentRecycler
             holder.btnConfirm.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    payment.setConfirmed(true);
 
                     FirebaseDatabase.getInstance().getReference().child("users").child(payment.getToId()).child("payments")
                             .child(payment.getKey()).child("confirmed").setValue(true);
@@ -105,7 +104,7 @@ public class PaymentRecyclerAdapter extends RecyclerView.Adapter<PaymentRecycler
     }
 
     private void paymentConfirmed(ViewHolder holder, Payment payment) {
-        if (payment.getState() == Payment.states.OUTGOING.ordinal()) {
+        if (payment.getState() == Payment.states.INCOMING.ordinal()) {
             holder.layout.setBackgroundColor(Color.parseColor("#b3ff88"));
         } else {
             holder.layout.setBackgroundColor(Color.parseColor("#ff7272"));
