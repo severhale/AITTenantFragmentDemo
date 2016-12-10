@@ -37,7 +37,6 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
     public void onBindViewHolder(ViewHolder holder, int position) {
         Event event = eventList.get(position);
         holder.title.setText(event.getTitle());
-        holder.description.setText(event.getDescription());
         holder.author.setText(event.getFromDisplay());
         holder.date.setText(sdf.format(event.getTime()));
     }
@@ -58,12 +57,11 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView title, description, author, date;
+        public TextView title, author, date;
 
         public ViewHolder(View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.tvEventTitle);
-            description = (TextView) itemView.findViewById(R.id.tvEventDescription);
             author = (TextView) itemView.findViewById(R.id.tvEventAuthor);
             date = (TextView) itemView.findViewById(R.id.tvEventDate);
         }

@@ -34,7 +34,7 @@ import samandsimons.adventure.aittenantfragmentdemo.model.User;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MessageFragment extends Fragment implements DataFragment {
+public class MessageFragment extends Fragment {
     public static final int MESSAGE_REQUEST = -1;
     public static final String MESSAGE_DIALOG = "MESSAGE_DIALOG";
 
@@ -107,11 +107,6 @@ public class MessageFragment extends Fragment implements DataFragment {
 
         DatabaseReference postToOtherUser = usersReference.child(newMessage.getToId()).child("messages").push();
         postToOtherUser.setValue(newMessage);
-    }
-
-    @Override
-    public void refreshData(User user) {
-        recyclerAdapter.updateForUser(user);
     }
 
     @Subscribe

@@ -28,7 +28,6 @@ public class AddMessageDialogFragment extends DialogFragment {
     public static final String CONNECTION = "CONNECTION";
     public static final String SUBJECT = "SUBJECT";
     public static final String BODY = "BODY";
-    public static final String BUNDLE = "BUNDLE";
     private Spinner spinner;
 
     @NonNull

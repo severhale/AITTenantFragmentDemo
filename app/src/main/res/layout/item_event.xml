@@ -17,12 +17,6 @@
             android:layout_height="wrap_content"
             android:text="Title" />
 
-        <TextView
-            android:id="@+id/tvEventDescription"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="DESCRIPTION" />
-
     </LinearLayout>
 
     <LinearLayout

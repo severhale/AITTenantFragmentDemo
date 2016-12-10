@@ -33,7 +33,7 @@ import samandsimons.adventure.aittenantfragmentdemo.model.User;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PaymentFragment extends Fragment implements DataFragment {
+public class PaymentFragment extends Fragment {
     public static final int PAYMENT_REQUEST = -1;
     public static final String PAYMENT_DIALOG = "PAYMENT_DIALOG";
 
@@ -57,7 +57,7 @@ public class PaymentFragment extends Fragment implements DataFragment {
         layoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
 
-        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fabNewMessage);
+        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fabNewPayment);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,11 +103,6 @@ public class PaymentFragment extends Fragment implements DataFragment {
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
-    }
-
-    @Override
-    public void refreshData(User user) {
-        recyclerAdapter.updateForUser(user);
     }
 
     @Subscribe

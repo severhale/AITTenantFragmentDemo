@@ -1,7 +1,10 @@
 package samandsimons.adventure.aittenantfragmentdemo.fragment.dashboard;
 
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,25 +13,29 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import samandsimons.adventure.aittenantfragmentdemo.R;
 import samandsimons.adventure.aittenantfragmentdemo.adapter.recycler.EventRecyclerAdapter;
 import samandsimons.adventure.aittenantfragmentdemo.event.Events;
+import samandsimons.adventure.aittenantfragmentdemo.fragment.dialog.AddEventDialogFragment;
+import samandsimons.adventure.aittenantfragmentdemo.model.Connection;
 import samandsimons.adventure.aittenantfragmentdemo.model.Event;
-import samandsimons.adventure.aittenantfragmentdemo.model.User;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class EventFragment extends Fragment implements DataFragment{
+public class EventFragment extends Fragment {
 
+    public static final String ADD_EVENT_DIALOG = "ADD_EVENT_DIALOG";
+    public static final int ADD_EVENT_REQUEST_CODE = 1;
     private EventRecyclerAdapter recyclerAdapter;
 
     public EventFragment() {
@@ -49,6 +56,17 @@ public class EventFragment extends Fragment implements DataFragment{
         layoutManager.setReverseLayout(true);
         layoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
+
+        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fabNewEvent);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AddEventDialogFragment dialogFragment = new AddEventDialogFragment();
+                dialogFragment.setTargetFragment(EventFragment.this, ADD_EVENT_REQUEST_CODE);
+                dialogFragment.show(getFragmentManager(), ADD_EVENT_DIALOG);
+            }
+        });
+
         return view;
     }
 
@@ -59,13 +77,41 @@ public class EventFragment extends Fragment implements DataFragment{
     }
 
     @Override
-    public void refreshData(User user) {
-        recyclerAdapter.updateForUser(user);
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case ADD_EVENT_REQUEST_CODE:
+                if (resultCode == Activity.RESULT_OK) {
+                    String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                    String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+                    long date = data.getLongExtra(AddEventDialogFragment.EVENT_TIME, 0);
+                    String title = data.getStringExtra(AddEventDialogFragment.EVENT_NAME);
+                    final Connection recipient = (Connection) data.getSerializableExtra(AddEventDialogFragment.CONNECTION);
+                    ArrayList<Connection> recipientList = new ArrayList<>();
+                    recipientList.add(recipient);
+
+                    Event event = new Event(id, email, title, date);
+                    postEvent(event, recipientList);
+                }
+                break;
+        }
     }
 
     @Subscribe
     public void onEvent(Events.EventEvent eventevent) {
         // fuck it
         recyclerAdapter.addItem(eventevent.getEvent());
+    }
+
+    public void postEvent(Event event, List<Connection> recipients) {
+        String fromId = event.getFromId();
+        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("users");
+
+        DatabaseReference newEventRef = usersRef.child(event.getFromId()).child("events").push();
+        newEventRef.setValue(event);
+
+        for (Connection c : recipients) {
+            newEventRef = usersRef.child(c.getId()).child("events").push();
+            newEventRef.setValue(event);
+        }
     }
 }

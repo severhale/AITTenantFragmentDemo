@@ -42,21 +42,6 @@ public class Dashboard extends BaseActivity {
         EventBus.getDefault().register(User.getCurrentUser());
         FirebaseListener.startAllListeners();
 
-//        FirebaseDatabase.getInstance().getReference().child("users").child(getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                GenericTypeIndicator<User> t = new GenericTypeIndicator<User>() {};
-//                User user = dataSnapshot.getValue(t);
-//                setUser(user);
-//                refreshFragments(user);
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//                Toast.makeText(Dashboard.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-//            }
-//        });
-
         tvStatus.setText("Logged in as: " + getUserEmail());
 
         pagerAdapter = new DashboardPagerAdapter(getSupportFragmentManager(), getApplicationContext());
@@ -87,18 +72,6 @@ public class Dashboard extends BaseActivity {
             default:
                 return true;
         }
-    }
-
-    private void refreshFragments(User user) {
-        EventFragment eventFragment = (EventFragment) findFragmentByTag(0);
-        eventFragment.refreshData(user);
-
-
-        PaymentFragment paymentFragment = (PaymentFragment) findFragmentByTag(1);
-        paymentFragment.refreshData(user);
-
-        MessageFragment messageFragment = (MessageFragment) findFragmentByTag(2);
-        messageFragment.refreshData(user);
     }
 
     private Fragment findFragmentByTag(int page) {
