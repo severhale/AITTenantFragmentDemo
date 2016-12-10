@@ -40,13 +40,13 @@ public class PaymentRecyclerAdapter extends RecyclerView.Adapter<PaymentRecycler
     public void onBindViewHolder(ViewHolder holder, int position) {
         Payment payment = paymentList.get(position);
         if (userType == User.UserType.LANDLORD) {
-            holder.name.setText(payment.getFromId());
+            holder.sender.setText(payment.getFromId());
         } else {
-            holder.name.setText(payment.getToId());
+            holder.sender.setText(payment.getToId());
         }
-        holder.amount.setText(payment.getAmount());
+        holder.amount.setText("$"+payment.getAmount());
         holder.date.setText(sdf.format(new Date(payment.getTime())));
-        holder.message.setText(payment.getMessage());
+        holder.name.setText(payment.getMessage());
         Log.d("TAG", holder.amount.getText().toString());
     }
 
@@ -67,14 +67,14 @@ public class PaymentRecyclerAdapter extends RecyclerView.Adapter<PaymentRecycler
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView name, amount, date, message;
+        public TextView name, amount, date, sender;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            name = (TextView) itemView.findViewById(R.id.paymentName);
-            amount = (TextView) itemView.findViewById(R.id.paymentAmount);
-            date = (TextView) itemView.findViewById(R.id.paymentDate);
-            message = (TextView) itemView.findViewById(R.id.paymentMessage);
+            name = (TextView) itemView.findViewById(R.id.tvPaymentName);
+            amount = (TextView) itemView.findViewById(R.id.tvPaymentAmount);
+            date = (TextView) itemView.findViewById(R.id.tvPaymentDate);
+            sender = (TextView) itemView.findViewById(R.id.tvPaymentSender);
         }
     }
 }
