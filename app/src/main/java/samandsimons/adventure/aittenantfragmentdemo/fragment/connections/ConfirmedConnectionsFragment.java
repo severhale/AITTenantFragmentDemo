@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.google.firebase.database.DatabaseReference;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import samandsimons.adventure.aittenantfragmentdemo.R;
 import samandsimons.adventure.aittenantfragmentdemo.adapter.recycler.ConfirmedConnectionRecyclerAdapter;
@@ -49,6 +50,7 @@ public class ConfirmedConnectionsFragment extends Fragment {
         return view;
     }
 
+    @Subscribe
     public void onEvent(Events.ConfirmedConnectionEvent event) {
         addConnection(event.getConfirmed());
     }
