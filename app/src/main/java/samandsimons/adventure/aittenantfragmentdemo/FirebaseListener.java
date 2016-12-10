@@ -11,6 +11,11 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import samandsimons.adventure.aittenantfragmentdemo.event.Events;
 import samandsimons.adventure.aittenantfragmentdemo.model.Connection;
 import samandsimons.adventure.aittenantfragmentdemo.model.Event;
@@ -25,6 +30,7 @@ import samandsimons.adventure.aittenantfragmentdemo.model.User;
 public class FirebaseListener {
 
     static boolean started = false;
+    static HashMap<DatabaseReference, ChildEventListener> listeners = new HashMap<>();
 
     public static void startAllListeners() {
         started = true;
@@ -40,10 +46,18 @@ public class FirebaseListener {
         return started;
     }
 
+    public static void stopAllListeners() {
+        started = false;
+        for (Map.Entry<DatabaseReference,ChildEventListener> entry : listeners.entrySet()) {
+            entry.getKey().removeEventListener(entry.getValue());
+        }
+    }
+
     public static void setupRequestedListener() {
         String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        FirebaseDatabase.getInstance().getReference().child("users")
-                .child(id).child("connections").child("outgoing").
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("users")
+                .child(id).child("connections").child("outgoing");
+        ChildEventListener c = ref.
                 addChildEventListener(new ChildEventListener() {
                     @Override
                     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -71,11 +85,13 @@ public class FirebaseListener {
 
                     }
                 });
+        listeners.put(ref, c);
     }
 
     public static void setupPaymentListener() {
         String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        FirebaseDatabase.getInstance().getReference().child("users").child(id).child("payments").
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("users").child(id).child("payments");
+        ChildEventListener c = ref.
                 addChildEventListener(new ChildEventListener() {
                     @Override
                     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -104,11 +120,13 @@ public class FirebaseListener {
 
                     }
                 });
+        listeners.put(ref, c);
     }
 
     public static void setupEventListener() {
         String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        FirebaseDatabase.getInstance().getReference().child("users").child(id).child("events").
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("users").child(id).child("events");
+        ChildEventListener c = ref.
                 addChildEventListener(new ChildEventListener() {
                     @Override
                     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -137,12 +155,14 @@ public class FirebaseListener {
 
                     }
                 });
+        listeners.put(ref, c);
     }
 
     public static void setupPendingListener() {
         String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        FirebaseDatabase.getInstance().getReference().child("users")
-                .child(id).child("connections").child("incoming").
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("users")
+                .child(id).child("connections").child("incoming");
+        ChildEventListener c = ref.
                 addChildEventListener(new ChildEventListener() {
                     @Override
                     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -170,12 +190,13 @@ public class FirebaseListener {
 
                     }
                 });
+        listeners.put(ref, c);
     }
 
     public static void setupMessageListener() {
         String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        DatabaseReference usersReference = FirebaseDatabase.getInstance().getReference().child("users");
-        usersReference.child(id).child("messages").
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("users").child(id).child("messages");
+        ChildEventListener c = ref.
                 addChildEventListener(new ChildEventListener() {
                     @Override
                     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -204,13 +225,15 @@ public class FirebaseListener {
 
                     }
                 });
+        listeners.put(ref, c);
     }
 
     public static void setupConfirmedListener() {
 
         String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        FirebaseDatabase.getInstance().getReference().child("users")
-                .child(id).child("connections").child("confirmed").
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("users")
+                .child(id).child("connections").child("confirmed");
+        ChildEventListener c = ref.
                 addChildEventListener(new ChildEventListener() {
                     @Override
                     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -240,5 +263,6 @@ public class FirebaseListener {
 
                     }
                 });
+        listeners.put(ref, c);
     }
 }

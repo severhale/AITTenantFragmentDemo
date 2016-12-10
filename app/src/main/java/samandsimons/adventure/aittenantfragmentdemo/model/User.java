@@ -25,12 +25,7 @@ public class User {
     public static User getCurrentUser() {
         if (instance == null) {
             instance = new User();
-            instance.setConfirmedConnections(new ArrayList<Connection>());
-            instance.setPendingConnections(new ArrayList<Connection>());
-            instance.setRequestedConnections(new ArrayList<Connection>());
-            instance.setMessages(new ArrayList<Message>());
-            instance.setPayments(new ArrayList<Payment>());
-            instance.setEvents(new ArrayList<Event>());
+            instance.initializeData();
         }
         return instance;
     }
@@ -264,5 +259,14 @@ public class User {
             }
         }
         return eventsForUser;
+    }
+
+    public void initializeData() {
+        setConfirmedConnections(new ArrayList<Connection>());
+        setPendingConnections(new ArrayList<Connection>());
+        setRequestedConnections(new ArrayList<Connection>());
+        setMessages(new ArrayList<Message>());
+        setPayments(new ArrayList<Payment>());
+        setEvents(new ArrayList<Event>());
     }
 }

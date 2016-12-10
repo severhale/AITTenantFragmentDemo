@@ -2,6 +2,7 @@ package samandsimons.adventure.aittenantfragmentdemo;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
@@ -14,11 +15,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
 import org.greenrobot.eventbus.EventBus;
+import org.w3c.dom.Text;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,15 +59,16 @@ public class Dashboard extends BaseActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setContentView(R.layout.activity_drawer_dashboard);
+
+        ButterKnife.bind(this);
+
         if (!FirebaseListener.isStarted()) {
             FirebaseListener.startAllListeners();
         }
         if (!EventBus.getDefault().isRegistered(User.getCurrentUser())) {
             EventBus.getDefault().register(User.getCurrentUser());
         }
-        setContentView(R.layout.activity_drawer_dashboard);
-
-        ButterKnife.bind(this);
 
         if (getIntent().hasExtra(FILTER_CONNECTION_EXTRA)) {
             FILTER_CONNECTION = (Connection) getIntent().getSerializableExtra(FILTER_CONNECTION_EXTRA);
@@ -87,6 +91,10 @@ public class Dashboard extends BaseActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+
+        TextView tvEmail = (TextView) navigationView.getHeaderView(0).findViewById(R.id.tvEmail);
+        tvEmail.setText(getUserEmail());
+
         pagerAdapter = new DashboardPagerAdapter(getSupportFragmentManager(), getApplicationContext());
         pager.setOffscreenPageLimit(3);
         pager.setAdapter(pagerAdapter);
@@ -96,6 +104,7 @@ public class Dashboard extends BaseActivity
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(User.getCurrentUser());
+        FirebaseListener.stopAllListeners();
     }
 
     @Override
@@ -145,6 +154,7 @@ public class Dashboard extends BaseActivity
 
         if (id == R.id.nav_logout) {
             FirebaseAuth.getInstance().signOut();
+            User.getCurrentUser().initializeData();
             startActivity(new Intent(Dashboard.this, LoginActivity.class));
             finish();
         }
