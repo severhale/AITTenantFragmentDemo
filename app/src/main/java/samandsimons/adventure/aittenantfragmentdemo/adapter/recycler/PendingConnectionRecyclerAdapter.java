@@ -83,14 +83,6 @@ public class PendingConnectionRecyclerAdapter extends RecyclerView.Adapter<Pendi
 
     }
 
-    public void updateForUser(User user) {
-        Log.d("TAG", "Updating for user with " + user.getIncomingConnections().size() + " pending connections.");
-
-        connectionList = user.getIncomingConnections();
-
-        notifyDataSetChanged();
-    }
-
     public List<Connection> getConnectionList() {
         return connectionList;
     }

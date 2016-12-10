@@ -4,23 +4,16 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.List;
 
 import samandsimons.adventure.aittenantfragmentdemo.R;
@@ -69,7 +62,7 @@ public class AddMessageDialogFragment extends DialogFragment {
                 getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
             }
         });
-        List<Connection> possibleRecipients = User.getCurrentUser().getConnections();
+        List<Connection> possibleRecipients = User.getCurrentUser().getConfirmedConnections();
         spinner = (Spinner) view.findViewById(R.id.spMessageRecipient);
         ArrayAdapter<Connection> adapter = new ArrayAdapter<Connection>(getContext(), android.R.layout.simple_spinner_dropdown_item, possibleRecipients);
         spinner.setAdapter(adapter);

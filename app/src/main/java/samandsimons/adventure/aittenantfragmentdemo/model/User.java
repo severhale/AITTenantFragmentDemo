@@ -1,17 +1,14 @@
 package samandsimons.adventure.aittenantfragmentdemo.model;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Exclude;
-import com.google.firebase.database.FirebaseDatabase;
+
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import samandsimons.adventure.aittenantfragmentdemo.fragment.connections.ConfirmedConnectionsFragment;
+import samandsimons.adventure.aittenantfragmentdemo.event.Events;
 
 /**
  * Created by Simon on 12/3/2016.
@@ -25,7 +22,7 @@ public class User {
     public static User getCurrentUser() {
         if (instance == null) {
             instance = new User();
-            instance.setConnections(new ArrayList<Connection>());
+            instance.setConfirmedConnections(new ArrayList<Connection>());
             instance.setMessages(new ArrayList<Message>());
             instance.setPayments(new ArrayList<Payment>());
             instance.setEvents(new ArrayList<Event>());
@@ -42,20 +39,35 @@ public class User {
     private String email;
     private int type;
 
+    private List<Message> messages;
+    private List<Payment> payments;
+    private List<Event> events;
+    private List<Connection> confirmedConnections;
+    private List<Connection> pendingConnections;
+    private List<Connection> requestedConnections;
+
+    public User() {
+    }
+
+    public User(String username, String email, UserType type) {
+
+        this.username = username;
+        this.email = email;
+        this.type = type.ordinal();
+        messages = new ArrayList<>();
+        payments = new ArrayList<>();
+        events = new ArrayList<>();
+        confirmedConnections = new ArrayList<>();
+        pendingConnections = new ArrayList<>();
+        requestedConnections = new ArrayList<>();
+    }
+
     public int getType() {
         return type;
     }
 
     public void setType(int type) {
         this.type = type;
-    }
-
-    private List<Message> messages;
-    private List<Payment> payments;
-    private List<Event> events;
-    private List<Connection> connections;
-
-    public User() {
     }
 
     public List<Message> getMessages() {
@@ -82,23 +94,28 @@ public class User {
         this.events = events;
     }
 
-    public List<Connection> getConnections() {
-        return connections;
+    public List<Connection> getConfirmedConnections() {
+        return confirmedConnections;
     }
 
-    public void setConnections(List<Connection> connections) {
-        this.connections = connections;
+    public void setConfirmedConnections(List<Connection> confirmedConnections) {
+        this.confirmedConnections = confirmedConnections;
     }
 
-    public User(String username, String email, UserType type) {
+    public List<Connection> getPendingConnections() {
+        return pendingConnections;
+    }
 
-        this.username = username;
-        this.email = email;
-        this.type = type.ordinal();
-        messages = new ArrayList<>();
-        payments = new ArrayList<>();
-        events = new ArrayList<>();
-        connections = new ArrayList<>();
+    public void setPendingConnections(List<Connection> pendingConnections) {
+        this.pendingConnections = pendingConnections;
+    }
+
+    public List<Connection> getRequestedConnections() {
+        return requestedConnections;
+    }
+
+    public void setRequestedConnections(List<Connection> requestedConnections) {
+        this.requestedConnections = requestedConnections;
     }
 
     public String getUsername() {
@@ -119,7 +136,7 @@ public class User {
     }
 
     public void setValues(User user) {
-        setConnections(user.getConnections());
+        setConfirmedConnections(user.getConfirmedConnections());
         setEmail(user.getEmail());
         setEvents(user.getEvents());
         setMessages(user.getMessages());
@@ -127,28 +144,38 @@ public class User {
         setUsername(user.getUsername());
     }
 
-    public List<Connection> getConfirmedConnections(){
-        ArrayList<Connection> confirmed = new ArrayList<Connection>();
-        for (Connection connection : connections) {
-            if (connection.getConnectionType()==Connection.State.CONFIRMED){
-                confirmed.add(connection);
-            }
-        }
-        return confirmed;
-    }
-
-    public List<Connection> getIncomingConnections(){
-        ArrayList<Connection> pending = new ArrayList<Connection>();
-        for (Connection connection : connections) {
-            if (connection.getConnectionType() == Connection.State.INCOMING){
-                pending.add(connection);
-            }
-        }
-        return pending;
-    }
-
     public void setFirebaseUser(FirebaseUser fbUser) {
         setEmail(fbUser.getEmail());
         setUsername(fbUser.getDisplayName());
+    }
+
+    @Subscribe
+    public void onEvent(Events.ConfirmedConnectionEvent confirmed) {
+        confirmedConnections.add(confirmed.getConfirmed());
+    }
+
+    @Subscribe
+    public void onEvent(Events.PendingConnectionEvent pending) {
+        pendingConnections.add(pending.getPending());
+    }
+
+    @Subscribe
+    public void onEvent(Events.RequestedConnectionEvent requested) {
+        requestedConnections.add(requested.getRequested());
+    }
+
+    @Subscribe
+    public void onEvent(Events.MessageEvent message) {
+        messages.add(message.getMessage());
+    }
+
+    @Subscribe
+    public void onEvent(Events.PaymentEvent payment) {
+        payments.add(payment.getPayment());
+    }
+
+    @Subscribe
+    public void onEvent(Events.EventEvent event) {
+        events.add(event.getEvent());
     }
 }

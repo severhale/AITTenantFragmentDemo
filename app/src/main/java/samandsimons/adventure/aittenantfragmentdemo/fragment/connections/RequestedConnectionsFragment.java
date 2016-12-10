@@ -8,8 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import samandsimons.adventure.aittenantfragmentdemo.R;
 import samandsimons.adventure.aittenantfragmentdemo.adapter.recycler.RequestedConnectionRecyclerAdapter;
+import samandsimons.adventure.aittenantfragmentdemo.event.Events;
 import samandsimons.adventure.aittenantfragmentdemo.model.Connection;
 
 /**
@@ -25,6 +29,9 @@ public class RequestedConnectionsFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        EventBus.getDefault().register(this);
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.requested_connection_fragment, container, false);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.requestedConnectionRecycler);
@@ -36,6 +43,17 @@ public class RequestedConnectionsFragment extends Fragment{
         recyclerView.setLayoutManager(layoutManager);
 
         return view;
+    }
+
+    @Subscribe
+    public void onEvent(Events.RequestedConnectionEvent event) {
+        addConnection(event.getRequested());
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
 

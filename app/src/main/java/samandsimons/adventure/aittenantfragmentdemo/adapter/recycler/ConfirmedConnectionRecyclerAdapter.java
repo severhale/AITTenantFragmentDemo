@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import samandsimons.adventure.aittenantfragmentdemo.R;
@@ -23,7 +22,7 @@ public class ConfirmedConnectionRecyclerAdapter extends RecyclerView.Adapter<Con
     List<Connection> connectionList;
 
     public ConfirmedConnectionRecyclerAdapter() {
-        this.connectionList = User.getCurrentUser().getConnections();
+        this.connectionList = User.getCurrentUser().getConfirmedConnections();
     }
 
     public List<Connection> getConnectionList() {

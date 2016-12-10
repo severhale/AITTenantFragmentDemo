@@ -32,35 +32,6 @@ public class PaymentFragment extends Fragment implements DataFragment {
     PaymentRecyclerAdapter recyclerAdapter;
 
     public PaymentFragment() {
-        String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        FirebaseDatabase.getInstance().getReference().child("users").child(id).child("payments").
-                addChildEventListener(new ChildEventListener() {
-                    @Override
-                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                        Payment newPayment = dataSnapshot.getValue(Payment.class);
-                        recyclerAdapter.addItem(newPayment);
-                    }
-
-                    @Override
-                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-                    }
-
-                    @Override
-                    public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-                    }
-
-                    @Override
-                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
     }
 
 

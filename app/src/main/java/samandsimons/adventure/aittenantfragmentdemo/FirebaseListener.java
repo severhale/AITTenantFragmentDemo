@@ -15,6 +15,7 @@ import samandsimons.adventure.aittenantfragmentdemo.event.Events;
 import samandsimons.adventure.aittenantfragmentdemo.model.Connection;
 import samandsimons.adventure.aittenantfragmentdemo.model.Event;
 import samandsimons.adventure.aittenantfragmentdemo.model.Message;
+import samandsimons.adventure.aittenantfragmentdemo.model.Payment;
 import samandsimons.adventure.aittenantfragmentdemo.model.User;
 
 /**
@@ -22,8 +23,144 @@ import samandsimons.adventure.aittenantfragmentdemo.model.User;
  */
 
 public class FirebaseListener {
+
     public static void startAllListeners() {
         setupConfirmedListener();
+        setupPendingListener();
+        setupRequestedListener();
+        setupMessageListener();
+        setupEventListener();
+        setupPaymentListener();
+    }
+
+    public static void setupRequestedListener() {
+        String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        FirebaseDatabase.getInstance().getReference().child("users")
+                .child(id).child("connections").child("outgoing").
+                addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                        Connection newConnection = dataSnapshot.getValue(Connection.class);
+                        User.getCurrentUser().getRequestedConnections().add(newConnection);
+
+                        EventBus.getDefault().post(new Events.RequestedConnectionEvent(newConnection));
+                    }
+                    @Override
+                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                    }
+
+                    @Override
+                    public void onChildRemoved(DataSnapshot dataSnapshot) {
+                    }
+
+                    @Override
+                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+    }
+
+    public static void setupPaymentListener() {
+        String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        FirebaseDatabase.getInstance().getReference().child("users").child(id).child("payments").
+                addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                        Payment newPayment = dataSnapshot.getValue(Payment.class);
+                        User.getCurrentUser().getPayments().add(newPayment);
+
+                        EventBus.getDefault().post(new Events.PaymentEvent(newPayment));
+                    }
+
+                    @Override
+                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                    }
+
+                    @Override
+                    public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                    }
+
+                    @Override
+                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+    }
+
+    public static void setupEventListener() {
+        String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        FirebaseDatabase.getInstance().getReference().child("users").child(id).child("events").
+                addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                        Event newEvent = dataSnapshot.getValue(Event.class);
+                        User.getCurrentUser().getEvents().add(newEvent);
+
+                        EventBus.getDefault().post(new Events.EventEvent(newEvent));
+                    }
+
+                    @Override
+                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                    }
+
+                    @Override
+                    public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                    }
+
+                    @Override
+                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+    }
+
+    public static void setupPendingListener() {
+        String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        FirebaseDatabase.getInstance().getReference().child("users")
+                .child(id).child("connections").child("incoming").
+                addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                        Connection newConnection = dataSnapshot.getValue(Connection.class);
+                        User.getCurrentUser().getPendingConnections().add(newConnection);
+
+                        EventBus.getDefault().post(new Events.PendingConnectionEvent(newConnection));
+                    }
+                    @Override
+                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                    }
+
+                    @Override
+                    public void onChildRemoved(DataSnapshot dataSnapshot) {
+                    }
+
+                    @Override
+                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
     }
 
     public static void setupMessageListener() {
@@ -70,7 +207,7 @@ public class FirebaseListener {
                     @Override
                     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                         Connection newConnection = dataSnapshot.getValue(Connection.class);
-                        User.getCurrentUser().getConnections().add(newConnection);
+                        User.getCurrentUser().getConfirmedConnections().add(newConnection);
 
                         EventBus.getDefault().post(new Events.ConfirmedConnectionEvent(newConnection));
 

@@ -13,8 +13,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import samandsimons.adventure.aittenantfragmentdemo.R;
 import samandsimons.adventure.aittenantfragmentdemo.adapter.recycler.PendingConnectionRecyclerAdapter;
+import samandsimons.adventure.aittenantfragmentdemo.event.Events;
 import samandsimons.adventure.aittenantfragmentdemo.model.Connection;
 
 /**
@@ -30,6 +34,9 @@ public class PendingConnectionsFragment extends Fragment implements OnConnection
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        EventBus.getDefault().register(this);
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.pending_connections_fragment, container, false);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.pendingConnectionRecycler);
@@ -41,6 +48,17 @@ public class PendingConnectionsFragment extends Fragment implements OnConnection
         recyclerView.setLayoutManager(layoutManager);
 
         return view;
+    }
+
+    @Subscribe
+    public void onEvent(Events.PendingConnectionEvent event) {
+        addConnection(event.getPending());
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
 
