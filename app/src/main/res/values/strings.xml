@@ -10,7 +10,7 @@
     <string name="events">Events</string>
     <string name="payments">Payments</string>
     <string name="messages">Messages</string>
-    <string name="confirmedConnections">Connections</string>
+    <string name="connections">Connections</string>
     <string name="pending">Pending</string>
     <string name="requested">Requested</string>
 </resources>
