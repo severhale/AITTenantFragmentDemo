@@ -100,6 +100,7 @@ public class PaymentRecyclerAdapter extends RecyclerView.Adapter<PaymentRecycler
             Log.w("TAG", "ERROR REMOVING CONNECTION");
             return;
         }
+        paymentList.set(index, payment);
         notifyItemChanged(index);
     }
 

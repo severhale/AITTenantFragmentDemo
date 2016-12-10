@@ -105,6 +105,7 @@ public class Dashboard extends BaseActivity
         super.onDestroy();
         EventBus.getDefault().unregister(User.getCurrentUser());
         FirebaseListener.stopAllListeners();
+        User.getCurrentUser().initializeData();
     }
 
     @Override
@@ -154,7 +155,9 @@ public class Dashboard extends BaseActivity
 
         if (id == R.id.nav_logout) {
             FirebaseAuth.getInstance().signOut();
+            EventBus.getDefault().unregister(User.getCurrentUser());
             User.getCurrentUser().initializeData();
+            FirebaseListener.stopAllListeners();
             startActivity(new Intent(Dashboard.this, LoginActivity.class));
             finish();
         }

@@ -13,6 +13,7 @@ public class ProgressActivity extends AppCompatActivity {
     public void showProgressDialog() {
         if (progressDialog == null) {
             progressDialog = new ProgressDialog(this);
+            progressDialog.setCancelable(false);
             progressDialog.setMessage("Loading...");
         }
 
