@@ -23,6 +23,8 @@ public class User {
         if (instance == null) {
             instance = new User();
             instance.setConfirmedConnections(new ArrayList<Connection>());
+            instance.setPendingConnections(new ArrayList<Connection>());
+            instance.setRequestedConnections(new ArrayList<Connection>());
             instance.setMessages(new ArrayList<Message>());
             instance.setPayments(new ArrayList<Payment>());
             instance.setEvents(new ArrayList<Event>());

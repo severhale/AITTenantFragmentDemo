@@ -86,7 +86,7 @@ public class MessageFragment extends Fragment implements DataFragment {
             case MESSAGE_REQUEST:
                 if (resultCode == Activity.RESULT_OK) {
                     String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                    String displayName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+                    String displayName = FirebaseAuth.getInstance().getCurrentUser().getEmail();
                     Connection selectedConnection = (Connection) data.getSerializableExtra(AddMessageDialogFragment.CONNECTION);
                     String subject = data.getStringExtra(AddMessageDialogFragment.SUBJECT);
                     String body = data.getStringExtra(AddMessageDialogFragment.BODY);
