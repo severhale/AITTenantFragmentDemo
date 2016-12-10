@@ -16,8 +16,34 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:text="NAME"
-            android:textSize="30sp"
+            android:textSize="20sp"
             android:layout_centerVertical="true"/>
+
+        <TextView
+            android:id="@+id/tvPaymentAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="$$$"
+            android:textSize="20sp"
+            android:layout_margin="5dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"/>
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+
+        <TextView
+            android:id="@+id/tvPaymentSender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_margin="5dp"
+            android:text="FROM"
+            android:textSize="15sp"/>
 
         <TextView
             android:id="@+id/tvPaymentDate"
@@ -28,31 +54,6 @@
             android:layout_margin="5dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"/>
-
-
-    </RelativeLayout>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-        <TextView
-            android:id="@+id/tvPaymentAmount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="$$$"
-            android:textSize="40sp"
-            android:layout_margin="5dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"/>
-
-        <TextView
-            android:id="@+id/tvPaymentSender"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_margin="5dp"
-            android:text="FROM"
-            android:textSize="15sp"/>
 
 
 
