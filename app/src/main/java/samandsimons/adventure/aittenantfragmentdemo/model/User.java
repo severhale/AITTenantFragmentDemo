@@ -8,6 +8,7 @@ import com.google.firebase.database.Exclude;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import samandsimons.adventure.aittenantfragmentdemo.event.Events;
@@ -257,7 +258,8 @@ public class User {
     public List<Event> getEventsForUser(String uid) {
         ArrayList<Event> eventsForUser = new ArrayList<Event>();
         for (Event event : events) {
-            if (event.getEventUsers().containsKey(uid)) {
+            HashMap<String, Connection> map = event.getEventUsers();
+            if (map.containsKey(uid)) {
                 eventsForUser.add(event);
             }
         }

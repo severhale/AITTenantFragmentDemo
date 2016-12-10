@@ -53,6 +53,12 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
     }
 
     public void addItem(Event newEvent) {
+        if (Dashboard.hasFilterConnection() &&
+                !newEvent.getEventUsers().containsKey(Dashboard.getFilterId()) &&
+                !newEvent.getFromId().equals(Dashboard.getFilterId())) {
+            // message is not to/from filter id, ignore it
+            return;
+        }
         eventList.add(newEvent);
         notifyItemInserted(eventList.size() - 1);
     }

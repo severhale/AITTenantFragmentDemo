@@ -17,6 +17,7 @@ public class Event {
     private HashMap<String, Connection> eventUsers;
 
     public Event() {
+        eventUsers = new HashMap<>();
     }
 
     public Event(String fromId, String fromDisplay, String title, long time) {

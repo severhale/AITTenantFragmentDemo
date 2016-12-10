@@ -14,4 +14,10 @@
     <string name="pending">Pending</string>
     <string name="requested">Requested</string>
     <string name="dashboard">Dashboard</string>
+    <string name="title_activity_drawer_dashboard">Dashboard</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 </resources>

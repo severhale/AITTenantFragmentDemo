@@ -1,14 +1,22 @@
 package samandsimons.adventure.aittenantfragmentdemo;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
-import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuInflater;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -16,11 +24,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import samandsimons.adventure.aittenantfragmentdemo.adapter.pager.DashboardPagerAdapter;
 import samandsimons.adventure.aittenantfragmentdemo.fragment.dashboard.CreateDialogInterface;
-import samandsimons.adventure.aittenantfragmentdemo.fragment.dashboard.MessageFragment;
 import samandsimons.adventure.aittenantfragmentdemo.model.Connection;
 import samandsimons.adventure.aittenantfragmentdemo.model.User;
 
-public class Dashboard extends BaseActivity {
+public class Dashboard extends BaseActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     public static final String FILTER_CONNECTION_EXTRA = "FILTER_CONNECTION_EXTRA";
     private static Connection FILTER_CONNECTION;
@@ -45,10 +53,8 @@ public class Dashboard extends BaseActivity {
     }
 
     @Override
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
         if (!FirebaseListener.isStarted()) {
             FirebaseListener.startAllListeners();
@@ -56,9 +62,10 @@ public class Dashboard extends BaseActivity {
         if (!EventBus.getDefault().isRegistered(User.getCurrentUser())) {
             EventBus.getDefault().register(User.getCurrentUser());
         }
-        setContentView(R.layout.activity_dashboard);
+        setContentView(R.layout.activity_drawer_dashboard);
 
         ButterKnife.bind(this);
+
         if (getIntent().hasExtra(FILTER_CONNECTION_EXTRA)) {
             FILTER_CONNECTION = (Connection) getIntent().getSerializableExtra(FILTER_CONNECTION_EXTRA);
             setTitle(FILTER_CONNECTION.getDisplayName());
@@ -67,6 +74,18 @@ public class Dashboard extends BaseActivity {
             FILTER_CONNECTION = null;
             setTitle(getString(R.string.dashboard));
         }
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
         pagerAdapter = new DashboardPagerAdapter(getSupportFragmentManager(), getApplicationContext());
         pager.setOffscreenPageLimit(3);
@@ -80,12 +99,24 @@ public class Dashboard extends BaseActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        if (hasFilterConnection()) {
-            return false;
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
+        if (hasFilterConnection()) {
+            inflater.inflate(R.menu.menu_limited, menu);
+        }
+        else {
+            inflater.inflate(R.menu.menu_main, menu);
+        }
         return true;
     }
 
@@ -104,6 +135,26 @@ public class Dashboard extends BaseActivity {
             default:
                 return true;
         }
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_logout) {
+            FirebaseAuth.getInstance().signOut();
+            startActivity(new Intent(Dashboard.this, LoginActivity.class));
+            finish();
+        }
+        else if (id == R.id.nav_about) {
+            Toast.makeText(this, "Created by Sam Grund (sgrund@oberlin.edu) and\nSimon Ever-Hale (severhal@oberlin.edu)", Toast.LENGTH_LONG).show();
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 
     private Fragment findFragmentByTag(int page) {

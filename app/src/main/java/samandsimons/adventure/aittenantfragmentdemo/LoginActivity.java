@@ -22,7 +22,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import samandsimons.adventure.aittenantfragmentdemo.model.User;
 
-public class MainActivity extends ProgressActivity {
+public class LoginActivity extends ProgressActivity {
 
     @BindView(R.id.etEmail)
     EditText etEmail;
@@ -44,6 +44,15 @@ public class MainActivity extends ProgressActivity {
         database = FirebaseDatabase.getInstance().getReference();
         firebaseAuth = FirebaseAuth.getInstance();
 
+        firebaseAuth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                if (firebaseAuth.getCurrentUser() != null) {
+                    startDashboard();
+                }
+            }
+        });
+
         etEmail.setText("severhal@oberlin.edu");
         etPassword.setText("123456");
     }
@@ -63,11 +72,10 @@ public class MainActivity extends ProgressActivity {
                         if (task.isSuccessful()) {
                             FirebaseUser fbUser = task.getResult().getUser();
                             User.getCurrentUser().setFirebaseUser(fbUser);
-                            startActivity(new Intent(MainActivity.this, Dashboard.class));
-                            finish();
+                            startDashboard();
                         }
                         else {
-                            Toast.makeText(MainActivity.this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -95,13 +103,18 @@ public class MainActivity extends ProgressActivity {
                             database.child("users").child(fbUser.getUid()).setValue(user);
                             database.child("emails").child(encodeEmail(fbUser.getEmail())).setValue(fbUser.getUid());
 
-                            Toast.makeText(MainActivity.this, "User created", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "User created", Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(MainActivity.this, task.getException().getLocalizedMessage(),
+                            Toast.makeText(LoginActivity.this, task.getException().getLocalizedMessage(),
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
+    }
+
+    private void startDashboard() {
+        startActivity(new Intent(LoginActivity.this, Dashboard.class));
+        finish();
     }
 
     private String usernameFromEmail(String email) {

@@ -7,11 +7,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -20,10 +18,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import samandsimons.adventure.aittenantfragmentdemo.ConnectionListInterface;
-import samandsimons.adventure.aittenantfragmentdemo.MainActivity;
+import samandsimons.adventure.aittenantfragmentdemo.LoginActivity;
 import samandsimons.adventure.aittenantfragmentdemo.R;
 import samandsimons.adventure.aittenantfragmentdemo.model.Connection;
-import samandsimons.adventure.aittenantfragmentdemo.model.User;
 
 /**
  * Created by samgrund on 12/9/16.
@@ -69,7 +66,7 @@ public class AddConnectionDialogFragment extends DialogFragment {
                 if (name.equals("")) {
                     etUserName.setError("You must enter a valid username");
                 } else {
-                    FirebaseDatabase.getInstance().getReference().child("emails").child(MainActivity.encodeEmail(name)).
+                    FirebaseDatabase.getInstance().getReference().child("emails").child(LoginActivity.encodeEmail(name)).
                             addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
