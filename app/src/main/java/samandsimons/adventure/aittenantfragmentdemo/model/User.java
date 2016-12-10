@@ -233,4 +233,34 @@ public class User {
         }
         requestedConnections.remove(index);
     }
+
+    public List<Message> getMessagesForUser(String uid) {
+        ArrayList<Message> messagesForUser = new ArrayList<Message>();
+        for (Message message : messages) {
+            if (uid.equals(message.getFromId()) || uid.equals(message.getToId())) {
+                messagesForUser.add(message);
+            }
+        }
+        return messagesForUser;
+    }
+
+    public List<Payment> getPaymentsForUser(String uid) {
+        ArrayList<Payment> paymentsForUser = new ArrayList<Payment>();
+        for (Payment payment : payments) {
+            if (uid.equals(payment.getFromId()) || uid.equals(payment.getToId())) {
+                paymentsForUser.add(payment);
+            }
+        }
+        return paymentsForUser;
+    }
+
+    public List<Event> getEventsForUser(String uid) {
+        ArrayList<Event> eventsForUser = new ArrayList<Event>();
+        for (Event event : events) {
+            if (uid.equals(event.getFromId()) || uid.equals(event.getToId())) {
+                eventsForUser.add(event);
+            }
+        }
+        return eventsForUser;
+    }
 }

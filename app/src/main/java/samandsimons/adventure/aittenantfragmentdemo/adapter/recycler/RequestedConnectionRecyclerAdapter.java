@@ -58,7 +58,11 @@ public class RequestedConnectionRecyclerAdapter extends RecyclerView.Adapter<Req
 
             name = (TextView) itemView.findViewById(R.id.tvRequestedConnectionName);
             btnCancel = (Button) itemView.findViewById(R.id.btnCancelConnectionRequest);
+
+            itemView.setTag(this);
         }
+
+
     }
 
     @Override

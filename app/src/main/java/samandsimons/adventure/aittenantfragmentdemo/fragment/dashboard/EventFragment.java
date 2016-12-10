@@ -89,7 +89,7 @@ public class EventFragment extends Fragment {
                     ArrayList<Connection> recipientList = new ArrayList<>();
                     recipientList.add(recipient);
 
-                    Event event = new Event(id, email, title, date);
+                    Event event = new Event(recipient.getId(), recipient.getDisplayName(), id, email, title, date);
                     postEvent(event, recipientList);
                 }
                 break;
