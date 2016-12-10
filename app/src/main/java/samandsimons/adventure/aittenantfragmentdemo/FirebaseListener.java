@@ -50,6 +50,9 @@ public class FirebaseListener {
 
                     @Override
                     public void onChildRemoved(DataSnapshot dataSnapshot) {
+                        Connection connection = dataSnapshot.getValue(Connection.class);
+
+                        EventBus.getDefault().post(new Events.RequestedConnectionRemoved(connection));
                     }
 
                     @Override
@@ -146,6 +149,9 @@ public class FirebaseListener {
 
                     @Override
                     public void onChildRemoved(DataSnapshot dataSnapshot) {
+                        Connection connection = dataSnapshot.getValue(Connection.class);
+
+                        EventBus.getDefault().post(new Events.PendingConnectionRemoved(connection));
                     }
 
                     @Override
@@ -213,6 +219,9 @@ public class FirebaseListener {
 
                     @Override
                     public void onChildRemoved(DataSnapshot dataSnapshot) {
+                        Connection connection = dataSnapshot.getValue(Connection.class);
+
+                        EventBus.getDefault().post(new Events.ConfirmedConnectionRemoved(connection));
                     }
 
                     @Override

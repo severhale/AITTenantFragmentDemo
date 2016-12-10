@@ -29,6 +29,22 @@ public class ConfirmedConnectionRecyclerAdapter extends RecyclerView.Adapter<Con
         return connectionList;
     }
 
+    public void removeConnection(Connection connection) {
+        int index = -1;
+        for (int i = 0; i < connectionList.size(); i++) {
+            if (connection.getId().equals(connectionList.get(i).getId())) {
+                index = i;
+                break;
+            }
+        }
+        if (index == -1) {
+            Log.w("TAG", "ERROR REMOVING CONNECTION");
+            return;
+        }
+        connectionList.remove(index);
+        notifyItemRemoved(index);
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         private TextView name;
@@ -55,14 +71,6 @@ public class ConfirmedConnectionRecyclerAdapter extends RecyclerView.Adapter<Con
     @Override
     public int getItemCount() {
         return connectionList.size();
-    }
-
-    public void updateForUser(User user) {
-        Log.d("TAG", "Updating for user with " + user.getConfirmedConnections().size() + " confirmed connections.");
-
-        connectionList = user.getConfirmedConnections();
-
-        notifyDataSetChanged();
     }
 
     public void addConnection(Connection newConnection) {

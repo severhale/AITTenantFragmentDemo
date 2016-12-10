@@ -1,5 +1,7 @@
 package samandsimons.adventure.aittenantfragmentdemo.model;
 
+import android.util.Log;
+
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.Exclude;
 
@@ -179,5 +181,56 @@ public class User {
     @Subscribe
     public void onEvent(Events.EventEvent event) {
         events.add(event.getEvent());
+    }
+
+    @Subscribe
+    public void onEvent(Events.ConfirmedConnectionRemoved event) {
+        Connection connection = event.getConnection();
+        int index = -1;
+        for (int i = 0; i < confirmedConnections.size(); i++) {
+            if (connection.getId().equals(confirmedConnections.get(i).getId())) {
+                index = i;
+                break;
+            }
+        }
+        if (index == -1) {
+            Log.w("TAG", "ERROR REMOVING CONNECTION");
+            return;
+        }
+        confirmedConnections.remove(index);
+    }
+
+    @Subscribe
+    public void onEvent(Events.PendingConnectionRemoved event) {
+        Connection connection = event.getConnection();
+        int index = -1;
+        for (int i = 0; i < pendingConnections.size(); i++) {
+            if (connection.getId().equals(pendingConnections.get(i).getId())) {
+                index = i;
+                break;
+            }
+        }
+        if (index == -1) {
+            Log.w("TAG", "ERROR REMOVING CONNECTION");
+            return;
+        }
+        pendingConnections.remove(index);
+    }
+
+    @Subscribe
+    public void onEvent(Events.RequestedConnectionRemoved event) {
+        Connection connection = event.getConnection();
+        int index = -1;
+        for (int i = 0; i < requestedConnections.size(); i++) {
+            if (connection.getId().equals(requestedConnections.get(i).getId())) {
+                index = i;
+                break;
+            }
+        }
+        if (index == -1) {
+            Log.w("TAG", "ERROR REMOVING CONNECTION");
+            return;
+        }
+        requestedConnections.remove(index);
     }
 }

@@ -8,11 +8,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import samandsimons.adventure.aittenantfragmentdemo.R;
-import samandsimons.adventure.aittenantfragmentdemo.fragment.connections.OnConnectionChangedListener;
 import samandsimons.adventure.aittenantfragmentdemo.model.Connection;
 import samandsimons.adventure.aittenantfragmentdemo.model.User;
 
@@ -22,11 +25,25 @@ import samandsimons.adventure.aittenantfragmentdemo.model.User;
 public class PendingConnectionRecyclerAdapter extends RecyclerView.Adapter<PendingConnectionRecyclerAdapter.ViewHolder>{
 
     private List<Connection> connectionList;
-    private OnConnectionChangedListener changedListener;
 
-    public PendingConnectionRecyclerAdapter(OnConnectionChangedListener changedListener) {
-        this.connectionList = new ArrayList<Connection>();
-        this.changedListener = changedListener;
+    public PendingConnectionRecyclerAdapter() {
+        this.connectionList = User.getCurrentUser().getPendingConnections();
+    }
+
+    public void removeConnection(Connection connection) {
+        int index = -1;
+        for (int i = 0; i < connectionList.size(); i++) {
+            if (connection.getId().equals(connectionList.get(i).getId())) {
+                index = i;
+                break;
+            }
+        }
+        if (index == -1) {
+            Log.w("TAG", "ERROR REMOVING CONNECTION");
+            return;
+        }
+        connectionList.remove(index);
+        notifyItemRemoved(index);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
@@ -59,19 +76,16 @@ public class PendingConnectionRecyclerAdapter extends RecyclerView.Adapter<Pendi
         holder.btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                connection.setConnectionType(Connection.State.CONFIRMED);
-                connectionList.remove(position);
-                notifyItemRemoved(position);
                 // this is where we do it
-                changedListener.connectionChanged(connection);
+                cancelConnection(connection);
+                confirmConnection(connection);
             }
         });
 
         holder.btnDeny.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                connectionList.remove(position);
-                notifyItemRemoved(position);
+                cancelConnection(connection);
             }
         });
 
@@ -83,13 +97,35 @@ public class PendingConnectionRecyclerAdapter extends RecyclerView.Adapter<Pendi
 
     }
 
-    public List<Connection> getConnectionList() {
-        return connectionList;
-    }
-
     @Override
     public int getItemCount() {
         return connectionList.size();
+    }
+
+
+    public void confirmConnection(Connection connection) {
+        String myId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String myDisplay = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        String theirId = connection.getId();
+
+        Connection theirConnection = new Connection(myId, myDisplay);
+
+        DatabaseReference outRef = FirebaseDatabase.getInstance().getReference().child("users").child(theirId).child("connections");
+        outRef.child("confirmed").child(myId).setValue(theirConnection);
+
+        DatabaseReference inRef = FirebaseDatabase.getInstance().getReference().child("users").child(myId).child("connections");
+        inRef.child("confirmed").child(theirId).setValue(connection);
+    }
+
+    public void cancelConnection(Connection connection) {
+        String myId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String theirId = connection.getId();
+
+        DatabaseReference outRef = FirebaseDatabase.getInstance().getReference().child("users").child(theirId).child("connections");
+        outRef.child("outgoing").child(myId).removeValue();
+
+        DatabaseReference inRef = FirebaseDatabase.getInstance().getReference().child("users").child(myId).child("connections");
+        inRef.child("incoming").child(theirId).removeValue();
     }
 
 

@@ -55,6 +55,11 @@ public class ConfirmedConnectionsFragment extends Fragment {
         addConnection(event.getConfirmed());
     }
 
+    @Subscribe
+    public void onEvent(Events.ConfirmedConnectionRemoved event) {
+        removeConnection(event.getConnection());
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -63,5 +68,9 @@ public class ConfirmedConnectionsFragment extends Fragment {
 
     public void addConnection(Connection connection) {
         recyclerAdapter.addConnection(connection);
+    }
+
+    public void removeConnection(Connection connection) {
+        recyclerAdapter.removeConnection(connection);
     }
 }

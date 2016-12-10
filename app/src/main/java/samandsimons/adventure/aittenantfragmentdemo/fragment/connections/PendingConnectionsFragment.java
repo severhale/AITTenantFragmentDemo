@@ -24,7 +24,7 @@ import samandsimons.adventure.aittenantfragmentdemo.model.Connection;
 /**
  * Created by samgrund on 12/9/16.
  */
-public class PendingConnectionsFragment extends Fragment implements OnConnectionChangedListener {
+public class PendingConnectionsFragment extends Fragment {
 
     private PendingConnectionRecyclerAdapter recyclerAdapter;
 
@@ -40,7 +40,7 @@ public class PendingConnectionsFragment extends Fragment implements OnConnection
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.pending_connections_fragment, container, false);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.pendingConnectionRecycler);
-        recyclerAdapter = new PendingConnectionRecyclerAdapter(this);
+        recyclerAdapter = new PendingConnectionRecyclerAdapter();
         recyclerView.setAdapter(recyclerAdapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setReverseLayout(true);
@@ -55,6 +55,15 @@ public class PendingConnectionsFragment extends Fragment implements OnConnection
         addConnection(event.getPending());
     }
 
+    @Subscribe
+    public void onEvent(Events.PendingConnectionRemoved event) {
+        removeConnection(event.getConnection());
+    }
+
+    private void removeConnection(Connection connection) {
+        recyclerAdapter.removeConnection(connection);
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -64,19 +73,5 @@ public class PendingConnectionsFragment extends Fragment implements OnConnection
 
     public void addConnection(Connection newConnection) {
         recyclerAdapter.addConnection(newConnection);
-    }
-
-    @Override
-    public void connectionChanged(Connection connection) {
-        String myId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        String theirId = connection.getId();
-
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("users").child(theirId).child("connections");
-        ref.child("outgoing").child(myId).removeValue();
-        ref.child("confirmed").child(myId).setValue(connection);
-
-        DatabaseReference inRef = FirebaseDatabase.getInstance().getReference().child("users").child(myId).child("connections");
-        inRef.child("incoming").child(theirId).removeValue();
-        inRef.child("confirmed").child(theirId).setValue(connection);
     }
 }

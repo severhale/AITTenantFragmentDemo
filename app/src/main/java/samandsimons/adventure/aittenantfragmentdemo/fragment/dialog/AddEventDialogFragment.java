@@ -59,7 +59,7 @@ public class AddEventDialogFragment extends DialogFragment {
             public void onClick(DialogInterface dialog, int which) {
                 Connection selectedConnection = (Connection) recipients.getSelectedItem();
                 if (selectedConnection == null) {
-                    selectedConnection = new Connection("placeholderid", "placeholder name", Connection.State.CONFIRMED);
+                    selectedConnection = new Connection("placeholderid", "placeholder name");
                     Log.d("TAG", "Connection was null");
                 }
                 int hour;

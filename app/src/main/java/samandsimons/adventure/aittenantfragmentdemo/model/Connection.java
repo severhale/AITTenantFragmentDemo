@@ -7,15 +7,8 @@ import java.io.Serializable;
  */
 public class Connection implements Serializable {
 
-    public enum State {
-        INCOMING,
-        OUTGOING,
-        CONFIRMED
-    }
-
     private String id;
     private String displayName;
-    private State state;
 
     // VERY IMPORTANT: We want our connection to only display the email
     // This way we can use it to populate a spinner
@@ -24,21 +17,12 @@ public class Connection implements Serializable {
         return displayName;
     }
 
-    public State getConnectionType() {
-        return state;
-    }
-
-    public void setConnectionType(State type) {
-        state = type;
-    }
-
     public Connection() {
     }
 
-    public Connection(String id, String displayName, State state) {
+    public Connection(String id, String displayName) {
         this.id = id;
         this.displayName = displayName;
-        this.state = state;
     }
 
     public String getId() {

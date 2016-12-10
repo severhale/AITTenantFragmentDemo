@@ -55,12 +55,6 @@ public class PaymentRecyclerAdapter extends RecyclerView.Adapter<PaymentRecycler
         return paymentList.size();
     }
 
-    public void updateForUser(User user) {
-        paymentList = user.getPayments();
-        userType = User.UserType.values()[user.getType()];
-        notifyDataSetChanged();
-    }
-
     public void addItem(Payment newPayment) {
         paymentList.add(newPayment);
         notifyItemInserted(paymentList.size() - 1);

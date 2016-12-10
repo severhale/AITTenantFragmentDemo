@@ -50,6 +50,15 @@ public class RequestedConnectionsFragment extends Fragment{
         addConnection(event.getRequested());
     }
 
+    @Subscribe
+    public void onEvent(Events.RequestedConnectionRemoved event) {
+        removeConnection(event.getConnection());
+    }
+
+    private void removeConnection(Connection connection) {
+        recyclerAdapter.removeConnection(connection);
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();

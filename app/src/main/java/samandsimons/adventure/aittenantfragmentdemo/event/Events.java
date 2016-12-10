@@ -82,5 +82,44 @@ public class Events {
         }
     }
 
+    public static class ConfirmedConnectionRemoved {
+        private Connection connection;
+
+        public Connection getConnection() {
+            return connection;
+        }
+
+        public ConfirmedConnectionRemoved(Connection connection) {
+
+            this.connection = connection;
+        }
+    }
+
+    public static class PendingConnectionRemoved {
+        private Connection connection;
+
+        public PendingConnectionRemoved(Connection connection) {
+            this.connection = connection;
+        }
+
+        public Connection getConnection() {
+
+            return connection;
+        }
+    }
+
+    public static class RequestedConnectionRemoved {
+        private Connection connection;
+
+        public Connection getConnection() {
+            return connection;
+        }
+
+        public RequestedConnectionRemoved(Connection connection) {
+
+            this.connection = connection;
+        }
+    }
+
 
 }

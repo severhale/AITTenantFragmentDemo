@@ -82,8 +82,8 @@ public class AddConnectionDialogFragment extends DialogFragment {
                                     String fromDisplayName = FirebaseAuth.getInstance().getCurrentUser().getEmail();
 
 
-                                    Connection outConnection = new Connection(toId, name, Connection.State.OUTGOING);
-                                    Connection inConnection = new Connection(fromId, fromDisplayName, Connection.State.INCOMING);
+                                    Connection outConnection = new Connection(toId, name);
+                                    Connection inConnection = new Connection(fromId, fromDisplayName);
 
                                     connectionListInterface.addNewConnection(outConnection, inConnection);
                                 }

@@ -51,7 +51,7 @@ public class AddPaymentDialogFragment extends DialogFragment {
             public void onClick(DialogInterface dialog, int which) {
                 Connection selectedConnection = (Connection) spinner.getSelectedItem();
                 if (selectedConnection == null) {
-                    selectedConnection = new Connection("placeholderid", "placeholder name", Connection.State.CONFIRMED);
+                    selectedConnection = new Connection("placeholderid", "placeholder name");
                     Log.d("TAG", "Connection was null");
                 }
                 Intent intent = new Intent();

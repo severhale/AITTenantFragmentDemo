@@ -73,9 +73,4 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<MessageRecycler
         return messageList.size();
     }
 
-    public void updateForUser(User user) {
-        messageList = user.getMessages();
-        notifyDataSetChanged();
-    }
-
 }
