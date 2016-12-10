@@ -62,10 +62,10 @@ public class PaymentRecyclerAdapter extends RecyclerView.Adapter<PaymentRecycler
                 public void onClick(View v) {
                     payment.setConfirmed(true);
 
-                    FirebaseDatabase.getInstance().getReference().child("users").child(payment.getFromId()).child("payments")
+                    FirebaseDatabase.getInstance().getReference().child("users").child(payment.getToId()).child("payments")
                             .child(payment.getKey()).child("confirmed").setValue(true);
 
-                    FirebaseDatabase.getInstance().getReference().child("users").child(payment.getToId()).child("payments")
+                    FirebaseDatabase.getInstance().getReference().child("users").child(payment.getFromId()).child("payments")
                             .child(payment.getKey()).child("confirmed").setValue(true);
 
                     //paymentConfirmed(holder, payment);

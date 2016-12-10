@@ -86,7 +86,7 @@ public class PaymentFragment extends Fragment implements CreateDialogInterface{
         DatabaseReference postToCurrentUser = usersReference.child(out.getFromId()).child("payments").push();
         postToCurrentUser.setValue(out);
 
-        DatabaseReference postToOtherUser = usersReference.child(in.getToId()).child("payments").push();
+        DatabaseReference postToOtherUser = usersReference.child(in.getToId()).child("payments").child(postToCurrentUser.getKey());
         postToOtherUser.setValue(in);
     }
 
