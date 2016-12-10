@@ -20,6 +20,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import samandsimons.adventure.aittenantfragmentdemo.R;
@@ -85,12 +86,11 @@ public class EventFragment extends Fragment {
                     String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
                     long date = data.getLongExtra(AddEventDialogFragment.EVENT_TIME, 0);
                     String title = data.getStringExtra(AddEventDialogFragment.EVENT_NAME);
-                    final Connection recipient = (Connection) data.getSerializableExtra(AddEventDialogFragment.CONNECTION);
-                    ArrayList<Connection> recipientList = new ArrayList<>();
-                    recipientList.add(recipient);
+                    final HashMap<String, Connection> recipients = (HashMap<String, Connection>) data.getSerializableExtra(AddEventDialogFragment.CONNECTION);
 
-                    Event event = new Event(recipient.getId(), recipient.getDisplayName(), id, email, title, date);
-                    postEvent(event, recipientList);
+                    Event event = new Event(id, email, title, date);
+                    event.setEventUsers(recipients);
+                    postEvent(event, recipients);
                 }
                 break;
         }
@@ -102,15 +102,15 @@ public class EventFragment extends Fragment {
         recyclerAdapter.addItem(eventevent.getEvent());
     }
 
-    public void postEvent(Event event, List<Connection> recipients) {
+    public void postEvent(Event event, HashMap<String, Connection> recipients) {
         String fromId = event.getFromId();
         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("users");
 
-        DatabaseReference newEventRef = usersRef.child(event.getFromId()).child("events").push();
+        DatabaseReference newEventRef = usersRef.child(fromId).child("events").push();
         newEventRef.setValue(event);
 
-        for (Connection c : recipients) {
-            newEventRef = usersRef.child(c.getId()).child("events").push();
+        for (String c : recipients.keySet()) {
+            newEventRef = usersRef.child(c).child("events").push();
             newEventRef.setValue(event);
         }
     }

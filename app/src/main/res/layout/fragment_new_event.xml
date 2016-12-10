@@ -15,6 +15,12 @@
         android:layout_height="wrap_content"
         android:hint="Event name" />
 
+    <TextView
+        android:id="@+id/tvEventRecipients"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Participants: "/>
+
     <DatePicker
         android:id="@+id/eventDatePicker"
         android:layout_width="wrap_content"

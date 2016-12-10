@@ -1,6 +1,7 @@
 package samandsimons.adventure.aittenantfragmentdemo.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -8,27 +9,23 @@ import java.util.List;
  */
 
 public class Event {
-    private String toId;
-    private String toDisplay;
     private String fromId;
     private String fromDisplay;
     private long time;
     private String title;
 
-    private List<Connection> eventUsers;
+    private HashMap<String, Connection> eventUsers;
 
     public Event() {
     }
 
-    public Event(String toId, String toDisplay, String fromId, String fromDisplay, String title, long time) {
+    public Event(String fromId, String fromDisplay, String title, long time) {
         this.fromDisplay = fromDisplay;
         this.fromId = fromId;
-        this.toId = toId;
-        this.toDisplay = toDisplay;
         this.title = title;
         this.time = time;
 
-        this.eventUsers = new ArrayList<Connection>();
+        this.eventUsers = new HashMap<String, Connection>();
     }
 
     public String getFromDisplay() {
@@ -64,31 +61,15 @@ public class Event {
         this.time = time;
     }
 
-    public String getToId() {
-        return toId;
-    }
-
-    public void setToId(String toId) {
-        this.toId = toId;
-    }
-
-    public String getToDisplay() {
-        return toDisplay;
-    }
-
-    public void setToDisplay(String toDisplay) {
-        this.toDisplay = toDisplay;
-    }
-
-    public List<Connection> getEventUsers() {
+    public HashMap<String, Connection> getEventUsers() {
         return eventUsers;
     }
 
-    public void setEventUsers(List<Connection> eventUsers) {
+    public void setEventUsers(HashMap<String, Connection> eventUsers) {
         this.eventUsers = eventUsers;
     }
 
     public void addEventUser(Connection user) {
-        eventUsers.add(user);
+        eventUsers.put(user.getId(), user);
     }
 }

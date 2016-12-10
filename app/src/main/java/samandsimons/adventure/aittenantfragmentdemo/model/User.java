@@ -257,7 +257,7 @@ public class User {
     public List<Event> getEventsForUser(String uid) {
         ArrayList<Event> eventsForUser = new ArrayList<Event>();
         for (Event event : events) {
-            if (uid.equals(event.getFromId()) || uid.equals(event.getToId())) {
+            if (event.getEventUsers().containsKey(uid)) {
                 eventsForUser.add(event);
             }
         }

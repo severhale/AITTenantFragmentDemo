@@ -11,17 +11,22 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
 
 import samandsimons.adventure.aittenantfragmentdemo.R;
@@ -45,9 +50,27 @@ public class AddEventDialogFragment extends DialogFragment {
         View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_new_event, null);
         dialogBuilder.setView(view);
 
+        final HashMap<String, Connection> selectedConnections = new HashMap<String, Connection>();
+
+        final TextView tvRecipients = (TextView) view.findViewById(R.id.tvEventRecipients);
+
         final Spinner recipients = (Spinner) view.findViewById(R.id.spEventRecipient);
-        List<Connection> connectionList = User.getCurrentUser().getConfirmedConnections();
+        final List<Connection> connectionList = new ArrayList<Connection>(User.getCurrentUser().getConfirmedConnections());
         recipients.setAdapter(new ArrayAdapter<Connection>(getContext(), android.R.layout.simple_spinner_dropdown_item, connectionList));
+        recipients.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String participantString = "Participants: "+ tvRecipients.getText().toString();
+                Connection selected = (Connection) parent.getSelectedItem();
+                selectedConnections.put(selected.getId(), selected);
+                connectionList.remove(selected);
+                tvRecipients.setText(participantString + selected.getDisplayName()+ " ");
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // do nothing
+            }
+        });
 
         final DatePicker datePicker = (DatePicker) view.findViewById(R.id.eventDatePicker);
         final TimePicker timePicker = (TimePicker) view.findViewById(R.id.eventTimePicker);
@@ -57,9 +80,9 @@ public class AddEventDialogFragment extends DialogFragment {
         dialogBuilder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Connection selectedConnection = (Connection) recipients.getSelectedItem();
-                if (selectedConnection == null) {
-                    selectedConnection = new Connection("placeholderid", "placeholder name");
+
+                if (selectedConnections.isEmpty()) {
+                    selectedConnections.put("placeholderid", new Connection("placeholderid", "placeholder name"));
                     Log.d("TAG", "Connection was null");
                 }
                 int hour;
@@ -78,7 +101,7 @@ public class AddEventDialogFragment extends DialogFragment {
                 Intent intent = new Intent();
                 intent.putExtra(EVENT_NAME, eventName);
                 intent.putExtra(EVENT_TIME, date.getTimeInMillis());
-                intent.putExtra(CONNECTION, selectedConnection);
+                intent.putExtra(CONNECTION, selectedConnections);
 
                 getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
             }
