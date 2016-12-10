@@ -3,46 +3,60 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:weightSum="2"
-    android:orientation="horizontal">
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <TextView
             android:id="@+id/tvPaymentName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="NAME"/>
-
-        <TextView
-            android:id="@+id/tvPaymentSender"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="FROM"/>
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/tvPaymentAmount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="$$$"/>
+            android:layout_margin="5dp"
+            android:text="NAME"
+            android:textSize="30sp"
+            android:layout_centerVertical="true"/>
 
         <TextView
             android:id="@+id/tvPaymentDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="DATE"/>
+            android:text="DATE"
+            android:textSize="15sp"
+            android:layout_margin="5dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"/>
 
 
-    </LinearLayout>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <TextView
+            android:id="@+id/tvPaymentAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="$$$"
+            android:textSize="40sp"
+            android:layout_margin="5dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"/>
+
+        <TextView
+            android:id="@+id/tvPaymentSender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_margin="5dp"
+            android:text="FROM"
+            android:textSize="15sp"/>
+
+
+
+
+    </RelativeLayout>
 
 </LinearLayout>
