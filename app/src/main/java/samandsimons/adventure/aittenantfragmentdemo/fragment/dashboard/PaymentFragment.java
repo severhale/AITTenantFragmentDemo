@@ -70,8 +70,9 @@ public class PaymentFragment extends Fragment implements CreateDialogInterface{
                     Connection selectedConnection = (Connection) data.getSerializableExtra(AddPaymentDialogFragment.CONNECTION);
                     String name = data.getStringExtra(AddPaymentDialogFragment.NAME);
                     String amount = data.getStringExtra(AddPaymentDialogFragment.AMOUNT);
-                    Payment newPayment = new Payment(id, selectedConnection.getId(), displayName, selectedConnection.getDisplayName(), amount, System.currentTimeMillis(), name);
-                    postPayment(newPayment);
+                    Payment newOutgoingPayment = new Payment(id, selectedConnection.getId(), displayName, selectedConnection.getDisplayName(), amount, System.currentTimeMillis(), name, Payment.states.OUTGOING.ordinal());
+                    Payment newIncomingPayment = new Payment(id, selectedConnection.getId(), displayName, selectedConnection.getDisplayName(), amount, System.currentTimeMillis(), name, Payment.states.INCOMING.ordinal());
+                    postPayment(newOutgoingPayment, newIncomingPayment);
                 }
                 else if (resultCode == Activity.RESULT_CANCELED) {
                     // probably don't do anything
@@ -80,13 +81,13 @@ public class PaymentFragment extends Fragment implements CreateDialogInterface{
         }
     }
 
-    public void postPayment(Payment newPayment) {
+    public void postPayment(Payment out, Payment in) {
         DatabaseReference usersReference = FirebaseDatabase.getInstance().getReference().child("users");
-        DatabaseReference postToCurrentUser = usersReference.child(newPayment.getFromId()).child("payments").push();
-        postToCurrentUser.setValue(newPayment);
+        DatabaseReference postToCurrentUser = usersReference.child(out.getFromId()).child("payments").push();
+        postToCurrentUser.setValue(out);
 
-        DatabaseReference postToOtherUser = usersReference.child(newPayment.getToId()).child("payments").push();
-        postToOtherUser.setValue(newPayment);
+        DatabaseReference postToOtherUser = usersReference.child(in.getToId()).child("payments").push();
+        postToOtherUser.setValue(in);
     }
 
     @Override

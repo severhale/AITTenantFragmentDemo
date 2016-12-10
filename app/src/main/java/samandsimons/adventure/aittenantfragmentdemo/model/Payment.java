@@ -6,6 +6,8 @@ package samandsimons.adventure.aittenantfragmentdemo.model;
 
 public class Payment {
 
+    public enum states {OUTGOING, INCOMING}
+
     private String fromId;
     private String toId;
     private String fromDisplay;
@@ -13,11 +15,13 @@ public class Payment {
     private String amount;
     private long time;
     private String message;
+    private int state;
+    private boolean confirmed;
 
     public Payment() {
     }
 
-    public Payment(String fromId, String toId, String fromDisplay, String toDisplay, String amount, long time, String message) {
+    public Payment(String fromId, String toId, String fromDisplay, String toDisplay, String amount, long time, String message, int state) {
 
         this.fromId = fromId;
         this.toId = toId;
@@ -26,6 +30,9 @@ public class Payment {
         this.amount = amount;
         this.time = time;
         this.message = message;
+
+        this.state = state;
+        this.confirmed = false;
     }
 
     public String getFromDisplay() {
@@ -84,8 +91,19 @@ public class Payment {
         this.time = time;
     }
 
+    public int getState() {
+        return state;
+    }
 
+    public void setState(int state) {
+        this.state = state;
+    }
 
+    public boolean isConfirmed() {
+        return confirmed;
+    }
 
-
+    public void setConfirmed(boolean confirmed) {
+        this.confirmed = confirmed;
+    }
 }

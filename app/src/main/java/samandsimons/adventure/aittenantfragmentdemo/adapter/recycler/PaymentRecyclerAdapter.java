@@ -1,10 +1,13 @@
 package samandsimons.adventure.aittenantfragmentdemo.adapter.recycler;
 
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -42,8 +45,13 @@ public class PaymentRecyclerAdapter extends RecyclerView.Adapter<PaymentRecycler
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        Payment payment = paymentList.get(position);
+    public void onBindViewHolder(final ViewHolder holder, int position) {
+        final Payment payment = paymentList.get(position);
+
+        if (payment.isConfirmed()) {
+            paymentConfirmed(holder, payment);
+        }
+
         if (userType == User.UserType.LANDLORD) {
             holder.sender.setText(payment.getFromDisplay());
         } else {
@@ -52,7 +60,25 @@ public class PaymentRecyclerAdapter extends RecyclerView.Adapter<PaymentRecycler
         holder.amount.setText("$"+payment.getAmount());
         holder.date.setText(sdf.format(new Date(payment.getTime())));
         holder.name.setText(payment.getMessage());
+
+        holder.btnConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                payment.setConfirmed(true);
+                paymentConfirmed(holder, payment);
+            }
+        });
+
         Log.d("TAG", holder.amount.getText().toString());
+    }
+
+    private void paymentConfirmed(ViewHolder holder, Payment payment) {
+        if (payment.getState() == Payment.states.OUTGOING.ordinal()) {
+            holder.layout.setBackgroundColor(Color.parseColor("#b3ff88"));
+        } else {
+            holder.layout.setBackgroundColor(Color.parseColor("#ff7272"));
+        }
+        holder.btnConfirm.setVisibility(View.GONE);
     }
 
     @Override
@@ -72,14 +98,18 @@ public class PaymentRecyclerAdapter extends RecyclerView.Adapter<PaymentRecycler
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        public LinearLayout layout;
         public TextView name, amount, date, sender;
+        public Button btnConfirm;
 
         public ViewHolder(View itemView) {
             super(itemView);
+            layout = (LinearLayout) itemView.findViewById(R.id.payment_item_layout);
             name = (TextView) itemView.findViewById(R.id.tvPaymentName);
             amount = (TextView) itemView.findViewById(R.id.tvPaymentAmount);
             date = (TextView) itemView.findViewById(R.id.tvPaymentDate);
             sender = (TextView) itemView.findViewById(R.id.tvPaymentSender);
+            btnConfirm = (Button) itemView.findViewById(R.id.btnConfirmPayment);
         }
     }
 }
