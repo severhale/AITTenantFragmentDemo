@@ -3,9 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_open_userlist"
+        android:icon="@drawable/ic_action_users"
         android:orderInCategory="100"
         android:title="userList"
-        android:icon="@drawable/ic_action_users"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_open_dialog"
+        android:icon="@drawable/ic_add"
+        android:orderInCategory="101"
+        android:title="newDialog"
         app:showAsAction="always" />
 
 </menu>

@@ -13,4 +13,5 @@
     <string name="connections">Connections</string>
     <string name="pending">Pending</string>
     <string name="requested">Requested</string>
+    <string name="dashboard">Dashboard</string>
 </resources>

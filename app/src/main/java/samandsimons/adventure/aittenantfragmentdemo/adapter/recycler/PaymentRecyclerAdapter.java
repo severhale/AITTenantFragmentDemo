@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import samandsimons.adventure.aittenantfragmentdemo.Dashboard;
 import samandsimons.adventure.aittenantfragmentdemo.R;
 import samandsimons.adventure.aittenantfragmentdemo.model.Payment;
 import samandsimons.adventure.aittenantfragmentdemo.model.User;
@@ -26,7 +27,11 @@ public class PaymentRecyclerAdapter extends RecyclerView.Adapter<PaymentRecycler
     private SimpleDateFormat sdf;
 
     public PaymentRecyclerAdapter() {
-        paymentList = new ArrayList<>();
+        if (Dashboard.hasFilterConnection()) {
+            paymentList = User.getCurrentUser().getPaymentsForUser(Dashboard.getFilterId());
+        } else {
+            paymentList = new ArrayList<>(User.getCurrentUser().getPayments());
+        }
         sdf = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
     }
 
@@ -56,6 +61,12 @@ public class PaymentRecyclerAdapter extends RecyclerView.Adapter<PaymentRecycler
     }
 
     public void addItem(Payment newPayment) {
+        if (Dashboard.hasFilterConnection() &&
+                !newPayment.getFromId().equals(Dashboard.getFilterId()) &&
+                !newPayment.getToId().equals(Dashboard.getFilterId())) {
+            // message is not to/from filter id, ignore it
+            return;
+        }
         paymentList.add(newPayment);
         notifyItemInserted(paymentList.size() - 1);
     }

@@ -24,13 +24,20 @@ import samandsimons.adventure.aittenantfragmentdemo.model.User;
 
 public class FirebaseListener {
 
+    static boolean started = false;
+
     public static void startAllListeners() {
+        started = true;
         setupConfirmedListener();
         setupPendingListener();
         setupRequestedListener();
         setupMessageListener();
         setupEventListener();
         setupPaymentListener();
+    }
+
+    public static boolean isStarted() {
+        return started;
     }
 
     public static void setupRequestedListener() {

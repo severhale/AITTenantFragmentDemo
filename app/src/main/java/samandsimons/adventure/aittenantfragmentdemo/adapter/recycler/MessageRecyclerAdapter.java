@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import samandsimons.adventure.aittenantfragmentdemo.Dashboard;
 import samandsimons.adventure.aittenantfragmentdemo.R;
 import samandsimons.adventure.aittenantfragmentdemo.model.Message;
 import samandsimons.adventure.aittenantfragmentdemo.model.User;
@@ -23,16 +24,26 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<MessageRecycler
     SimpleDateFormat sdf;
 
     public MessageRecyclerAdapter() {
-        messageList = new ArrayList<>();
+        if (Dashboard.hasFilterConnection()) {
+            messageList = User.getCurrentUser().getMessagesForUser(Dashboard.getFilterId());
+        } else {
+            messageList = new ArrayList<>(User.getCurrentUser().getMessages());
+        }
         sdf = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
     }
 
     public void addItem(Message newMessage) {
+        if (Dashboard.hasFilterConnection() &&
+                !newMessage.getFromId().equals(Dashboard.getFilterId()) &&
+                !newMessage.getToId().equals(Dashboard.getFilterId())) {
+            // message is not to/from filter id, ignore it
+            return;
+        }
         messageList.add(newMessage);
         notifyItemInserted(messageList.size() - 1);
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView poster;
         private TextView subject;
         private TextView message;
@@ -54,7 +65,7 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<MessageRecycler
     @Override
     public MessageRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View note = LayoutInflater.from(parent.getContext()).inflate(
-                R.layout.item_message,parent,false);
+                R.layout.item_message, parent, false);
         return new ViewHolder(note);
     }
 

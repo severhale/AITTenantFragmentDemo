@@ -33,7 +33,7 @@ import samandsimons.adventure.aittenantfragmentdemo.model.User;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PaymentFragment extends Fragment {
+public class PaymentFragment extends Fragment implements CreateDialogInterface{
     public static final int PAYMENT_REQUEST = -1;
     public static final String PAYMENT_DIALOG = "PAYMENT_DIALOG";
 
@@ -53,19 +53,9 @@ public class PaymentFragment extends Fragment {
         recyclerAdapter = new PaymentRecyclerAdapter();
         recyclerView.setAdapter(recyclerAdapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        layoutManager.setReverseLayout(true);
+//        layoutManager.setReverseLayout(true);
         layoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
-
-        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fabNewPayment);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AddPaymentDialogFragment dialogFragment = new AddPaymentDialogFragment();
-                dialogFragment.setTargetFragment(PaymentFragment.this, PAYMENT_REQUEST);
-                dialogFragment.show(getFragmentManager().beginTransaction(), PAYMENT_DIALOG);
-            }
-        });
 
         return view;
     }
@@ -108,5 +98,12 @@ public class PaymentFragment extends Fragment {
     @Subscribe
     public void onEvent(Events.PaymentEvent event) {
         recyclerAdapter.addItem(event.getPayment());
+    }
+
+    @Override
+    public void openDialog() {
+        AddPaymentDialogFragment dialogFragment = new AddPaymentDialogFragment();
+        dialogFragment.setTargetFragment(PaymentFragment.this, PAYMENT_REQUEST);
+        dialogFragment.show(getFragmentManager().beginTransaction(), PAYMENT_DIALOG);
     }
 }

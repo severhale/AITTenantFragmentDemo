@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import samandsimons.adventure.aittenantfragmentdemo.Dashboard;
 import samandsimons.adventure.aittenantfragmentdemo.R;
 import samandsimons.adventure.aittenantfragmentdemo.model.Event;
 import samandsimons.adventure.aittenantfragmentdemo.model.User;
@@ -23,6 +24,11 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
     private SimpleDateFormat sdf;
 
     public EventRecyclerAdapter() {
+        if (Dashboard.hasFilterConnection()) {
+            eventList = User.getCurrentUser().getEventsForUser(Dashboard.getFilterId());
+        } else {
+            eventList = new ArrayList<>(User.getCurrentUser().getEvents());
+        }
         sdf = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
         eventList = new ArrayList<>();
     }
@@ -44,11 +50,6 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
     @Override
     public int getItemCount() {
         return eventList.size();
-    }
-
-    public void updateForUser(User user) {
-        eventList = user.getEvents();
-        notifyDataSetChanged();
     }
 
     public void addItem(Event newEvent) {

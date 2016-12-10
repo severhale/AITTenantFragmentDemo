@@ -21,6 +21,13 @@ public class DashboardPagerAdapter extends FragmentPagerAdapter {
     public DashboardPagerAdapter(FragmentManager fm, Context context) {
         super(fm);
         this.context = context;
+
+    }
+
+    public DashboardPagerAdapter(FragmentManager supportFragmentManager, Context applicationContext, String filterId) {
+        super(supportFragmentManager);
+        this.context = applicationContext;
+
     }
 
     @Override

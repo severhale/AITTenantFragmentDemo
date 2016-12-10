@@ -34,7 +34,7 @@ import samandsimons.adventure.aittenantfragmentdemo.model.User;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MessageFragment extends Fragment {
+public class MessageFragment extends Fragment implements CreateDialogInterface {
     public static final int MESSAGE_REQUEST = -1;
     public static final String MESSAGE_DIALOG = "MESSAGE_DIALOG";
 
@@ -58,19 +58,9 @@ public class MessageFragment extends Fragment {
         recyclerAdapter = new MessageRecyclerAdapter();
         recyclerView.setAdapter(recyclerAdapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        layoutManager.setReverseLayout(true);
+//        layoutManager.setReverseLayout(true);
         layoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
-
-        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fabNewMessage);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AddMessageDialogFragment dialogFragment = new AddMessageDialogFragment();
-                dialogFragment.setTargetFragment(MessageFragment.this, MESSAGE_REQUEST);
-                dialogFragment.show(getFragmentManager().beginTransaction(), MESSAGE_DIALOG);
-            }
-        });
         return view;
     }
 
@@ -112,5 +102,12 @@ public class MessageFragment extends Fragment {
     @Subscribe
     public void onEvent(Events.MessageEvent event) {
         recyclerAdapter.addItem(event.getMessage());
+    }
+
+    @Override
+    public void openDialog() {
+        AddMessageDialogFragment dialogFragment = new AddMessageDialogFragment();
+        dialogFragment.setTargetFragment(MessageFragment.this, MESSAGE_REQUEST);
+        dialogFragment.show(getFragmentManager().beginTransaction(), MESSAGE_DIALOG);
     }
 }

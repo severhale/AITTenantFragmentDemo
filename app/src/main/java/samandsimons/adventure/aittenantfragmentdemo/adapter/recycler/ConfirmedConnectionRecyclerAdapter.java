@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -77,7 +76,7 @@ public class ConfirmedConnectionRecyclerAdapter extends RecyclerView.Adapter<Con
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(context, Dashboard.class);
-                intent.putExtra(Dashboard.FILTER_ID, connectionList.get(position).getId());
+                intent.putExtra(Dashboard.FILTER_CONNECTION_EXTRA, connectionList.get(position));
                 context.startActivity(intent);
             }
         });

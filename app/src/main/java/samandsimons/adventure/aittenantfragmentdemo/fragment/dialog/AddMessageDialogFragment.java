@@ -16,6 +16,7 @@ import android.widget.Spinner;
 
 import java.util.List;
 
+import samandsimons.adventure.aittenantfragmentdemo.Dashboard;
 import samandsimons.adventure.aittenantfragmentdemo.R;
 import samandsimons.adventure.aittenantfragmentdemo.model.Connection;
 import samandsimons.adventure.aittenantfragmentdemo.model.User;
@@ -46,10 +47,25 @@ public class AddMessageDialogFragment extends DialogFragment {
                 dialog.dismiss();
             }
         });
+        List<Connection> possibleRecipients = User.getCurrentUser().getConfirmedConnections();
+        spinner = (Spinner) view.findViewById(R.id.spMessageRecipient);
+        if (Dashboard.hasFilterConnection()) {
+            spinner.setVisibility(View.INVISIBLE);
+        }
+        else {
+            ArrayAdapter<Connection> adapter = new ArrayAdapter<Connection>(getContext(), android.R.layout.simple_spinner_dropdown_item, possibleRecipients);
+            spinner.setAdapter(adapter);
+        }
         alertDialogBuilder.setPositiveButton("Send", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Connection selectedConnection = (Connection) spinner.getSelectedItem();
+                Connection selectedConnection;
+                if (Dashboard.hasFilterConnection()) {
+                    selectedConnection = Dashboard.getFilterConnection();
+                }
+                else {
+                    selectedConnection = (Connection) spinner.getSelectedItem();
+                }
                 if (selectedConnection == null) {
                     selectedConnection = new Connection("placeholderid", "placeholder name");
                     Log.d("TAG", "Connection was null");
@@ -61,10 +77,6 @@ public class AddMessageDialogFragment extends DialogFragment {
                 getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
             }
         });
-        List<Connection> possibleRecipients = User.getCurrentUser().getConfirmedConnections();
-        spinner = (Spinner) view.findViewById(R.id.spMessageRecipient);
-        ArrayAdapter<Connection> adapter = new ArrayAdapter<Connection>(getContext(), android.R.layout.simple_spinner_dropdown_item, possibleRecipients);
-        spinner.setAdapter(adapter);
 
         return alertDialogBuilder.create();
     }

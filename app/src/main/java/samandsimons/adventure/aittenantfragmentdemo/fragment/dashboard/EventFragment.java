@@ -33,7 +33,7 @@ import samandsimons.adventure.aittenantfragmentdemo.model.Event;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class EventFragment extends Fragment {
+public class EventFragment extends Fragment implements CreateDialogInterface {
 
     public static final String ADD_EVENT_DIALOG = "ADD_EVENT_DIALOG";
     public static final int ADD_EVENT_REQUEST_CODE = 1;
@@ -54,19 +54,9 @@ public class EventFragment extends Fragment {
         recyclerAdapter = new EventRecyclerAdapter();
         recyclerView.setAdapter(recyclerAdapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        layoutManager.setReverseLayout(true);
+//        layoutManager.setReverseLayout(true);
         layoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
-
-        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fabNewEvent);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AddEventDialogFragment dialogFragment = new AddEventDialogFragment();
-                dialogFragment.setTargetFragment(EventFragment.this, ADD_EVENT_REQUEST_CODE);
-                dialogFragment.show(getFragmentManager(), ADD_EVENT_DIALOG);
-            }
-        });
 
         return view;
     }
@@ -113,5 +103,12 @@ public class EventFragment extends Fragment {
             newEventRef = usersRef.child(c).child("events").push();
             newEventRef.setValue(event);
         }
+    }
+
+    @Override
+    public void openDialog() {
+        AddEventDialogFragment dialogFragment = new AddEventDialogFragment();
+        dialogFragment.setTargetFragment(EventFragment.this, ADD_EVENT_REQUEST_CODE);
+        dialogFragment.show(getFragmentManager(), ADD_EVENT_DIALOG);
     }
 }
