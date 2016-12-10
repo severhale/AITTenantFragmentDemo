@@ -40,9 +40,9 @@ public class PaymentRecyclerAdapter extends RecyclerView.Adapter<PaymentRecycler
     public void onBindViewHolder(ViewHolder holder, int position) {
         Payment payment = paymentList.get(position);
         if (userType == User.UserType.LANDLORD) {
-            holder.sender.setText(payment.getFromId());
+            holder.sender.setText(payment.getFromDisplay());
         } else {
-            holder.sender.setText(payment.getToId());
+            holder.sender.setText(payment.getToDisplay());
         }
         holder.amount.setText("$"+payment.getAmount());
         holder.date.setText(sdf.format(new Date(payment.getTime())));

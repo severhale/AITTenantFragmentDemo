@@ -92,10 +92,10 @@ public class PaymentFragment extends Fragment {
 
     public void postPayment(Payment newPayment) {
         DatabaseReference usersReference = FirebaseDatabase.getInstance().getReference().child("users");
-        DatabaseReference postToCurrentUser = usersReference.child(newPayment.getFromDisplay()).child("payments").push();
+        DatabaseReference postToCurrentUser = usersReference.child(newPayment.getFromId()).child("payments").push();
         postToCurrentUser.setValue(newPayment);
 
-        DatabaseReference postToOtherUser = usersReference.child(newPayment.getToDisplay()).child("payments").push();
+        DatabaseReference postToOtherUser = usersReference.child(newPayment.getToId()).child("payments").push();
         postToOtherUser.setValue(newPayment);
     }
 
