@@ -6,7 +6,11 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 
+import org.greenrobot.eventbus.EventBus;
+
+import samandsimons.adventure.aittenantfragmentdemo.event.Events;
 import samandsimons.adventure.aittenantfragmentdemo.model.Connection;
+import samandsimons.adventure.aittenantfragmentdemo.model.Event;
 import samandsimons.adventure.aittenantfragmentdemo.model.User;
 
 /**
@@ -19,6 +23,7 @@ public class FirebaseListener {
     }
 
     public static void setupConfirmedListener() {
+
         String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
         FirebaseDatabase.getInstance().getReference().child("users")
                 .child(id).child("connections").child("confirmed").
@@ -27,6 +32,9 @@ public class FirebaseListener {
                     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                         Connection newConnection = dataSnapshot.getValue(Connection.class);
                         User.getCurrentUser().getConnections().add(newConnection);
+
+                        EventBus.getDefault().post(new Events.ConfirmedConnectionEvent(newConnection));
+
                     }
 
                     @Override

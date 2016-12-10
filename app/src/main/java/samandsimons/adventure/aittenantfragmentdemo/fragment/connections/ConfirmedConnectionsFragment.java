@@ -10,8 +10,11 @@ import android.view.ViewGroup;
 
 import com.google.firebase.database.DatabaseReference;
 
+import org.greenrobot.eventbus.EventBus;
+
 import samandsimons.adventure.aittenantfragmentdemo.R;
 import samandsimons.adventure.aittenantfragmentdemo.adapter.recycler.ConfirmedConnectionRecyclerAdapter;
+import samandsimons.adventure.aittenantfragmentdemo.event.Events;
 import samandsimons.adventure.aittenantfragmentdemo.model.Connection;
 
 /**
@@ -31,6 +34,9 @@ public class ConfirmedConnectionsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
+        EventBus.getDefault().register(this);
+
         View view = inflater.inflate(R.layout.confirmed_connections_fragment, container, false);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.confirmedConnectionRecycler);
         recyclerAdapter = new ConfirmedConnectionRecyclerAdapter();
@@ -41,6 +47,16 @@ public class ConfirmedConnectionsFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
 
         return view;
+    }
+
+    public void onEvent(Events.ConfirmedConnectionEvent event) {
+        addConnection(event.getConfirmed());
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     public void addConnection(Connection connection) {
