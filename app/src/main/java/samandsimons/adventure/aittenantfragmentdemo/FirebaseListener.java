@@ -41,7 +41,6 @@ public class FirebaseListener {
                     @Override
                     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                         Connection newConnection = dataSnapshot.getValue(Connection.class);
-                        User.getCurrentUser().getRequestedConnections().add(newConnection);
 
                         EventBus.getDefault().post(new Events.RequestedConnectionEvent(newConnection));
                     }
@@ -71,7 +70,6 @@ public class FirebaseListener {
                     @Override
                     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                         Payment newPayment = dataSnapshot.getValue(Payment.class);
-                        User.getCurrentUser().getPayments().add(newPayment);
 
                         EventBus.getDefault().post(new Events.PaymentEvent(newPayment));
                     }
@@ -105,7 +103,6 @@ public class FirebaseListener {
                     @Override
                     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                         Event newEvent = dataSnapshot.getValue(Event.class);
-                        User.getCurrentUser().getEvents().add(newEvent);
 
                         EventBus.getDefault().post(new Events.EventEvent(newEvent));
                     }
@@ -140,7 +137,6 @@ public class FirebaseListener {
                     @Override
                     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                         Connection newConnection = dataSnapshot.getValue(Connection.class);
-                        User.getCurrentUser().getPendingConnections().add(newConnection);
 
                         EventBus.getDefault().post(new Events.PendingConnectionEvent(newConnection));
                     }
@@ -166,13 +162,12 @@ public class FirebaseListener {
     public static void setupMessageListener() {
         String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DatabaseReference usersReference = FirebaseDatabase.getInstance().getReference().child("users");
-        Log.d("TAG", "STARTING LISTENING FOR NEW MESSAGES");
         usersReference.child(id).child("messages").
                 addChildEventListener(new ChildEventListener() {
                     @Override
                     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                        Log.d("TAG", "ADDING MESSAGE");
                         Message newMessage = dataSnapshot.getValue(Message.class);
+
                         EventBus.getDefault().post(new Events.MessageEvent(newMessage));
                     }
 
@@ -207,7 +202,6 @@ public class FirebaseListener {
                     @Override
                     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                         Connection newConnection = dataSnapshot.getValue(Connection.class);
-                        User.getCurrentUser().getConfirmedConnections().add(newConnection);
 
                         EventBus.getDefault().post(new Events.ConfirmedConnectionEvent(newConnection));
 

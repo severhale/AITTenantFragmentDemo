@@ -10,12 +10,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import org.greenrobot.eventbus.EventBus;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import samandsimons.adventure.aittenantfragmentdemo.adapter.pager.DashboardPagerAdapter;
 import samandsimons.adventure.aittenantfragmentdemo.fragment.dashboard.EventFragment;
 import samandsimons.adventure.aittenantfragmentdemo.fragment.dashboard.PaymentFragment;
 import samandsimons.adventure.aittenantfragmentdemo.fragment.dashboard.MessageFragment;
+import samandsimons.adventure.aittenantfragmentdemo.model.Event;
 import samandsimons.adventure.aittenantfragmentdemo.model.User;
 
 public class Dashboard extends BaseActivity {
@@ -36,6 +39,7 @@ public class Dashboard extends BaseActivity {
 
         ButterKnife.bind(this);
 
+        EventBus.getDefault().register(User.getCurrentUser());
         FirebaseListener.startAllListeners();
 
 //        FirebaseDatabase.getInstance().getReference().child("users").child(getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -58,6 +62,12 @@ public class Dashboard extends BaseActivity {
         pagerAdapter = new DashboardPagerAdapter(getSupportFragmentManager(), getApplicationContext());
         pager.setOffscreenPageLimit(3);
         pager.setAdapter(pagerAdapter);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(User.getCurrentUser());
     }
 
     @Override
