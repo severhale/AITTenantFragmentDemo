@@ -20,8 +20,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import samandsimons.adventure.aittenantfragmentdemo.R;
 import samandsimons.adventure.aittenantfragmentdemo.adapter.recycler.MessageRecyclerAdapter;
+import samandsimons.adventure.aittenantfragmentdemo.event.Events;
 import samandsimons.adventure.aittenantfragmentdemo.fragment.dialog.AddMessageDialogFragment;
 import samandsimons.adventure.aittenantfragmentdemo.model.Connection;
 import samandsimons.adventure.aittenantfragmentdemo.model.Message;
@@ -35,44 +39,9 @@ public class MessageFragment extends Fragment implements DataFragment {
     public static final String MESSAGE_DIALOG = "MESSAGE_DIALOG";
 
     private MessageRecyclerAdapter recyclerAdapter;
-    private String id;
-    private String displayName;
-    private DatabaseReference usersReference;
 
     public MessageFragment() {
-        id = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        displayName = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-        usersReference = FirebaseDatabase.getInstance().getReference().child("users");
-        Log.d("TAG", "STARTING LISTENING FOR NEW MESSAGES");
-        usersReference.child(id).child("messages").
-                addChildEventListener(new ChildEventListener() {
-                    @Override
-                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                        Log.d("TAG", "ADDING MESSAGE");
-                        Message newMessage = dataSnapshot.getValue(Message.class);
-                        recyclerAdapter.addItem(newMessage);
-                    }
 
-                    @Override
-                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                        // should we allow people to modify their posts?
-                    }
-
-                    @Override
-                    public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-                    }
-
-                    @Override
-                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                        // shouldn't happen
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
         // Required empty public constructor
     }
 
@@ -80,6 +49,9 @@ public class MessageFragment extends Fragment implements DataFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        EventBus.getDefault().register(this);
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_message, container, false);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.messageRecycler);
@@ -103,10 +75,18 @@ public class MessageFragment extends Fragment implements DataFragment {
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case MESSAGE_REQUEST:
                 if (resultCode == Activity.RESULT_OK) {
+                    String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                    String displayName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
                     Connection selectedConnection = (Connection) data.getSerializableExtra(AddMessageDialogFragment.CONNECTION);
                     String subject = data.getStringExtra(AddMessageDialogFragment.SUBJECT);
                     String body = data.getStringExtra(AddMessageDialogFragment.BODY);
@@ -121,6 +101,7 @@ public class MessageFragment extends Fragment implements DataFragment {
     }
 
     public void postMessage(Message newMessage) {
+        DatabaseReference usersReference = FirebaseDatabase.getInstance().getReference().child("users");
         DatabaseReference postToCurrentUser = usersReference.child(newMessage.getFromId()).child("messages").push();
         postToCurrentUser.setValue(newMessage);
 
@@ -131,5 +112,10 @@ public class MessageFragment extends Fragment implements DataFragment {
     @Override
     public void refreshData(User user) {
         recyclerAdapter.updateForUser(user);
+    }
+
+    @Subscribe
+    public void onEvent(Events.MessageEvent event) {
+        recyclerAdapter.addItem(event.getMessage());
     }
 }
