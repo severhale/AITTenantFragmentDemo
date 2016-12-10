@@ -55,15 +55,17 @@ public class AddEventDialogFragment extends DialogFragment {
         final TextView tvRecipients = (TextView) view.findViewById(R.id.tvEventRecipients);
 
         final Spinner recipients = (Spinner) view.findViewById(R.id.spEventRecipient);
-        final List<Connection> connectionList = new ArrayList<Connection>(User.getCurrentUser().getConfirmedConnections());
-        recipients.setAdapter(new ArrayAdapter<Connection>(getContext(), android.R.layout.simple_spinner_dropdown_item, connectionList));
+        final ArrayList<Connection> connectionList = new ArrayList<Connection>(User.getCurrentUser().getConfirmedConnections());
+        final ArrayAdapter<Connection> arrayAdapter = new ArrayAdapter<Connection>(getContext(), android.R.layout.simple_spinner_dropdown_item, connectionList);
+        recipients.setAdapter(arrayAdapter);
         recipients.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String participantString = "Participants: "+ tvRecipients.getText().toString();
-                Connection selected = (Connection) parent.getSelectedItem();
+                String participantString = tvRecipients.getText().toString();
+                Connection selected = (Connection) recipients.getAdapter().getItem(position);;
+                arrayAdapter.remove(selected);
+                recipients.setAdapter(arrayAdapter);
                 selectedConnections.put(selected.getId(), selected);
-                connectionList.remove(selected);
                 tvRecipients.setText(participantString + selected.getDisplayName()+ " ");
             }
             @Override
