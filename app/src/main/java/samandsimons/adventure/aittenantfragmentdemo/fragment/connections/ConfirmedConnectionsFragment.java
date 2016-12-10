@@ -41,7 +41,7 @@ public class ConfirmedConnectionsFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.confirmed_connections_fragment, container, false);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.confirmedConnectionRecycler);
-        recyclerAdapter = new ConfirmedConnectionRecyclerAdapter();
+        recyclerAdapter = new ConfirmedConnectionRecyclerAdapter(getContext());
         recyclerView.setAdapter(recyclerAdapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setReverseLayout(true);

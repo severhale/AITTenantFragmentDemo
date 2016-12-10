@@ -23,6 +23,7 @@ import samandsimons.adventure.aittenantfragmentdemo.model.User;
 
 public class Dashboard extends BaseActivity {
 
+    public static final String FILTER_ID = "FILTER_ID";
     @BindView(R.id.tvStatus)
     TextView tvStatus;
     @BindView(R.id.dashboardPager)

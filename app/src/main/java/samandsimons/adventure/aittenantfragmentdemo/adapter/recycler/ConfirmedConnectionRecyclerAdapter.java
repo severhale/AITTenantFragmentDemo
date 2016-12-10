@@ -1,15 +1,19 @@
 package samandsimons.adventure.aittenantfragmentdemo.adapter.recycler;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import samandsimons.adventure.aittenantfragmentdemo.Dashboard;
 import samandsimons.adventure.aittenantfragmentdemo.R;
 import samandsimons.adventure.aittenantfragmentdemo.model.Connection;
 import samandsimons.adventure.aittenantfragmentdemo.model.User;
@@ -20,10 +24,12 @@ import samandsimons.adventure.aittenantfragmentdemo.model.User;
 public class ConfirmedConnectionRecyclerAdapter extends RecyclerView.Adapter<ConfirmedConnectionRecyclerAdapter.ViewHolder>{
 
 
-    List<Connection> connectionList;
+    private List<Connection> connectionList;
+    private Context context;
 
-    public ConfirmedConnectionRecyclerAdapter() {
+    public ConfirmedConnectionRecyclerAdapter(Context context) {
         this.connectionList = new ArrayList<>(User.getCurrentUser().getConfirmedConnections());
+        this.context = context;
     }
 
     public List<Connection> getConnectionList() {
@@ -54,7 +60,6 @@ public class ConfirmedConnectionRecyclerAdapter extends RecyclerView.Adapter<Con
             super(itemView);
 
             name = (TextView) itemView.findViewById(R.id.tvConfirmedConnectionName);
-
         }
     }
 
@@ -65,8 +70,17 @@ public class ConfirmedConnectionRecyclerAdapter extends RecyclerView.Adapter<Con
     }
 
     @Override
-    public void onBindViewHolder(ConfirmedConnectionRecyclerAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(ConfirmedConnectionRecyclerAdapter.ViewHolder holder, final int position) {
         holder.name.setText(connectionList.get(position).getDisplayName());
+        holder.name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(context, Dashboard.class);
+                intent.putExtra(Dashboard.FILTER_ID, connectionList.get(position).getId());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
