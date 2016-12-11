@@ -131,5 +131,15 @@ public class Events {
         }
     }
 
+    public static class PaymentRemovedEvent {
+        private Payment payment;
+
+        public Payment getPayment() { return payment; }
+
+        public PaymentRemovedEvent(Payment payment) {
+            this.payment = payment;
+        }
+    }
+
 
 }

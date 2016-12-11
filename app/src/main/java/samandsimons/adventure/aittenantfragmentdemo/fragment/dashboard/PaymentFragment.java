@@ -103,6 +103,11 @@ public class PaymentFragment extends Fragment implements CreateDialogInterface{
         recyclerAdapter.onPaymentConfirmed(event.getPayment());
     }
 
+    @Subscribe
+    public void onEvent(Events.PaymentRemovedEvent event) {
+        recyclerAdapter.removePayment(event.getPayment());
+    }
+
     @Override
     public void openDialog() {
         AddPaymentDialogFragment dialogFragment = new AddPaymentDialogFragment();

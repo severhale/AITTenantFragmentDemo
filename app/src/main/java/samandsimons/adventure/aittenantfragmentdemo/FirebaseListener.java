@@ -111,7 +111,10 @@ public class FirebaseListener {
 
                     @Override
                     public void onChildRemoved(DataSnapshot dataSnapshot) {
+                        Payment removedPayment = dataSnapshot.getValue(Payment.class);
+                        removedPayment.setKey(dataSnapshot.getKey());
 
+                        EventBus.getDefault().post(new Events.PaymentRemovedEvent(removedPayment));
                     }
 
                     @Override
