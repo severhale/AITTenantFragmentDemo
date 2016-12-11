@@ -73,8 +73,7 @@ public class LoginActivity extends ProgressActivity {
                             FirebaseUser fbUser = task.getResult().getUser();
                             User.getCurrentUser().setFirebaseUser(fbUser);
                             startDashboard();
-                        }
-                        else {
+                        } else {
                             Toast.makeText(LoginActivity.this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -103,6 +102,22 @@ public class LoginActivity extends ProgressActivity {
                             database.child("emails").child(encodeEmail(fbUser.getEmail())).setValue(fbUser.getUid());
 
                             Toast.makeText(LoginActivity.this, "User created", Toast.LENGTH_SHORT).show();
+
+                            showProgressDialog();
+                            firebaseAuth.signInWithEmailAndPassword(etEmail.getText().toString(), etPassword.getText().toString())
+                                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<AuthResult> task) {
+                                            hideProgressDialog();
+                                            if (task.isSuccessful()) {
+                                                FirebaseUser fbUser = task.getResult().getUser();
+                                                User.getCurrentUser().setFirebaseUser(fbUser);
+                                                startDashboard();
+                                            } else {
+                                                Toast.makeText(LoginActivity.this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    });
                         } else {
                             Toast.makeText(LoginActivity.this, task.getException().getLocalizedMessage(),
                                     Toast.LENGTH_SHORT).show();
