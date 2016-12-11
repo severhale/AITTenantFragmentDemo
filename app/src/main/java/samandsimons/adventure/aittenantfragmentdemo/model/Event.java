@@ -20,13 +20,13 @@ public class Event {
         eventUsers = new HashMap<>();
     }
 
-    public Event(String fromId, String fromDisplay, String title, long time) {
+    public Event(String fromId, String fromDisplay, String title, long time, HashMap<String, Connection> eventUsers) {
         this.fromDisplay = fromDisplay;
         this.fromId = fromId;
         this.title = title;
         this.time = time;
 
-        this.eventUsers = new HashMap<String, Connection>();
+        this.eventUsers = eventUsers;
     }
 
     public String getFromDisplay() {

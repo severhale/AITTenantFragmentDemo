@@ -76,11 +76,11 @@ public class EventFragment extends Fragment implements CreateDialogInterface {
                     String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
                     long date = data.getLongExtra(AddEventDialogFragment.EVENT_TIME, 0);
                     String title = data.getStringExtra(AddEventDialogFragment.EVENT_NAME);
-                    final HashMap<String, Connection> recipients = (HashMap<String, Connection>) data.getSerializableExtra(AddEventDialogFragment.CONNECTION);
+                    HashMap<String, Connection> recipients = (HashMap<String, Connection>) data.getSerializableExtra(AddEventDialogFragment.CONNECTION);
 
-                    Event event = new Event(id, email, title, date);
-                    event.setEventUsers(recipients);
+                    Event event = new Event(id, email, title, date, recipients);
                     postEvent(event, recipients);
+
                 }
                 break;
         }
