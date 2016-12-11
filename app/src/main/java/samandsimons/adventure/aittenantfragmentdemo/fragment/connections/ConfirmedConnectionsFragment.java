@@ -53,7 +53,6 @@ public class ConfirmedConnectionsFragment extends Fragment {
 
     @Subscribe
     public void onEvent(Events.ConfirmedConnectionEvent event) {
-        Log.d("TAG", "Got ConfirmedConnectionEvent event");
         addConnection(event.getConfirmed());
     }
 

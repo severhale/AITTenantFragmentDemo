@@ -2,26 +2,16 @@ package samandsimons.adventure.aittenantfragmentdemo;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import samandsimons.adventure.aittenantfragmentdemo.adapter.pager.ConnectionsPagerAdapter;
-import samandsimons.adventure.aittenantfragmentdemo.fragment.connections.RequestedConnectionsFragment;
 import samandsimons.adventure.aittenantfragmentdemo.fragment.dialog.AddConnectionDialogFragment;
-import samandsimons.adventure.aittenantfragmentdemo.fragment.connections.ConfirmedConnectionsFragment;
-import samandsimons.adventure.aittenantfragmentdemo.fragment.connections.PendingConnectionsFragment;
 import samandsimons.adventure.aittenantfragmentdemo.model.Connection;
-import samandsimons.adventure.aittenantfragmentdemo.model.User;
 
 /**
  * Created by samgrund on 12/9/16.
@@ -45,6 +35,27 @@ public class ConnectionListActivity extends BaseActivity implements ConnectionLi
 
         connectionsPager.setOffscreenPageLimit(4);
         connectionsPager.setAdapter(connectionsPagerAdapter);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayoutConnections);
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.contacts));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.pending));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.requested));
+        connectionsPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                connectionsPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabNewConnection);
         fab.setOnClickListener(new View.OnClickListener() {

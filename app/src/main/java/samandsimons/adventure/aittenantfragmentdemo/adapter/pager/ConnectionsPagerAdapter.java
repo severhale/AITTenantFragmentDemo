@@ -26,13 +26,13 @@ public class ConnectionsPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0:
-                return context.getString(R.string.connections);
+                return context.getString(R.string.contacts);
             case 1:
                 return context.getString(R.string.pending);
             case 2:
                 return context.getString(R.string.requested);
             default:
-                return context.getString(R.string.connections);
+                return context.getString(R.string.contacts);
         }
     }
 

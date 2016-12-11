@@ -3,15 +3,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabLayoutConnections"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:elevation="6dp"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+
     <android.support.v4.view.ViewPager
         android:id="@+id/connectionsPager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <android.support.v4.view.PagerTabStrip
-            android:id="@+id/connectionTabs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tabLayoutConnections">
 
     </android.support.v4.view.ViewPager>
 
@@ -21,8 +27,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
-        android:src="@drawable/ic_add"/>
+        android:layout_marginRight="10dp"
+        android:src="@drawable/ic_add" />
 
 </RelativeLayout>

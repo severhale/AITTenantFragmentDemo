@@ -7,14 +7,22 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import samandsimons.adventure.aittenantfragmentdemo.Dashboard;
 import samandsimons.adventure.aittenantfragmentdemo.R;
+import samandsimons.adventure.aittenantfragmentdemo.event.Events;
 import samandsimons.adventure.aittenantfragmentdemo.model.Connection;
 import samandsimons.adventure.aittenantfragmentdemo.model.User;
 
@@ -56,11 +64,13 @@ public class ConfirmedConnectionRecyclerAdapter extends RecyclerView.Adapter<Con
 
         private TextView name;
         private LinearLayout layout;
+        private ImageView btnDelete;
 
         public ViewHolder(View view) {
             super(view);
             name = (TextView) view.findViewById(R.id.tvConfirmedConnectionName);
             layout = (LinearLayout) view.findViewById(R.id.confirmedConnectionLayout);
+            btnDelete = (ImageView) view.findViewById(R.id.btnRemoveConnection);
         }
     }
 
@@ -82,6 +92,12 @@ public class ConfirmedConnectionRecyclerAdapter extends RecyclerView.Adapter<Con
                 context.startActivity(intent);
             }
         });
+        holder.btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteConnection(connectionList.get(position));
+            }
+        });
     }
 
     @Override
@@ -93,5 +109,16 @@ public class ConfirmedConnectionRecyclerAdapter extends RecyclerView.Adapter<Con
         connectionList.add(newConnection);
         notifyItemInserted(connectionList.size()-1);
 
+    }
+
+    private void deleteConnection(Connection connection) {
+        String myId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String theirId = connection.getId();
+
+        DatabaseReference outRef = FirebaseDatabase.getInstance().getReference().child("users").child(theirId).child("connections");
+        outRef.child("confirmed").child(myId).removeValue();
+
+        DatabaseReference inRef = FirebaseDatabase.getInstance().getReference().child("users").child(myId).child("connections");
+        inRef.child("confirmed").child(theirId).removeValue();
     }
 }
