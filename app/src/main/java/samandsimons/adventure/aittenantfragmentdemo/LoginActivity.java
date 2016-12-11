@@ -34,6 +34,8 @@ public class LoginActivity extends ProgressActivity {
     private FirebaseAuth firebaseAuth;
     private DatabaseReference database;
 
+    private static boolean calledAlready = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +43,11 @@ public class LoginActivity extends ProgressActivity {
 
         ButterKnife.bind(this);
 
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        if (!calledAlready)
+        {
+            FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+            calledAlready = true;
+        }
 
         database = FirebaseDatabase.getInstance().getReference();
         firebaseAuth = FirebaseAuth.getInstance();
