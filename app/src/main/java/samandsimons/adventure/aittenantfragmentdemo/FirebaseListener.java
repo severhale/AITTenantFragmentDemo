@@ -153,8 +153,6 @@ public class FirebaseListener {
                         Event event = dataSnapshot.getValue(Event.class);
                         event.setKey(dataSnapshot.getKey());
 
-                        Log.d("TAG", "REMOVING EVENT");
-
                         EventBus.getDefault().post(new Events.EventRemovedEvent(event));
                     }
 

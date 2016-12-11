@@ -30,6 +30,15 @@ public class User {
         return instance;
     }
 
+    public void initializeData() {
+        setConfirmedConnections(new ArrayList<Connection>());
+        setPendingConnections(new ArrayList<Connection>());
+        setRequestedConnections(new ArrayList<Connection>());
+        setMessages(new ArrayList<Message>());
+        setPayments(new ArrayList<Payment>());
+        setEvents(new ArrayList<Event>());
+    }
+
     private String username;
     private String email;
 
@@ -44,7 +53,6 @@ public class User {
     }
 
     public User(String username, String email) {
-
         this.username = username;
         this.email = email;
         messages = new ArrayList<>();
@@ -53,6 +61,20 @@ public class User {
         confirmedConnections = new ArrayList<>();
         pendingConnections = new ArrayList<>();
         requestedConnections = new ArrayList<>();
+    }
+
+    public void setValues(User user) {
+        setConfirmedConnections(user.getConfirmedConnections());
+        setEmail(user.getEmail());
+        setEvents(user.getEvents());
+        setMessages(user.getMessages());
+        setPayments(user.getPayments());
+        setUsername(user.getUsername());
+    }
+
+    public void setFirebaseUser(FirebaseUser fbUser) {
+        setEmail(fbUser.getEmail());
+        setUsername(fbUser.getDisplayName());
     }
 
     public List<Message> getMessages() {
@@ -104,7 +126,6 @@ public class User {
     }
 
     public String getUsername() {
-
         return username;
     }
 
@@ -118,20 +139,6 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public void setValues(User user) {
-        setConfirmedConnections(user.getConfirmedConnections());
-        setEmail(user.getEmail());
-        setEvents(user.getEvents());
-        setMessages(user.getMessages());
-        setPayments(user.getPayments());
-        setUsername(user.getUsername());
-    }
-
-    public void setFirebaseUser(FirebaseUser fbUser) {
-        setEmail(fbUser.getEmail());
-        setUsername(fbUser.getDisplayName());
     }
 
     @Subscribe
@@ -175,7 +182,6 @@ public class User {
             }
         }
         if (index == -1) {
-            Log.w("TAG", "ERROR REMOVING CONNECTION");
             return;
         }
         confirmedConnections.remove(index);
@@ -192,7 +198,6 @@ public class User {
             }
         }
         if (index == -1) {
-            Log.w("TAG", "ERROR REMOVING CONNECTION");
             return;
         }
         pendingConnections.remove(index);
@@ -209,7 +214,6 @@ public class User {
             }
         }
         if (index == -1) {
-            Log.w("TAG", "ERROR REMOVING CONNECTION IN SINGLETON");
             return;
         }
         requestedConnections.remove(index);
@@ -245,12 +249,5 @@ public class User {
         return eventsForUser;
     }
 
-    public void initializeData() {
-        setConfirmedConnections(new ArrayList<Connection>());
-        setPendingConnections(new ArrayList<Connection>());
-        setRequestedConnections(new ArrayList<Connection>());
-        setMessages(new ArrayList<Message>());
-        setPayments(new ArrayList<Payment>());
-        setEvents(new ArrayList<Event>());
-    }
+
 }

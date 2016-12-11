@@ -2,6 +2,7 @@ package samandsimons.adventure.aittenantfragmentdemo;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerTabStrip;
@@ -37,8 +38,6 @@ public class Dashboard extends BaseActivity
 
     @BindView(R.id.dashboardPager)
     ViewPager pager;
-//    @BindView(R.id.dashboardTabs)
-//    PagerTabStrip dashboardTabs;
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
 
@@ -79,23 +78,17 @@ public class Dashboard extends BaseActivity
             }
             setTitle(getString(R.string.dashboard));
         }
-        Toolbar toolbar = (Toolbar) findViewById(R.id.appBarToolbar);
-        setSupportActionBar(toolbar);
 
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
+        Toolbar toolbar = setupToolbar();
+        NavigationView navigationView = setupNavDrawer(toolbar);
 
         TextView tvEmail = (TextView) navigationView.getHeaderView(0).findViewById(R.id.tvEmail);
         tvEmail.setText(getUserEmail());
 
+        setupPager();
+    }
+
+    private void setupPager() {
         pagerAdapter = new DashboardPagerAdapter(getSupportFragmentManager(), getApplicationContext());
         pager.setOffscreenPageLimit(3);
         pager.setAdapter(pagerAdapter);
@@ -119,6 +112,25 @@ public class Dashboard extends BaseActivity
 
             }
         });
+    }
+
+    private Toolbar setupToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.appBarToolbar);
+        setSupportActionBar(toolbar);
+        return toolbar;
+    }
+
+    @NonNull
+    private NavigationView setupNavDrawer(Toolbar toolbar) {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        return navigationView;
     }
 
     @Override
@@ -185,7 +197,7 @@ public class Dashboard extends BaseActivity
             finish();
         }
         else if (id == R.id.nav_about) {
-            Toast.makeText(this, "Created by Sam Grund (sgrund@oberlin.edu) and\nSimon Ever-Hale (severhal@oberlin.edu)", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.about_message, Toast.LENGTH_LONG).show();
         }
         else if (id == R.id.nav_summary) {
             new PaymentSummaryFragment().show(getSupportFragmentManager(), PAYMENT_SUMMARY);

@@ -9,10 +9,22 @@ public class Message {
     private String toId;
     private String fromDisplay;
     private String toDisplay;
-
     private String subject;
     private String text;
     private long time;
+
+    public Message() {
+    }
+
+    public Message(String fromId, String toId, String fromDisplay, String toDisplay, String subject, String text, long time) {
+        this.fromId = fromId;
+        this.toId = toId;
+        this.fromDisplay = fromDisplay;
+        this.toDisplay = toDisplay;
+        this.subject = subject;
+        this.text = text;
+        this.time = time;
+    }
 
     public String getFromDisplay() {
         return fromDisplay;
@@ -58,9 +70,6 @@ public class Message {
         return text;
     }
 
-    public Message() {
-    }
-
     public void setText(String text) {
         this.text = text;
     }
@@ -73,22 +82,4 @@ public class Message {
         this.time = time;
     }
 
-    public Message(String fromId, String toId, String subject, String text, long time) {
-
-        this.fromId = fromId;
-        this.toId = toId;
-        this.text = text;
-        this.time = time;
-        this.subject = subject;
-    }
-
-    public Message(String fromId, String toId, String fromDisplay, String toDisplay, String subject, String text, long time) {
-        this.fromId = fromId;
-        this.toId = toId;
-        this.fromDisplay = fromDisplay;
-        this.toDisplay = toDisplay;
-        this.subject = subject;
-        this.text = text;
-        this.time = time;
-    }
 }

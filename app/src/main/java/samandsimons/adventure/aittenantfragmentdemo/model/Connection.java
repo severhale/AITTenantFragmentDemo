@@ -10,13 +10,6 @@ public class Connection implements Serializable {
     private String id;
     private String displayName;
 
-    // VERY IMPORTANT: We want our connection to only display the email
-    // This way we can use it to populate a spinner
-    @Override
-    public String toString() {
-        return displayName;
-    }
-
     public Connection() {
         id = "";
         displayName = "";
@@ -25,6 +18,13 @@ public class Connection implements Serializable {
     public Connection(String id, String displayName) {
         this.id = id;
         this.displayName = displayName;
+    }
+
+    // VERY IMPORTANT: We want our connection to only display the email
+    // This way we can use it to populate a spinner
+    @Override
+    public String toString() {
+        return displayName;
     }
 
     public String getId() {

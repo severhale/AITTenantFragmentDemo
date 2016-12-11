@@ -15,7 +15,6 @@ public class Event {
     private String fromDisplay;
     private long time;
     private String title;
-
     private HashMap<String, Connection> eventUsers;
 
     @Exclude
@@ -75,10 +74,6 @@ public class Event {
         this.eventUsers = eventUsers;
     }
 
-    public void addEventUser(Connection user) {
-        eventUsers.put(user.getId(), user);
-    }
-
     public String getKey() {
         return key;
     }
@@ -86,4 +81,9 @@ public class Event {
     public void setKey(String key) {
         this.key = key;
     }
+
+    public void addEventUser(Connection user) {
+        eventUsers.put(user.getId(), user);
+    }
+
 }

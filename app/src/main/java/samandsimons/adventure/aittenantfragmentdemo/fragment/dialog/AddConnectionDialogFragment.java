@@ -54,10 +54,31 @@ public class AddConnectionDialogFragment extends DialogFragment {
         LayoutInflater customInflater = getActivity().getLayoutInflater();
         View customView = customInflater.inflate(R.layout.add_new_connection, null);
 
-        final EditText etUserName = (EditText) customView.findViewById(R.id.etAddConnection);
-
         alertDialogBuilder.setView(customView);
         alertDialogBuilder.setTitle(R.string.new_connection_dialog_title);
+
+        setupButtons(alertDialogBuilder, customView);
+        
+        return alertDialogBuilder.create();
+    }
+
+    private void setupButtons(AlertDialog.Builder alertDialogBuilder, View customView) {
+        final EditText etUserName = (EditText) customView.findViewById(R.id.etAddConnection);
+
+        setupPositiveButton(alertDialogBuilder, etUserName);
+        setupNegativeButton(alertDialogBuilder);
+    }
+
+    private void setupNegativeButton(AlertDialog.Builder alertDialogBuilder) {
+        alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+    }
+
+    private void setupPositiveButton(AlertDialog.Builder alertDialogBuilder, final EditText etUserName) {
         alertDialogBuilder.setPositiveButton("Connect", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -90,13 +111,5 @@ public class AddConnectionDialogFragment extends DialogFragment {
                 }
             }
         });
-        alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-            }
-        });
-        
-        return alertDialogBuilder.create();
     }
 }

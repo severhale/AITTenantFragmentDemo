@@ -37,26 +37,32 @@ public class AddMessageDialogFragment extends DialogFragment {
         final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_new_message, null);
 
+        alertDialogBuilder.setView(view);
+        alertDialogBuilder.setTitle(R.string.new_message_dialog_title);
+
+        setupSpinner(view);
+        setupButtons(alertDialogBuilder, view);
+
+        return alertDialogBuilder.create();
+    }
+
+    private void setupButtons(AlertDialog.Builder alertDialogBuilder, View view) {
         final EditText etSubject = (EditText) view.findViewById(R.id.etMessageSubject);
         final EditText etMessage = (EditText) view.findViewById(R.id.etMessageText);
+        setupPositiveButton(alertDialogBuilder, etSubject, etMessage);
+        setupNegativeButton(alertDialogBuilder);
+    }
 
-        alertDialogBuilder.setView(view);
+    private void setupNegativeButton(AlertDialog.Builder alertDialogBuilder) {
         alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
             }
         });
-        List<Connection> possibleRecipients = User.getCurrentUser().getConfirmedConnections();
-        spinner = (Spinner) view.findViewById(R.id.spMessageRecipient);
-        if (Dashboard.hasFilterConnection()) {
-            spinner.setVisibility(View.GONE);
-        }
-        else {
-            spinner.setVisibility(View.VISIBLE);
-            ArrayAdapter<Connection> adapter = new ArrayAdapter<Connection>(getContext(), android.R.layout.simple_spinner_dropdown_item, possibleRecipients);
-            spinner.setAdapter(adapter);
-        }
+    }
+
+    private void setupPositiveButton(AlertDialog.Builder alertDialogBuilder, final EditText etSubject, final EditText etMessage) {
         alertDialogBuilder.setPositiveButton("Send", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -69,7 +75,6 @@ public class AddMessageDialogFragment extends DialogFragment {
                 }
                 if (selectedConnection == null) {
                     selectedConnection = new Connection("placeholderid", "placeholder subject");
-                    Log.d("TAG", "Connection was null");
                 }
                 Intent intent = new Intent();
                 intent.putExtra(CONNECTION, selectedConnection);
@@ -78,7 +83,18 @@ public class AddMessageDialogFragment extends DialogFragment {
                 getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
             }
         });
+    }
 
-        return alertDialogBuilder.create();
+    private void setupSpinner(View view) {
+        List<Connection> possibleRecipients = User.getCurrentUser().getConfirmedConnections();
+        spinner = (Spinner) view.findViewById(R.id.spMessageRecipient);
+        if (Dashboard.hasFilterConnection()) {
+            spinner.setVisibility(View.GONE);
+        }
+        else {
+            spinner.setVisibility(View.VISIBLE);
+            ArrayAdapter<Connection> adapter = new ArrayAdapter<Connection>(getContext(), android.R.layout.simple_spinner_dropdown_item, possibleRecipients);
+            spinner.setAdapter(adapter);
+        }
     }
 }

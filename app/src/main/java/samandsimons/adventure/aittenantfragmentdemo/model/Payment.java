@@ -35,7 +35,6 @@ public class Payment {
         this.amount = amount;
         this.time = time;
         this.message = message;
-
         this.state = state;
         this.confirmed = false;
     }

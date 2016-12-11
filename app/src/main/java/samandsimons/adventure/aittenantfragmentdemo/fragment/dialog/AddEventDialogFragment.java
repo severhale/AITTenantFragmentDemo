@@ -48,7 +48,9 @@ public class AddEventDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
         View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_new_event, null);
+
         dialogBuilder.setView(view);
+        dialogBuilder.setTitle(R.string.new_event_dialog_title);
 
         final HashMap<String, Connection> selectedConnections = new HashMap<String, Connection>();
 
@@ -83,10 +85,6 @@ public class AddEventDialogFragment extends DialogFragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-                if (selectedConnections.isEmpty()) {
-                    selectedConnections.put("placeholderid", new Connection("placeholderid", "placeholder subject"));
-                    Log.d("TAG", "Connection was null");
-                }
                 int hour;
                 int minute;
                 if (Build.VERSION.SDK_INT >= 23) {

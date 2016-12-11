@@ -37,16 +37,46 @@ public class AddPaymentDialogFragment extends DialogFragment {
         final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_new_payment, null);
 
+        alertDialogBuilder.setView(view);
+        alertDialogBuilder.setTitle(R.string.new_payment_dialog_title);
+
+        setupSpinner(view);
+        setupButtons(alertDialogBuilder, view);
+
+
+        return alertDialogBuilder.create();
+    }
+
+    private void setupSpinner(View view) {
+        spinner = (Spinner) view.findViewById(R.id.spPaymentRecipient);
+        if (Dashboard.hasFilterConnection()) {
+            spinner.setVisibility(View.GONE);
+        }
+        else {
+            spinner.setVisibility(View.VISIBLE);
+            List<Connection> possibleRecipients = User.getCurrentUser().getConfirmedConnections();
+            ArrayAdapter<Connection> adapter = new ArrayAdapter<Connection>(getContext(), android.R.layout.simple_spinner_dropdown_item, possibleRecipients);
+            spinner.setAdapter(adapter);
+        }
+    }
+
+    private void setupButtons(AlertDialog.Builder alertDialogBuilder, View view) {
         final EditText etName = (EditText) view.findViewById(R.id.etPaymentName);
         final EditText etAmount = (EditText) view.findViewById(R.id.etPaymentAmount);
+        setupPositiveButton(alertDialogBuilder, etName, etAmount);
+        setupNegativeButton(alertDialogBuilder);
+    }
 
-        alertDialogBuilder.setView(view);
+    private void setupNegativeButton(AlertDialog.Builder alertDialogBuilder) {
         alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
             }
         });
+    }
+
+    private void setupPositiveButton(AlertDialog.Builder alertDialogBuilder, final EditText etName, final EditText etAmount) {
         alertDialogBuilder.setPositiveButton("Send", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -59,7 +89,6 @@ public class AddPaymentDialogFragment extends DialogFragment {
                 }
                 if (selectedConnection == null) {
                     selectedConnection = new Connection("placeholderid", "placeholder subject");
-                    Log.d("TAG", "Connection was null");
                 }
                 Intent intent = new Intent();
                 intent.putExtra(CONNECTION, selectedConnection);
@@ -68,18 +97,6 @@ public class AddPaymentDialogFragment extends DialogFragment {
                 getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
             }
         });
-        spinner = (Spinner) view.findViewById(R.id.spPaymentRecipient);
-        if (Dashboard.hasFilterConnection()) {
-            spinner.setVisibility(View.GONE);
-        }
-        else {
-            spinner.setVisibility(View.VISIBLE);
-            List<Connection> possibleRecipients = User.getCurrentUser().getConfirmedConnections();
-            ArrayAdapter<Connection> adapter = new ArrayAdapter<Connection>(getContext(), android.R.layout.simple_spinner_dropdown_item, possibleRecipients);
-            spinner.setAdapter(adapter);
-        }
-
-        return alertDialogBuilder.create();
     }
 
 }

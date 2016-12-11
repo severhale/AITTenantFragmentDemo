@@ -23,13 +23,28 @@ public class ConnectionListActivity extends BaseActivity implements ConnectionLi
     private ViewPager connectionsPager;
     private ConnectionsPagerAdapter connectionsPagerAdapter;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connection_list);
         setTitle(getString(R.string.connections));
 
+        setupViewPager();
+        setupFab();
+    }
+
+    private void setupFab() {
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabNewConnection);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AddConnectionDialogFragment dialogFragment = new AddConnectionDialogFragment();
+                dialogFragment.show(getSupportFragmentManager().beginTransaction(), CONNECTION_LIST_DIALOG);
+            }
+        });
+    }
+
+    private void setupViewPager() {
         connectionsPager = (ViewPager) findViewById(R.id.connectionsPager);
 
         connectionsPagerAdapter = new ConnectionsPagerAdapter(getSupportFragmentManager(), getApplicationContext());
@@ -49,24 +64,12 @@ public class ConnectionListActivity extends BaseActivity implements ConnectionLi
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
             }
         });
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabNewConnection);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AddConnectionDialogFragment dialogFragment = new AddConnectionDialogFragment();
-                dialogFragment.show(getSupportFragmentManager().beginTransaction(), CONNECTION_LIST_DIALOG);
-            }
-        });
-
     }
 
     @Override

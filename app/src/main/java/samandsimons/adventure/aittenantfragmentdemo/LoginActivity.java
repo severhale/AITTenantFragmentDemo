@@ -60,9 +60,6 @@ public class LoginActivity extends ProgressActivity {
                 }
             }
         });
-
-        etEmail.setText("severhal@oberlin.edu");
-        etPassword.setText("123456");
     }
 
     @OnClick(R.id.btnLogin)
@@ -109,7 +106,7 @@ public class LoginActivity extends ProgressActivity {
                             database.child("users").child(fbUser.getUid()).setValue(user);
                             database.child("emails").child(encodeEmail(fbUser.getEmail())).setValue(fbUser.getUid());
 
-                            Toast.makeText(LoginActivity.this, "User created", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, R.string.user_created_message, Toast.LENGTH_SHORT).show();
 
                             showProgressDialog();
                             firebaseAuth.signInWithEmailAndPassword(etEmail.getText().toString(), etPassword.getText().toString())
