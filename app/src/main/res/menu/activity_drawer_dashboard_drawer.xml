@@ -2,6 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/nav_summary"
+        android:icon="@drawable/ic_attach_money"
+        android:title="Payment Summary" />
+
+    <item
         android:id="@+id/nav_logout"
         android:icon="@drawable/ic_power_settings_new"
         android:title="Logout" />

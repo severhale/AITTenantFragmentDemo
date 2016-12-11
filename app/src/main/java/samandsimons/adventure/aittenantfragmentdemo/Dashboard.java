@@ -32,6 +32,7 @@ public class Dashboard extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     public static final String FILTER_CONNECTION_EXTRA = "FILTER_CONNECTION_EXTRA";
+    public static final String PAYMENT_SUMMARY = "PAYMENT_SUMMARY";
     private static Connection FILTER_CONNECTION;
 
     @BindView(R.id.dashboardPager)
@@ -163,6 +164,7 @@ public class Dashboard extends BaseActivity
                 int page = pager.getCurrentItem();
                 CreateDialogInterface fragment = (CreateDialogInterface) findFragmentByTag(page);
                 fragment.openDialog();
+                return true;
             default:
                 return true;
         }
@@ -184,6 +186,9 @@ public class Dashboard extends BaseActivity
         }
         else if (id == R.id.nav_about) {
             Toast.makeText(this, "Created by Sam Grund (sgrund@oberlin.edu) and\nSimon Ever-Hale (severhal@oberlin.edu)", Toast.LENGTH_LONG).show();
+        }
+        else if (id == R.id.nav_summary) {
+            new PaymentSummaryFragment().show(getSupportFragmentManager(), PAYMENT_SUMMARY);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

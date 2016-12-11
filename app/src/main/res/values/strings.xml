@@ -20,4 +20,9 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string name="year_received">Received: </string>
+    <string name="year_sent">Sent: </string>
+    <string name="month_received">Received: </string>
+    <string name="month_sent">Sent: </string>
+    <string name="payment_summary">Payment Summary</string>
 </resources>
