@@ -76,7 +76,7 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<MessageRecycler
     @Override
     public MessageRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View note = LayoutInflater.from(parent.getContext()).inflate(
-                R.layout.item_incoming_message, parent, false);
+                R.layout.item_message, parent, false);
         return new ViewHolder(note);
     }
 

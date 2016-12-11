@@ -28,6 +28,7 @@ public class ConnectionListActivity extends BaseActivity implements ConnectionLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connection_list);
+        setTitle(getString(R.string.connections));
 
         connectionsPager = (ViewPager) findViewById(R.id.connectionsPager);
 
