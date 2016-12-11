@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -38,14 +39,14 @@ public class PendingConnectionRecyclerAdapter extends RecyclerView.Adapter<Pendi
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         private TextView name;
-        private Button btnDeny, btnConfirm;
+        private ImageView btnDeny, btnConfirm;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             name = (TextView) itemView.findViewById(R.id.connectionName);
-            btnDeny = (Button) itemView.findViewById(R.id.btnConnectionDeny);
-            btnConfirm = (Button) itemView.findViewById(R.id.btnConnectionConfirm);
+            btnDeny = (ImageView) itemView.findViewById(R.id.btnConnectionDeny);
+            btnConfirm = (ImageView) itemView.findViewById(R.id.btnConnectionConfirm);
         }
     }
 

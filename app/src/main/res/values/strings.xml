@@ -34,4 +34,5 @@
     <string name="new_event_dialog_title">Add new event</string>
     <string name="about_message">Created by Sam Grund (sgrund@oberlin.edu) and\nSimon Ever-Hale (severhal@oberlin.edu)</string>
     <string name="user_created_message">User created</string>
+    <string name="pending_request">Pending Request...</string>
 </resources>
