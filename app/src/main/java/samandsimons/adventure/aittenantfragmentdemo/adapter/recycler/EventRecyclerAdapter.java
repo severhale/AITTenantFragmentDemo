@@ -26,13 +26,13 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
 
     public EventRecyclerAdapter() {
         if (Dashboard.hasFilterConnection()) {
-            eventList = new ArrayList<>(User.getCurrentUser().getEventsForUser(Dashboard.getFilterId()));
+            eventList = User.getCurrentUser().getEventsForUser(Dashboard.getFilterId());
             Log.d("TAG", "FOUND " + eventList.size() + " EVENTS FOR USER");
+            Log.d("TAG", eventList.get(0).getFromId());
         } else {
             eventList = new ArrayList<>(User.getCurrentUser().getEvents());
         }
         sdf = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
-        eventList = new ArrayList<>();
     }
 
     @Override

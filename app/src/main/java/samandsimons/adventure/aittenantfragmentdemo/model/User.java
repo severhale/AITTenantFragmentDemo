@@ -30,14 +30,8 @@ public class User {
         return instance;
     }
 
-    public enum UserType {
-        LANDLORD,
-        TENANT
-    }
-
     private String username;
     private String email;
-    private int type;
 
     private List<Message> messages;
     private List<Payment> payments;
@@ -49,25 +43,16 @@ public class User {
     public User() {
     }
 
-    public User(String username, String email, UserType type) {
+    public User(String username, String email) {
 
         this.username = username;
         this.email = email;
-        this.type = type.ordinal();
         messages = new ArrayList<>();
         payments = new ArrayList<>();
         events = new ArrayList<>();
         confirmedConnections = new ArrayList<>();
         pendingConnections = new ArrayList<>();
         requestedConnections = new ArrayList<>();
-    }
-
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
-        this.type = type;
     }
 
     public List<Message> getMessages() {

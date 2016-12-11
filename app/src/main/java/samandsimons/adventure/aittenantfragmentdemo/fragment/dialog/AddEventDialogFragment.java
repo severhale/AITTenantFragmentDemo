@@ -84,7 +84,7 @@ public class AddEventDialogFragment extends DialogFragment {
             public void onClick(DialogInterface dialog, int which) {
 
                 if (selectedConnections.isEmpty()) {
-                    selectedConnections.put("placeholderid", new Connection("placeholderid", "placeholder name"));
+                    selectedConnections.put("placeholderid", new Connection("placeholderid", "placeholder subject"));
                     Log.d("TAG", "Connection was null");
                 }
                 int hour;

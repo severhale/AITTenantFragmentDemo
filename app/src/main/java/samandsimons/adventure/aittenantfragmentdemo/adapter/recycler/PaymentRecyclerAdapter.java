@@ -10,10 +10,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -22,7 +19,6 @@ import java.util.List;
 
 import samandsimons.adventure.aittenantfragmentdemo.Dashboard;
 import samandsimons.adventure.aittenantfragmentdemo.R;
-import samandsimons.adventure.aittenantfragmentdemo.event.Events;
 import samandsimons.adventure.aittenantfragmentdemo.model.Payment;
 import samandsimons.adventure.aittenantfragmentdemo.model.User;
 
@@ -32,7 +28,6 @@ import samandsimons.adventure.aittenantfragmentdemo.model.User;
 
 public class PaymentRecyclerAdapter extends RecyclerView.Adapter<PaymentRecyclerAdapter.ViewHolder> {
     private List<Payment> paymentList;
-    private User.UserType userType;
     private SimpleDateFormat sdf;
 
     public PaymentRecyclerAdapter() {
@@ -56,8 +51,10 @@ public class PaymentRecyclerAdapter extends RecyclerView.Adapter<PaymentRecycler
 
         if (payment.getState() == Payment.states.OUTGOING.ordinal()) {
             holder.btnConfirm.setVisibility(View.GONE);
+            holder.name.setText(payment.getToDisplay());
         } else {
             holder.btnConfirm.setVisibility(View.VISIBLE);
+            holder.name.setText(payment.getFromDisplay());
             holder.btnConfirm.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -79,14 +76,9 @@ public class PaymentRecyclerAdapter extends RecyclerView.Adapter<PaymentRecycler
             holder.layout.setBackgroundColor(Color.parseColor("#bbbbbb"));
         }
 
-        if (userType == User.UserType.LANDLORD) {
-            holder.sender.setText(payment.getFromDisplay());
-        } else {
-            holder.sender.setText(payment.getToDisplay());
-        }
         holder.amount.setText("$" + payment.getAmount());
         holder.date.setText(sdf.format(new Date(payment.getTime())));
-        holder.name.setText(payment.getMessage());
+        holder.subject.setText(payment.getMessage());
 
         Log.d("TAG", holder.amount.getText().toString());
     }
@@ -135,16 +127,16 @@ public class PaymentRecyclerAdapter extends RecyclerView.Adapter<PaymentRecycler
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public LinearLayout layout;
-        public TextView name, amount, date, sender;
+        public TextView subject, amount, date, name;
         public Button btnConfirm;
 
         public ViewHolder(View itemView) {
             super(itemView);
             layout = (LinearLayout) itemView.findViewById(R.id.payment_item_layout);
-            name = (TextView) itemView.findViewById(R.id.tvPaymentName);
+            subject = (TextView) itemView.findViewById(R.id.tvPaymentSubject);
             amount = (TextView) itemView.findViewById(R.id.tvPaymentAmount);
             date = (TextView) itemView.findViewById(R.id.tvPaymentDate);
-            sender = (TextView) itemView.findViewById(R.id.tvPaymentSender);
+            name = (TextView) itemView.findViewById(R.id.tvPaymentName);
             btnConfirm = (Button) itemView.findViewById(R.id.btnConfirmPayment);
         }
     }

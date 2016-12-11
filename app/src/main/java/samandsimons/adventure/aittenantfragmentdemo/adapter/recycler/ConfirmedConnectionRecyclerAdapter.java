@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -54,11 +55,12 @@ public class ConfirmedConnectionRecyclerAdapter extends RecyclerView.Adapter<Con
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         private TextView name;
+        private LinearLayout layout;
 
-        public ViewHolder(View itemView) {
-            super(itemView);
-
-            name = (TextView) itemView.findViewById(R.id.tvConfirmedConnectionName);
+        public ViewHolder(View view) {
+            super(view);
+            name = (TextView) view.findViewById(R.id.tvConfirmedConnectionName);
+            layout = (LinearLayout) view.findViewById(R.id.confirmedConnectionLayout);
         }
     }
 
@@ -71,7 +73,7 @@ public class ConfirmedConnectionRecyclerAdapter extends RecyclerView.Adapter<Con
     @Override
     public void onBindViewHolder(ConfirmedConnectionRecyclerAdapter.ViewHolder holder, final int position) {
         holder.name.setText(connectionList.get(position).getDisplayName());
-        holder.name.setOnClickListener(new View.OnClickListener() {
+        holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();

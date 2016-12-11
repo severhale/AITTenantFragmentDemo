@@ -63,20 +63,19 @@ public class Dashboard extends BaseActivity
 
         ButterKnife.bind(this);
 
-        if (!FirebaseListener.isStarted()) {
-            User.getCurrentUser().initializeData();
-            FirebaseListener.startAllListeners();
-        }
-        if (!EventBus.getDefault().isRegistered(User.getCurrentUser())) {
-            EventBus.getDefault().register(User.getCurrentUser());
-        }
-
         if (getIntent().hasExtra(FILTER_CONNECTION_EXTRA)) {
             FILTER_CONNECTION = (Connection) getIntent().getSerializableExtra(FILTER_CONNECTION_EXTRA);
             setTitle(FILTER_CONNECTION.getDisplayName());
         }
         else {
             FILTER_CONNECTION = null;
+            if (!FirebaseListener.isStarted()) {
+                FirebaseListener.startAllListeners();
+            }
+            if (!EventBus.getDefault().isRegistered(User.getCurrentUser())) {
+                User.getCurrentUser().initializeData();
+                EventBus.getDefault().register(User.getCurrentUser());
+            }
             setTitle(getString(R.string.dashboard));
         }
         Toolbar toolbar = (Toolbar) findViewById(R.id.appBarToolbar);
@@ -119,16 +118,15 @@ public class Dashboard extends BaseActivity
 
             }
         });
-
-
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(User.getCurrentUser());
-        FirebaseListener.stopAllListeners();
-        User.getCurrentUser().initializeData();
+        if (!getIntent().hasExtra(FILTER_CONNECTION_EXTRA)) {
+            EventBus.getDefault().unregister(User.getCurrentUser());
+            FirebaseListener.stopAllListeners();
+        }
     }
 
     @Override

@@ -39,6 +39,7 @@ public class MessageFragment extends Fragment implements CreateDialogInterface {
     public static final String MESSAGE_DIALOG = "MESSAGE_DIALOG";
 
     private MessageRecyclerAdapter recyclerAdapter;
+    private LinearLayoutManager layoutManager;
 
     public MessageFragment() {
 
@@ -57,7 +58,7 @@ public class MessageFragment extends Fragment implements CreateDialogInterface {
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.messageRecycler);
         recyclerAdapter = new MessageRecyclerAdapter();
         recyclerView.setAdapter(recyclerAdapter);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        layoutManager = new LinearLayoutManager(getContext());
 //        layoutManager.setReverseLayout(true);
         layoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
@@ -102,6 +103,7 @@ public class MessageFragment extends Fragment implements CreateDialogInterface {
     @Subscribe
     public void onEvent(Events.MessageEvent event) {
         recyclerAdapter.addItem(event.getMessage());
+        layoutManager.scrollToPosition(recyclerAdapter.getItemCount() - 1);
     }
 
     @Override

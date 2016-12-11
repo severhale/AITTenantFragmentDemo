@@ -98,8 +98,7 @@ public class LoginActivity extends ProgressActivity {
                             fbUser.updateProfile(new UserProfileChangeRequest.Builder().
                                     setDisplayName(usernameFromEmail(fbUser.getEmail())).build());
 
-                            User.UserType userType = rbLandlord.isChecked() ? User.UserType.LANDLORD : User.UserType.TENANT;
-                            User user = new User(usernameFromEmail(fbUser.getEmail()), fbUser.getEmail(), userType);
+                            User user = new User(usernameFromEmail(fbUser.getEmail()), fbUser.getEmail());
                             database.child("users").child(fbUser.getUid()).setValue(user);
                             database.child("emails").child(encodeEmail(fbUser.getEmail())).setValue(fbUser.getUid());
 

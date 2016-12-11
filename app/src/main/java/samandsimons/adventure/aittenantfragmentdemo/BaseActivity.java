@@ -19,13 +19,9 @@ public class BaseActivity extends ProgressActivity {
         return FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
     }
 
-    public User.UserType getUserType() {
-        return User.UserType.values()[getUser().getType()];
-    }
-
     public User getUser() {
         if (user == null) {
-            user = new User(getUserName(), getUserEmail(), User.UserType.LANDLORD);
+            user = new User(getUserName(), getUserEmail());
         }
         return user;
     }

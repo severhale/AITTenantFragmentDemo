@@ -37,7 +37,9 @@ public class EventFragment extends Fragment implements CreateDialogInterface {
 
     public static final String ADD_EVENT_DIALOG = "ADD_EVENT_DIALOG";
     public static final int ADD_EVENT_REQUEST_CODE = 1;
+
     private EventRecyclerAdapter recyclerAdapter;
+    private LinearLayoutManager layoutManager;
 
     public EventFragment() {
         // Required empty public constructor
@@ -53,7 +55,7 @@ public class EventFragment extends Fragment implements CreateDialogInterface {
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.eventRecycler);
         recyclerAdapter = new EventRecyclerAdapter();
         recyclerView.setAdapter(recyclerAdapter);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        layoutManager = new LinearLayoutManager(getContext());
 //        layoutManager.setReverseLayout(true);
         layoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
@@ -90,6 +92,8 @@ public class EventFragment extends Fragment implements CreateDialogInterface {
     public void onEvent(Events.EventEvent eventevent) {
         // fuck it
         recyclerAdapter.addItem(eventevent.getEvent());
+        layoutManager.scrollToPosition(recyclerAdapter.getItemCount() - 1);
+
     }
 
     public void postEvent(Event event, HashMap<String, Connection> recipients) {
