@@ -41,6 +41,8 @@ public class LoginActivity extends ProgressActivity {
 
         ButterKnife.bind(this);
 
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+
         database = FirebaseDatabase.getInstance().getReference();
         firebaseAuth = FirebaseAuth.getInstance();
 

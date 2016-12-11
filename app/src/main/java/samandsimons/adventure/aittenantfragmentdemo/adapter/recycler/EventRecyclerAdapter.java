@@ -27,8 +27,6 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
     public EventRecyclerAdapter() {
         if (Dashboard.hasFilterConnection()) {
             eventList = User.getCurrentUser().getEventsForUser(Dashboard.getFilterId());
-            Log.d("TAG", "FOUND " + eventList.size() + " EVENTS FOR USER");
-            Log.d("TAG", eventList.get(0).getFromId());
         } else {
             eventList = new ArrayList<>(User.getCurrentUser().getEvents());
         }

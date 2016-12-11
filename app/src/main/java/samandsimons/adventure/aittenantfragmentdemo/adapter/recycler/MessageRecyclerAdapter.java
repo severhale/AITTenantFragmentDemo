@@ -1,10 +1,17 @@
 package samandsimons.adventure.aittenantfragmentdemo.adapter.recycler;
 
+import android.content.Context;
+import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -22,8 +29,10 @@ import samandsimons.adventure.aittenantfragmentdemo.model.User;
 public class MessageRecyclerAdapter extends RecyclerView.Adapter<MessageRecyclerAdapter.ViewHolder> {
     private List<Message> messageList;
     SimpleDateFormat sdf;
+    private Context context;
 
-    public MessageRecyclerAdapter() {
+    public MessageRecyclerAdapter(Context context) {
+        this.context = context;
         if (Dashboard.hasFilterConnection()) {
             messageList = User.getCurrentUser().getMessagesForUser(Dashboard.getFilterId());
         } else {
@@ -48,6 +57,7 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<MessageRecycler
         private TextView subject;
         private TextView message;
         private TextView timestamp;
+        private LinearLayout layout;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -56,6 +66,7 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<MessageRecycler
             subject = (TextView) itemView.findViewById(R.id.tvMessageSubject);
             message = (TextView) itemView.findViewById(R.id.tvMessage);
             timestamp = (TextView) itemView.findViewById(R.id.tvMessageTimestamp);
+            layout = (LinearLayout) itemView.findViewById(R.id.messageLayout);
 
         }
 
@@ -65,7 +76,7 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<MessageRecycler
     @Override
     public MessageRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View note = LayoutInflater.from(parent.getContext()).inflate(
-                R.layout.item_message, parent, false);
+                R.layout.item_incoming_message, parent, false);
         return new ViewHolder(note);
     }
 
@@ -76,12 +87,55 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<MessageRecycler
         holder.message.setText(message.getText());
         holder.subject.setText(message.getSubject());
         holder.timestamp.setText(sdf.format(new Date(message.getTime())));
+
+        boolean incoming = message.getToId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        int leftMargin = incoming ? 0 : 30;
+        int rightMargin = 30 - leftMargin;
+        int messageGravity = incoming ? Gravity.LEFT : Gravity.RIGHT;
+        int infoGravity = incoming ? Gravity.RIGHT : Gravity.LEFT;
+
+        LinearLayout.LayoutParams messageParams = new LinearLayout.LayoutParams(holder.message.getLayoutParams());
+        messageParams.gravity = messageGravity;
+
+        LinearLayout.LayoutParams subjectParams = new LinearLayout.LayoutParams(holder.subject.getLayoutParams());
+        subjectParams.gravity = messageGravity;
+
+        LinearLayout.LayoutParams posterParams = new LinearLayout.LayoutParams(holder.poster.getLayoutParams());
+        posterParams.gravity = infoGravity;
+
+        LinearLayout.LayoutParams timestampParams = new LinearLayout.LayoutParams(holder.timestamp.getLayoutParams());
+        timestampParams.gravity = infoGravity;
+
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(holder.layout.getLayoutParams());
+        layoutParams.setMargins(dpToPixels(leftMargin), 0, dpToPixels(rightMargin), 0);
+
+        if (incoming) {
+            holder.layout.setBackground(context.getResources().getDrawable(R.drawable.rounded_rectangle));
+        } else {
+            holder.layout.setBackground(context.getResources().getDrawable(R.drawable.rounded_rectangle_outgoing));
+        }
+
+        holder.message.setLayoutParams(messageParams);
+        holder.subject.setLayoutParams(subjectParams);
+        holder.poster.setLayoutParams(posterParams);
+        holder.timestamp.setLayoutParams(timestampParams);
+        holder.layout.setLayoutParams(layoutParams);
     }
 
 
     @Override
     public int getItemCount() {
         return messageList.size();
+    }
+
+    private int dpToPixels(int dp) {
+        Resources r = context.getResources();
+        int px = (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                dp,
+                r.getDisplayMetrics()
+        );
+        return px;
     }
 
 }

@@ -56,7 +56,7 @@ public class MessageFragment extends Fragment implements CreateDialogInterface {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_message, container, false);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.messageRecycler);
-        recyclerAdapter = new MessageRecyclerAdapter();
+        recyclerAdapter = new MessageRecyclerAdapter(getContext());
         recyclerView.setAdapter(recyclerAdapter);
         layoutManager = new LinearLayoutManager(getContext());
 //        layoutManager.setReverseLayout(true);
