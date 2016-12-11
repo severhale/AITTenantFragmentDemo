@@ -1,4 +1,4 @@
-package samandsimons.adventure.aittenantfragmentdemo;
+package samandsimons.adventure.aittenantfragmentdemo.fragment.dialog;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import samandsimons.adventure.aittenantfragmentdemo.R;
 import samandsimons.adventure.aittenantfragmentdemo.model.Payment;
 import samandsimons.adventure.aittenantfragmentdemo.model.User;
 
