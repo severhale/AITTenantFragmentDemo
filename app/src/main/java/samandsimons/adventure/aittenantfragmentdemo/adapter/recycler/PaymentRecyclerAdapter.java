@@ -101,7 +101,7 @@ public class PaymentRecyclerAdapter extends RecyclerView.Adapter<PaymentRecycler
             return;
         }
         paymentList.set(index, payment);
-        notifyItemChanged(index);
+        notifyDataSetChanged();
     }
 
     private void paymentConfirmed(ViewHolder holder, Payment payment) {
