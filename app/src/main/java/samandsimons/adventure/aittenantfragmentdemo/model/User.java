@@ -236,10 +236,9 @@ public class User {
     }
 
     public List<Event> getEventsForUser(String uid) {
-        ArrayList<Event> eventsForUser = new ArrayList<>();
+        ArrayList<Event> eventsForUser = new ArrayList<Event>();
         for (Event event : events) {
-            if(event.getEventUsers().keySet().contains(uid) || event.getFromId().equals(uid)) {
-                Log.d("TAG", "FOUND EVENT");
+            if(event.getEventUsers().keySet().contains(uid)) {
                 eventsForUser.add(event);
             }
         }

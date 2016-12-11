@@ -4,59 +4,54 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="10dp"
-    android:layout_margin="10dp">
-
+    android:layout_margin="10dp"
+    android:background="#eee">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
         <TextView
             android:id="@+id/tvPaymentSubject"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:text="NAME"
-            android:textSize="20sp"
-            android:layout_centerVertical="true"/>
-
-        <TextView
-            android:id="@+id/tvPaymentAmount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="$$$"
-            android:textSize="20sp"
-            android:layout_margin="5dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"/>
-
-    </RelativeLayout>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+            android:textSize="15sp"
+            android:textStyle="bold"/>
         <TextView
             android:id="@+id/tvPaymentName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_margin="5dp"
-            android:text="FROM"
-            android:textSize="15sp"/>
-        <TextView
-            android:id="@+id/tvPaymentDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="DATE"
-            android:textSize="15sp"
             android:layout_margin="5dp"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"/>
+            android:text="FROM"
+            android:textSize="15sp"/>
     </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@android:drawable/divider_horizontal_textfield" />
+    <TextView
+        android:id="@+id/tvPaymentDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="DATE"
+        android:textSize="15sp"
+        android:layout_margin="5dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"/>
+    <TextView
+        android:id="@+id/tvPaymentAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="$$$"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:layout_margin="5dp"
+        android:layout_gravity="right"/>
     <Button
         android:id="@+id/btnConfirmPayment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Confirm"
         android:layout_gravity="right"/>
-
 </LinearLayout>

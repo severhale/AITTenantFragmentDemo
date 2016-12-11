@@ -73,7 +73,7 @@ public class PaymentRecyclerAdapter extends RecyclerView.Adapter<PaymentRecycler
         if (payment.isConfirmed()) {
             paymentConfirmed(holder, payment);
         } else {
-            holder.layout.setBackgroundColor(Color.parseColor("#bbbbbb"));
+            holder.layout.setBackgroundColor(Color.parseColor("#eee"));
         }
 
         holder.amount.setText("$" + payment.getAmount());
