@@ -2,7 +2,7 @@ package samandsimons.adventure.aittenantfragmentdemo;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
@@ -11,7 +11,6 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,7 +20,6 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 
 import org.greenrobot.eventbus.EventBus;
-import org.w3c.dom.Text;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,8 +36,10 @@ public class Dashboard extends BaseActivity
 
     @BindView(R.id.dashboardPager)
     ViewPager pager;
-    @BindView(R.id.dashboardTabs)
-    PagerTabStrip dashboardTabs;
+//    @BindView(R.id.dashboardTabs)
+//    PagerTabStrip dashboardTabs;
+    @BindView(R.id.tab_layout)
+    TabLayout tabLayout;
 
     private DashboardPagerAdapter pagerAdapter;
 
@@ -64,6 +64,7 @@ public class Dashboard extends BaseActivity
         ButterKnife.bind(this);
 
         if (!FirebaseListener.isStarted()) {
+            User.getCurrentUser().initializeData();
             FirebaseListener.startAllListeners();
         }
         if (!EventBus.getDefault().isRegistered(User.getCurrentUser())) {
@@ -78,7 +79,7 @@ public class Dashboard extends BaseActivity
             FILTER_CONNECTION = null;
             setTitle(getString(R.string.dashboard));
         }
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.appBarToolbar);
         setSupportActionBar(toolbar);
 
 
@@ -98,6 +99,28 @@ public class Dashboard extends BaseActivity
         pagerAdapter = new DashboardPagerAdapter(getSupportFragmentManager(), getApplicationContext());
         pager.setOffscreenPageLimit(3);
         pager.setAdapter(pagerAdapter);
+        tabLayout.addTab(tabLayout.newTab().setText("Events"));
+        tabLayout.addTab(tabLayout.newTab().setText("Payments"));
+        tabLayout.addTab(tabLayout.newTab().setText("Messages"));
+        pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                pager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+
     }
 
     @Override

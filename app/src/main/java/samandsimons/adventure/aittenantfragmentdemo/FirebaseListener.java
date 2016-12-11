@@ -104,6 +104,7 @@ public class FirebaseListener {
                     @Override
                     public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                         Payment confirmedPayment = dataSnapshot.getValue(Payment.class);
+                        confirmedPayment.setKey(dataSnapshot.getKey());
 
                         EventBus.getDefault().post(new Events.PaymentConfirmedEvent(confirmedPayment));
                     }

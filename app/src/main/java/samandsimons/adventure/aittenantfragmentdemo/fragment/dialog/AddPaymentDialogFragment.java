@@ -70,9 +70,10 @@ public class AddPaymentDialogFragment extends DialogFragment {
         });
         spinner = (Spinner) view.findViewById(R.id.spPaymentRecipient);
         if (Dashboard.hasFilterConnection()) {
-            spinner.setVisibility(View.INVISIBLE);
+            spinner.setVisibility(View.GONE);
         }
         else {
+            spinner.setVisibility(View.VISIBLE);
             List<Connection> possibleRecipients = User.getCurrentUser().getConfirmedConnections();
             ArrayAdapter<Connection> adapter = new ArrayAdapter<Connection>(getContext(), android.R.layout.simple_spinner_dropdown_item, possibleRecipients);
             spinner.setAdapter(adapter);

@@ -1,6 +1,7 @@
 package samandsimons.adventure.aittenantfragmentdemo.adapter.recycler;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +26,8 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
 
     public EventRecyclerAdapter() {
         if (Dashboard.hasFilterConnection()) {
-            eventList = User.getCurrentUser().getEventsForUser(Dashboard.getFilterId());
+            eventList = new ArrayList<>(User.getCurrentUser().getEventsForUser(Dashboard.getFilterId()));
+            Log.d("TAG", "FOUND " + eventList.size() + " EVENTS FOR USER");
         } else {
             eventList = new ArrayList<>(User.getCurrentUser().getEvents());
         }

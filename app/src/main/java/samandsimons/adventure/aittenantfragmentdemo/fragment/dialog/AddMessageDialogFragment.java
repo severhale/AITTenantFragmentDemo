@@ -50,9 +50,10 @@ public class AddMessageDialogFragment extends DialogFragment {
         List<Connection> possibleRecipients = User.getCurrentUser().getConfirmedConnections();
         spinner = (Spinner) view.findViewById(R.id.spMessageRecipient);
         if (Dashboard.hasFilterConnection()) {
-            spinner.setVisibility(View.INVISIBLE);
+            spinner.setVisibility(View.GONE);
         }
         else {
+            spinner.setVisibility(View.VISIBLE);
             ArrayAdapter<Connection> adapter = new ArrayAdapter<Connection>(getContext(), android.R.layout.simple_spinner_dropdown_item, possibleRecipients);
             spinner.setAdapter(adapter);
         }

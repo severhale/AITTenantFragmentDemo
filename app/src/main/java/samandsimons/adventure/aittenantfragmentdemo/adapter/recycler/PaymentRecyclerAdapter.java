@@ -57,6 +57,7 @@ public class PaymentRecyclerAdapter extends RecyclerView.Adapter<PaymentRecycler
         if (payment.getState() == Payment.states.OUTGOING.ordinal()) {
             holder.btnConfirm.setVisibility(View.GONE);
         } else {
+            holder.btnConfirm.setVisibility(View.VISIBLE);
             holder.btnConfirm.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -74,6 +75,8 @@ public class PaymentRecyclerAdapter extends RecyclerView.Adapter<PaymentRecycler
 
         if (payment.isConfirmed()) {
             paymentConfirmed(holder, payment);
+        } else {
+            holder.layout.setBackgroundColor(Color.parseColor("#bbbbbb"));
         }
 
         if (userType == User.UserType.LANDLORD) {
@@ -81,7 +84,7 @@ public class PaymentRecyclerAdapter extends RecyclerView.Adapter<PaymentRecycler
         } else {
             holder.sender.setText(payment.getToDisplay());
         }
-        holder.amount.setText("$"+payment.getAmount());
+        holder.amount.setText("$" + payment.getAmount());
         holder.date.setText(sdf.format(new Date(payment.getTime())));
         holder.name.setText(payment.getMessage());
 
@@ -91,7 +94,7 @@ public class PaymentRecyclerAdapter extends RecyclerView.Adapter<PaymentRecycler
     public void onPaymentConfirmed(Payment payment) {
         int index = -1;
         for (int i = 0; i < paymentList.size(); i++) {
-            if (payment.getFromId().equals(paymentList.get(i).getFromId()) || payment.getToId().equals(paymentList.get(i).getToId())) {
+            if (payment.getKey().equals(paymentList.get(i).getKey())) {
                 index = i;
                 break;
             }
@@ -101,6 +104,7 @@ public class PaymentRecyclerAdapter extends RecyclerView.Adapter<PaymentRecycler
             return;
         }
         paymentList.set(index, payment);
+        Log.d("TAG", "CHANGED PAYMENT");
         notifyDataSetChanged();
     }
 
