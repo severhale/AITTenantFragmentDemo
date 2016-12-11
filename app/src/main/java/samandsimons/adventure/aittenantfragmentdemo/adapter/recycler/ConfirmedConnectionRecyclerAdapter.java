@@ -44,20 +44,9 @@ public class ConfirmedConnectionRecyclerAdapter extends RecyclerView.Adapter<Con
         return connectionList;
     }
 
-    public void removeConnection(Connection connection) {
-        int index = -1;
-        for (int i = 0; i < connectionList.size(); i++) {
-            if (connection.getId().equals(connectionList.get(i).getId())) {
-                index = i;
-                break;
-            }
-        }
-        if (index == -1) {
-            Log.w("TAG", "ERROR REMOVING CONNECTION");
-            return;
-        }
-        connectionList.remove(index);
-        notifyItemRemoved(index);
+    @Override
+    public int getItemCount() {
+        return connectionList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
@@ -100,17 +89,7 @@ public class ConfirmedConnectionRecyclerAdapter extends RecyclerView.Adapter<Con
         });
     }
 
-    @Override
-    public int getItemCount() {
-        return connectionList.size();
-    }
-
-    public void addConnection(Connection newConnection) {
-        connectionList.add(newConnection);
-        notifyItemInserted(connectionList.size()-1);
-
-    }
-
+    // delete in firebase
     private void deleteConnection(Connection connection) {
         String myId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         String theirId = connection.getId();
@@ -121,4 +100,27 @@ public class ConfirmedConnectionRecyclerAdapter extends RecyclerView.Adapter<Con
         DatabaseReference inRef = FirebaseDatabase.getInstance().getReference().child("users").child(myId).child("connections");
         inRef.child("confirmed").child(theirId).removeValue();
     }
+
+    public void addConnection(Connection newConnection) {
+        connectionList.add(newConnection);
+        notifyItemInserted(connectionList.size()-1);
+
+    }
+
+    public void removeConnection(Connection connection) {
+        int index = -1;
+        for (int i = 0; i < connectionList.size(); i++) {
+            if (connection.getId().equals(connectionList.get(i).getId())) {
+                index = i;
+                break;
+            }
+        }
+        if (index == -1) {
+            return;
+        }
+        connectionList.remove(index);
+        notifyItemRemoved(index);
+    }
+
+
 }

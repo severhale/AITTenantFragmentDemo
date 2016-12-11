@@ -30,20 +30,9 @@ public class PendingConnectionRecyclerAdapter extends RecyclerView.Adapter<Pendi
         this.connectionList = new ArrayList<>(User.getCurrentUser().getPendingConnections());
     }
 
-    public void removeConnection(Connection connection) {
-        int index = -1;
-        for (int i = 0; i < connectionList.size(); i++) {
-            if (connection.getId().equals(connectionList.get(i).getId())) {
-                index = i;
-                break;
-            }
-        }
-        if (index == -1) {
-            Log.w("TAG", "ERROR REMOVING CONNECTION");
-            return;
-        }
-        connectionList.remove(index);
-        notifyItemRemoved(index);
+    @Override
+    public int getItemCount() {
+        return connectionList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
@@ -57,7 +46,6 @@ public class PendingConnectionRecyclerAdapter extends RecyclerView.Adapter<Pendi
             name = (TextView) itemView.findViewById(R.id.connectionName);
             btnDeny = (Button) itemView.findViewById(R.id.btnConnectionDeny);
             btnConfirm = (Button) itemView.findViewById(R.id.btnConnectionConfirm);
-
         }
     }
 
@@ -88,21 +76,29 @@ public class PendingConnectionRecyclerAdapter extends RecyclerView.Adapter<Pendi
                 cancelConnection(connection);
             }
         });
-
     }
 
     public void addConnection(Connection newConnection) {
         connectionList.add(newConnection);
         notifyItemInserted(connectionList.size()-1);
-
     }
 
-    @Override
-    public int getItemCount() {
-        return connectionList.size();
+    public void removeConnection(Connection connection) {
+        int index = -1;
+        for (int i = 0; i < connectionList.size(); i++) {
+            if (connection.getId().equals(connectionList.get(i).getId())) {
+                index = i;
+                break;
+            }
+        }
+        if (index == -1) {
+            return;
+        }
+        connectionList.remove(index);
+        notifyItemRemoved(index);
     }
 
-
+    // confirm in firebase
     public void confirmConnection(Connection connection) {
         String myId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         String myDisplay = FirebaseAuth.getInstance().getCurrentUser().getEmail();
@@ -117,6 +113,7 @@ public class PendingConnectionRecyclerAdapter extends RecyclerView.Adapter<Pendi
         inRef.child("confirmed").child(theirId).setValue(connection);
     }
 
+    // remove in firebase
     public void cancelConnection(Connection connection) {
         String myId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         String theirId = connection.getId();

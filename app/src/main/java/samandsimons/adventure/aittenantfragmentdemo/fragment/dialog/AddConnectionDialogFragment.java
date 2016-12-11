@@ -44,7 +44,6 @@ public class AddConnectionDialogFragment extends DialogFragment {
         } else {
             throw new RuntimeException("Activity is not implementing ConnectionListInterface.");
         }
-
     }
 
     @NonNull
@@ -58,13 +57,13 @@ public class AddConnectionDialogFragment extends DialogFragment {
         final EditText etUserName = (EditText) customView.findViewById(R.id.etAddConnection);
 
         alertDialogBuilder.setView(customView);
-        alertDialogBuilder.setTitle("Add new connection.");
+        alertDialogBuilder.setTitle(R.string.new_connection_dialog_title);
         alertDialogBuilder.setPositiveButton("Connect", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 final String name = etUserName.getText().toString();
                 if (name.equals("")) {
-                    etUserName.setError("You must enter a valid username");
+                    etUserName.setError(getString(R.string.invalid_connection_error));
                 } else {
                     FirebaseDatabase.getInstance().getReference().child("emails").child(LoginActivity.encodeEmail(name)).
                             addListenerForSingleValueEvent(new ValueEventListener() {
@@ -78,7 +77,6 @@ public class AddConnectionDialogFragment extends DialogFragment {
                                     String fromId = FirebaseAuth.getInstance().getCurrentUser().getUid();
                                     String fromDisplayName = FirebaseAuth.getInstance().getCurrentUser().getEmail();
 
-
                                     Connection outConnection = new Connection(toId, name);
                                     Connection inConnection = new Connection(fromId, fromDisplayName);
 
@@ -89,7 +87,6 @@ public class AddConnectionDialogFragment extends DialogFragment {
                                     etUserName.setError(databaseError.getMessage());
                                 }
                             });
-
                 }
             }
         });
@@ -99,9 +96,7 @@ public class AddConnectionDialogFragment extends DialogFragment {
                 dialogInterface.dismiss();
             }
         });
-
-
-
+        
         return alertDialogBuilder.create();
     }
 }

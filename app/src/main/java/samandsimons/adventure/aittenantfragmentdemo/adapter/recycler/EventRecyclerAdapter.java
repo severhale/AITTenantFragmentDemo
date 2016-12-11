@@ -42,7 +42,24 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
                 }
             });
         }
-        sdf = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
+        sdf = new SimpleDateFormat("EEE, MMM d, yyyy, hh:mm");
+    }
+
+    @Override
+    public int getItemCount() {
+        return eventList.size();
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        public TextView title, author, date, peopleAttending;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            title = (TextView) itemView.findViewById(R.id.tvEventTitle);
+            author = (TextView) itemView.findViewById(R.id.tvEventAuthor);
+            date = (TextView) itemView.findViewById(R.id.tvEventDate);
+            peopleAttending = (TextView) itemView.findViewById(R.id.tvNumPeople);
+        }
     }
 
     @Override
@@ -58,11 +75,6 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
         holder.author.setText(event.getFromDisplay());
         holder.date.setText(sdf.format(event.getTime()));
         holder.peopleAttending.setText(String.format(Locale.getDefault(), context.getString(R.string.people_invited), event.getEventUsers().size()));
-    }
-
-    @Override
-    public int getItemCount() {
-        return eventList.size();
     }
 
     public void addItem(Event newEvent) {
@@ -99,15 +111,5 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
         notifyItemRemoved(index);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView title, author, date, peopleAttending;
 
-        public ViewHolder(View itemView) {
-            super(itemView);
-            title = (TextView) itemView.findViewById(R.id.tvEventTitle);
-            author = (TextView) itemView.findViewById(R.id.tvEventAuthor);
-            date = (TextView) itemView.findViewById(R.id.tvEventDate);
-            peopleAttending = (TextView) itemView.findViewById(R.id.tvNumPeople);
-        }
-    }
 }

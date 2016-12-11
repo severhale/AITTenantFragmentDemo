@@ -27,4 +27,6 @@
     <string name="payment_summary">Payment Summary</string>
     <string name="connections">Connections</string>
     <string name="people_invited">%d people invited</string>
+    <string name="new_connection_dialog_title">Add new connection.</string>
+    <string name="invalid_connection_error">You must enter a valid username</string>
 </resources>

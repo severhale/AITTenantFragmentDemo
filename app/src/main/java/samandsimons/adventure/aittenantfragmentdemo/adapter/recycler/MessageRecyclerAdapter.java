@@ -38,18 +38,12 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<MessageRecycler
         } else {
             messageList = new ArrayList<>(User.getCurrentUser().getMessages());
         }
-        sdf = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
+        sdf = new SimpleDateFormat("EEE, MMM d, yyyy, hh:mm:ss");
     }
 
-    public void addItem(Message newMessage) {
-        if (Dashboard.hasFilterConnection() &&
-                !newMessage.getFromId().equals(Dashboard.getFilterId()) &&
-                !newMessage.getToId().equals(Dashboard.getFilterId())) {
-            // message is not to/from filter id, ignore it
-            return;
-        }
-        messageList.add(newMessage);
-        notifyItemInserted(messageList.size() - 1);
+    @Override
+    public int getItemCount() {
+        return messageList.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -72,7 +66,6 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<MessageRecycler
 
     }
 
-
     @Override
     public MessageRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View note = LayoutInflater.from(parent.getContext()).inflate(
@@ -88,6 +81,10 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<MessageRecycler
         holder.subject.setText(message.getSubject());
         holder.timestamp.setText(sdf.format(new Date(message.getTime())));
 
+        setIncomingOutgoingMargins(holder, message);
+    }
+
+    private void setIncomingOutgoingMargins(ViewHolder holder, Message message) {
         boolean incoming = message.getToId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid());
         int leftMargin = incoming ? 0 : 30;
         int rightMargin = 30 - leftMargin;
@@ -122,12 +119,6 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<MessageRecycler
         holder.layout.setLayoutParams(layoutParams);
     }
 
-
-    @Override
-    public int getItemCount() {
-        return messageList.size();
-    }
-
     private int dpToPixels(int dp) {
         Resources r = context.getResources();
         int px = (int) TypedValue.applyDimension(
@@ -137,5 +128,18 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<MessageRecycler
         );
         return px;
     }
+
+    public void addMessage(Message newMessage) {
+        if (Dashboard.hasFilterConnection() &&
+                !newMessage.getFromId().equals(Dashboard.getFilterId()) &&
+                !newMessage.getToId().equals(Dashboard.getFilterId())) {
+            // message is not to/from filter id, ignore it
+            return;
+        }
+        messageList.add(newMessage);
+        notifyItemInserted(messageList.size() - 1);
+    }
+
+
 
 }

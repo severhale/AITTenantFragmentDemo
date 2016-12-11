@@ -21,7 +21,6 @@ import samandsimons.adventure.aittenantfragmentdemo.model.Connection;
  * Created by samgrund on 12/9/16.
  */
 public class RequestedConnectionsFragment extends Fragment{
-
     private RequestedConnectionRecyclerAdapter recyclerAdapter;
 
     public RequestedConnectionsFragment() {
@@ -53,12 +52,7 @@ public class RequestedConnectionsFragment extends Fragment{
 
     @Subscribe
     public void onEvent(Events.RequestedConnectionRemoved event) {
-        Log.d("TAG", "Got RequestedConnectionRemoved event");
         removeConnection(event.getConnection());
-    }
-
-    private void removeConnection(Connection connection) {
-        recyclerAdapter.removeConnection(connection);
     }
 
     @Override
@@ -67,9 +61,12 @@ public class RequestedConnectionsFragment extends Fragment{
         EventBus.getDefault().unregister(this);
     }
 
-
     public void addConnection(Connection newConnection) {
         recyclerAdapter.addConnection(newConnection);
+    }
+
+    private void removeConnection(Connection connection) {
+        recyclerAdapter.removeConnection(connection);
     }
 
 }

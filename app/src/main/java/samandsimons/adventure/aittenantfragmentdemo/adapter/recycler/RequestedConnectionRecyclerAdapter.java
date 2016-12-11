@@ -31,21 +31,9 @@ public class RequestedConnectionRecyclerAdapter extends RecyclerView.Adapter<Req
         this.connectionList = new ArrayList<>(User.getCurrentUser().getRequestedConnections());
     }
 
-    public void removeConnection(Connection connection) {
-        int index = -1;
-        for (int i = 0; i < connectionList.size(); i++) {
-            if (connection.getId().equals(connectionList.get(i).getId())) {
-                index = i;
-                break;
-            }
-        }
-        if (index == -1) {
-            Log.w("TAG", "ERROR REMOVING CONNECTION");
-            return;
-        }
-        connectionList.remove(index);
-        Log.d("TAG", "REMOVING CONNECTION AT INDEX " + index);
-        notifyItemRemoved(index);
+    @Override
+    public int getItemCount() {
+        return connectionList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
@@ -58,11 +46,7 @@ public class RequestedConnectionRecyclerAdapter extends RecyclerView.Adapter<Req
 
             name = (TextView) itemView.findViewById(R.id.tvRequestedConnectionName);
             btnCancel = (Button) itemView.findViewById(R.id.btnCancelConnectionRequest);
-
-            itemView.setTag(this);
         }
-
-
     }
 
     @Override
@@ -84,20 +68,29 @@ public class RequestedConnectionRecyclerAdapter extends RecyclerView.Adapter<Req
                 // cancel connection request
             }
         });
-
     }
 
     public void addConnection(Connection newConnection) {
         connectionList.add(newConnection);
         notifyItemInserted(connectionList.size()-1);
-
     }
 
-    @Override
-    public int getItemCount() {
-        return connectionList.size();
+    public void removeConnection(Connection connection) {
+        int index = -1;
+        for (int i = 0; i < connectionList.size(); i++) {
+            if (connection.getId().equals(connectionList.get(i).getId())) {
+                index = i;
+                break;
+            }
+        }
+        if (index == -1) {
+            return;
+        }
+        connectionList.remove(index);
+        notifyItemRemoved(index);
     }
 
+    // remove in firebase
     public void cancelConnection(Connection connection) {
         String myId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         String theirId = connection.getId();

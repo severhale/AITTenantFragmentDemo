@@ -26,7 +26,6 @@ import samandsimons.adventure.aittenantfragmentdemo.model.Connection;
  * Created by samgrund on 12/9/16.
  */
 public class PendingConnectionsFragment extends Fragment {
-
     private PendingConnectionRecyclerAdapter recyclerAdapter;
 
     public PendingConnectionsFragment() {
@@ -53,18 +52,12 @@ public class PendingConnectionsFragment extends Fragment {
 
     @Subscribe
     public void onEvent(Events.PendingConnectionEvent event) {
-        Log.d("TAG", "WHY IS THIS HAPPENING");
         addConnection(event.getPending());
     }
 
     @Subscribe
     public void onEvent(Events.PendingConnectionRemoved event) {
-        Log.d("TAG", "Got PendingConnectionRemoved event");
         removeConnection(event.getConnection());
-    }
-
-    private void removeConnection(Connection connection) {
-        recyclerAdapter.removeConnection(connection);
     }
 
     @Override
@@ -73,8 +66,11 @@ public class PendingConnectionsFragment extends Fragment {
         EventBus.getDefault().unregister(this);
     }
 
-
     public void addConnection(Connection newConnection) {
         recyclerAdapter.addConnection(newConnection);
+    }
+
+    private void removeConnection(Connection connection) {
+        recyclerAdapter.removeConnection(connection);
     }
 }

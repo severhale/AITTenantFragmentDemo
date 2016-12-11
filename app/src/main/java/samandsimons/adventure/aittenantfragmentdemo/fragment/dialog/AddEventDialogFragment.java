@@ -52,38 +52,33 @@ public class AddEventDialogFragment extends DialogFragment {
 
         final HashMap<String, Connection> selectedConnections = new HashMap<String, Connection>();
 
-        final TextView tvRecipients = (TextView) view.findViewById(R.id.tvEventRecipients);
+        setupSpinner(view, selectedConnections);
 
-        final Spinner recipients = (Spinner) view.findViewById(R.id.spEventRecipient);
-        final ArrayList<Connection> connectionList = new ArrayList<>(User.getCurrentUser().getConfirmedConnections());
-        connectionList.add(0, new Connection());
-        final ArrayAdapter<Connection> arrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, connectionList);
-        recipients.setAdapter(arrayAdapter);
-        recipients.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0) {
-                    return;
-                }
-                String participantString = tvRecipients.getText().toString();
-                Connection selected = (Connection) recipients.getAdapter().getItem(position);
-                if (!selectedConnections.containsKey(selected.getId())) {
-                    selectedConnections.put(selected.getId(), selected);
-                    tvRecipients.setText(participantString + selected.getDisplayName() + " ");
-                }
-            }
+        setupButtons(dialogBuilder, view, selectedConnections);
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // do nothing
-            }
-        });
+        return dialogBuilder.create();
+    }
 
+    private void setupButtons(AlertDialog.Builder dialogBuilder, View view, final HashMap<String, Connection> selectedConnections) {
         final DatePicker datePicker = (DatePicker) view.findViewById(R.id.eventDatePicker);
         final TimePicker timePicker = (TimePicker) view.findViewById(R.id.eventTimePicker);
-
         final EditText etName = (EditText) view.findViewById(R.id.etEventName);
 
+        setupPositiveButton(dialogBuilder, selectedConnections, datePicker, timePicker, etName);
+        setupNegativeButton(dialogBuilder);
+
+    }
+
+    private void setupNegativeButton(AlertDialog.Builder dialogBuilder) {
+        dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+    }
+
+    private void setupPositiveButton(AlertDialog.Builder dialogBuilder, final HashMap<String, Connection> selectedConnections, final DatePicker datePicker, final TimePicker timePicker, final EditText etName) {
         dialogBuilder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -112,14 +107,33 @@ public class AddEventDialogFragment extends DialogFragment {
                 getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
             }
         });
+    }
 
-        dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+    private void setupSpinner(View view, final HashMap<String, Connection> selectedConnections) {
+        final TextView tvRecipients = (TextView) view.findViewById(R.id.tvEventRecipients);
+        final Spinner recipients = (Spinner) view.findViewById(R.id.spEventRecipient);
+        final ArrayList<Connection> connectionList = new ArrayList<>(User.getCurrentUser().getConfirmedConnections());
+        connectionList.add(0, new Connection());
+        final ArrayAdapter<Connection> arrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, connectionList);
+        recipients.setAdapter(arrayAdapter);
+        recipients.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 0) {
+                    return;
+                }
+                String participantString = tvRecipients.getText().toString();
+                Connection selected = (Connection) recipients.getAdapter().getItem(position);
+                if (!selectedConnections.containsKey(selected.getId())) {
+                    selectedConnections.put(selected.getId(), selected);
+                    tvRecipients.setText(participantString + selected.getDisplayName() + " ");
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // do nothing
             }
         });
-
-        return dialogBuilder.create();
     }
 }

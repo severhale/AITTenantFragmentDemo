@@ -54,6 +54,11 @@ public class PaymentRecyclerAdapter extends RecyclerView.Adapter<PaymentRecycler
     }
 
     @Override
+    public int getItemCount() {
+        return paymentList.size();
+    }
+
+    @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_payment, parent, false);
         return new ViewHolder(v);
@@ -100,11 +105,8 @@ public class PaymentRecyclerAdapter extends RecyclerView.Adapter<PaymentRecycler
 
                     FirebaseDatabase.getInstance().getReference().child("users").child(payment.getFromId()).child("payments")
                             .child(payment.getKey()).child("confirmed").setValue(true);
-
-                    //paymentConfirmed(holder, payment);
                 }
             });
-
             holder.btnDeny.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -127,6 +129,7 @@ public class PaymentRecyclerAdapter extends RecyclerView.Adapter<PaymentRecycler
         holder.subject.setText(payment.getMessage());
     }
 
+    // remove in firebase
     private void cancelPayment(Payment payment) {
         String myId = payment.getFromId();
         String theirId = payment.getToId();
@@ -138,6 +141,17 @@ public class PaymentRecyclerAdapter extends RecyclerView.Adapter<PaymentRecycler
         inRef.child(payment.getKey()).removeValue();
     }
 
+    public void addPayment(Payment newPayment) {
+        if (Dashboard.hasFilterConnection() &&
+                !newPayment.getFromId().equals(Dashboard.getFilterId()) &&
+                !newPayment.getToId().equals(Dashboard.getFilterId())) {
+            // message is not to/from filter id, ignore it
+            return;
+        }
+        paymentList.add(newPayment);
+        notifyItemInserted(paymentList.size() - 1);
+    }
+
     public void removePayment(Payment payment) {
         int index = -1;
         for (int i = 0; i < paymentList.size(); i++) {
@@ -147,21 +161,10 @@ public class PaymentRecyclerAdapter extends RecyclerView.Adapter<PaymentRecycler
             }
         }
         if (index == -1) {
-            Log.w("TAG", "ERROR REMOVING PAYMENT");
             return;
         }
         paymentList.remove(index);
         notifyItemRemoved(index);
-    }
-
-    private int dpToPixels(int dp) {
-        Resources r = context.getResources();
-        int px = (int) TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP,
-                dp,
-                r.getDisplayMetrics()
-        );
-        return px;
     }
 
     public void onPaymentConfirmed(Payment payment) {
@@ -173,7 +176,6 @@ public class PaymentRecyclerAdapter extends RecyclerView.Adapter<PaymentRecycler
             }
         }
         if (index == -1) {
-            Log.w("TAG", "ERROR REMOVING CONNECTION");
             return;
         }
         paymentList.set(index, payment);
@@ -181,16 +183,17 @@ public class PaymentRecyclerAdapter extends RecyclerView.Adapter<PaymentRecycler
     }
 
     private void paymentConfirmed(final ViewHolder holder, Payment payment) {
+
+        changeMarginSize(holder, payment);
+
+        animateColorChange(holder, payment);
+
+        holder.btnConfirm.setVisibility(View.GONE);
+        holder.btnDeny.setVisibility(View.GONE);
+    }
+
+    private void animateColorChange(final ViewHolder holder, Payment payment) {
         boolean incoming = (payment.getState() == Payment.states.INCOMING.ordinal());
-
-        // change margin size
-        int leftMargin = incoming ? 50 : 0;
-        int rightMargin = 50 - leftMargin;
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(holder.layout.getLayoutParams());
-        layoutParams.setMargins(dpToPixels(leftMargin), 0, dpToPixels(rightMargin), 0);
-        holder.layout.setLayoutParams(layoutParams);
-
-        // animate color change
         int colorTo = incoming ? context.getResources().getColor(R.color.colorGreen) : context.getResources().getColor(R.color.colorRed);
         int colorFrom = context.getResources().getColor(R.color.colorLightGrey);
         ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
@@ -203,28 +206,28 @@ public class PaymentRecyclerAdapter extends RecyclerView.Adapter<PaymentRecycler
             }
         });
         colorAnimation.start();
-
-        holder.btnConfirm.setVisibility(View.GONE);
-        holder.btnDeny.setVisibility(View.GONE);
-
-
     }
 
-    @Override
-    public int getItemCount() {
-        return paymentList.size();
+    private void changeMarginSize(ViewHolder holder, Payment payment) {
+        boolean incoming = (payment.getState() == Payment.states.INCOMING.ordinal());
+        int leftMargin = incoming ? 50 : 0;
+        int rightMargin = 50 - leftMargin;
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(holder.layout.getLayoutParams());
+        layoutParams.setMargins(dpToPixels(leftMargin), 0, dpToPixels(rightMargin), 0);
+        holder.layout.setLayoutParams(layoutParams);
     }
 
-    public void addItem(Payment newPayment) {
-        if (Dashboard.hasFilterConnection() &&
-                !newPayment.getFromId().equals(Dashboard.getFilterId()) &&
-                !newPayment.getToId().equals(Dashboard.getFilterId())) {
-            // message is not to/from filter id, ignore it
-            return;
-        }
-        paymentList.add(newPayment);
-        notifyItemInserted(paymentList.size() - 1);
+    private int dpToPixels(int dp) {
+        Resources r = context.getResources();
+        int px = (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                dp,
+                r.getDisplayMetrics()
+        );
+        return px;
     }
+
+
 
 
 }

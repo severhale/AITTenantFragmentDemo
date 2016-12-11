@@ -28,7 +28,8 @@ import samandsimons.adventure.aittenantfragmentdemo.model.Payment;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PaymentFragment extends Fragment implements CreateDialogInterface{
+public class PaymentFragment extends Fragment implements CreateDialogInterface {
+
     public static final int PAYMENT_REQUEST = -1;
     public static final String PAYMENT_DIALOG = "PAYMENT_DIALOG";
 
@@ -37,7 +38,6 @@ public class PaymentFragment extends Fragment implements CreateDialogInterface{
 
     public PaymentFragment() {
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,11 +49,16 @@ public class PaymentFragment extends Fragment implements CreateDialogInterface{
         recyclerAdapter = new PaymentRecyclerAdapter(getContext());
         recyclerView.setAdapter(recyclerAdapter);
         layoutManager = new LinearLayoutManager(getContext());
-//        layoutManager.setReverseLayout(true);
         layoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
 
         return view;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -70,9 +75,6 @@ public class PaymentFragment extends Fragment implements CreateDialogInterface{
                     Payment newIn = new Payment(id, selectedConnection.getId(), displayName, selectedConnection.getDisplayName(), amount, System.currentTimeMillis(), name, Payment.states.INCOMING.ordinal());
                     postPayment(newOut, newIn);
                 }
-                else if (resultCode == Activity.RESULT_CANCELED) {
-                    // probably don't do anything
-                }
                 break;
         }
     }
@@ -86,15 +88,9 @@ public class PaymentFragment extends Fragment implements CreateDialogInterface{
         postToOtherUser.setValue(in);
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
-    }
-
     @Subscribe
     public void onEvent(Events.PaymentEvent event) {
-        recyclerAdapter.addItem(event.getPayment());
+        recyclerAdapter.addPayment(event.getPayment());
         layoutManager.scrollToPosition(recyclerAdapter.getItemCount() - 1);
     }
 

@@ -44,7 +44,6 @@ public class EventFragment extends Fragment implements CreateDialogInterface {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -55,7 +54,6 @@ public class EventFragment extends Fragment implements CreateDialogInterface {
         recyclerAdapter = new EventRecyclerAdapter(getContext());
         recyclerView.setAdapter(recyclerAdapter);
         layoutManager = new LinearLayoutManager(getContext());
-//        layoutManager.setReverseLayout(true);
         layoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
 
@@ -81,7 +79,6 @@ public class EventFragment extends Fragment implements CreateDialogInterface {
 
                     Event event = new Event(id, email, title, date, recipients);
                     postEvent(event);
-
                 }
                 break;
         }
@@ -89,7 +86,6 @@ public class EventFragment extends Fragment implements CreateDialogInterface {
 
     @Subscribe
     public void onEvent(Events.EventEvent eventevent) {
-        // fuck it
         Event event = eventevent.getEvent();
         if (System.currentTimeMillis() - event.getTime() >= dayInMilliseconds) {
             removeEvent(event);
@@ -106,6 +102,7 @@ public class EventFragment extends Fragment implements CreateDialogInterface {
         recyclerAdapter.removeItem(event.getEvent());
     }
 
+    // add to firebase
     public void postEvent(Event event) {
         String fromId = event.getFromId();
         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("users");
