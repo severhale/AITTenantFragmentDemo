@@ -1,5 +1,6 @@
 package samandsimons.adventure.aittenantfragmentdemo.adapter.recycler;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -29,8 +30,10 @@ import samandsimons.adventure.aittenantfragmentdemo.model.User;
 public class PaymentRecyclerAdapter extends RecyclerView.Adapter<PaymentRecyclerAdapter.ViewHolder> {
     private List<Payment> paymentList;
     private SimpleDateFormat sdf;
+    private Context context;
 
-    public PaymentRecyclerAdapter() {
+    public PaymentRecyclerAdapter(Context context) {
+        this.context = context;
         if (Dashboard.hasFilterConnection()) {
             paymentList = User.getCurrentUser().getPaymentsForUser(Dashboard.getFilterId());
         } else {
@@ -73,7 +76,7 @@ public class PaymentRecyclerAdapter extends RecyclerView.Adapter<PaymentRecycler
         if (payment.isConfirmed()) {
             paymentConfirmed(holder, payment);
         } else {
-            holder.layout.setBackgroundColor(Color.parseColor("#eee"));
+            holder.layout.setBackgroundColor(context.getResources().getColor(R.color.colorLightGrey));
         }
 
         holder.amount.setText("$" + payment.getAmount());
@@ -102,9 +105,9 @@ public class PaymentRecyclerAdapter extends RecyclerView.Adapter<PaymentRecycler
 
     private void paymentConfirmed(ViewHolder holder, Payment payment) {
         if (payment.getState() == Payment.states.INCOMING.ordinal()) {
-            holder.layout.setBackgroundColor(Color.parseColor("#b3ff88"));
+            holder.layout.setBackgroundColor(context.getResources().getColor(R.color.colorGreen));
         } else {
-            holder.layout.setBackgroundColor(Color.parseColor("#ff7272"));
+            holder.layout.setBackgroundColor(context.getResources().getColor(R.color.colorRed));
         }
         holder.btnConfirm.setVisibility(View.GONE);
     }
