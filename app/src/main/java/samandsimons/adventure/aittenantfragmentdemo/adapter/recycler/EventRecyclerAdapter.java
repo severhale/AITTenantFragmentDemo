@@ -1,7 +1,7 @@
 package samandsimons.adventure.aittenantfragmentdemo.adapter.recycler;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +10,7 @@ import android.widget.TextView;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import samandsimons.adventure.aittenantfragmentdemo.Dashboard;
 import samandsimons.adventure.aittenantfragmentdemo.R;
@@ -23,8 +24,10 @@ import samandsimons.adventure.aittenantfragmentdemo.model.User;
 public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdapter.ViewHolder> {
     private List<Event> eventList;
     private SimpleDateFormat sdf;
+    private Context context;
 
-    public EventRecyclerAdapter() {
+    public EventRecyclerAdapter(Context context) {
+        this.context = context;
         if (Dashboard.hasFilterConnection()) {
             eventList = User.getCurrentUser().getEventsForUser(Dashboard.getFilterId());
         } else {
@@ -45,6 +48,7 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
         holder.title.setText(event.getTitle());
         holder.author.setText(event.getFromDisplay());
         holder.date.setText(sdf.format(event.getTime()));
+        holder.peopleAttending.setText(String.format(Locale.getDefault(), context.getString(R.string.people_invited), event.getEventUsers().size()));
     }
 
     @Override
@@ -64,13 +68,14 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView title, author, date;
+        public TextView title, author, date, peopleAttending;
 
         public ViewHolder(View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.tvEventTitle);
             author = (TextView) itemView.findViewById(R.id.tvEventAuthor);
             date = (TextView) itemView.findViewById(R.id.tvEventDate);
+            peopleAttending = (TextView) itemView.findViewById(R.id.tvNumPeople);
         }
     }
 }

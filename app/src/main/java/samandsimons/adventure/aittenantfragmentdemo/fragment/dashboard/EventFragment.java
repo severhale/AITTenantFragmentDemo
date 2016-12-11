@@ -4,7 +4,6 @@ package samandsimons.adventure.aittenantfragmentdemo.fragment.dashboard;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,9 +18,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import samandsimons.adventure.aittenantfragmentdemo.R;
 import samandsimons.adventure.aittenantfragmentdemo.adapter.recycler.EventRecyclerAdapter;
@@ -53,7 +50,7 @@ public class EventFragment extends Fragment implements CreateDialogInterface {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_event, container, false);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.eventRecycler);
-        recyclerAdapter = new EventRecyclerAdapter();
+        recyclerAdapter = new EventRecyclerAdapter(getContext());
         recyclerView.setAdapter(recyclerAdapter);
         layoutManager = new LinearLayoutManager(getContext());
 //        layoutManager.setReverseLayout(true);
