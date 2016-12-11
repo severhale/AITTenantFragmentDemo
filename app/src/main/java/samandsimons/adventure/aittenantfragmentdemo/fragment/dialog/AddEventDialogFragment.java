@@ -56,18 +56,23 @@ public class AddEventDialogFragment extends DialogFragment {
 
         final Spinner recipients = (Spinner) view.findViewById(R.id.spEventRecipient);
         final ArrayList<Connection> connectionList = new ArrayList<>(User.getCurrentUser().getConfirmedConnections());
+        connectionList.add(0, new Connection());
         final ArrayAdapter<Connection> arrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, connectionList);
         recipients.setAdapter(arrayAdapter);
         recipients.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 0) {
+                    return;
+                }
                 String participantString = tvRecipients.getText().toString();
                 Connection selected = (Connection) recipients.getAdapter().getItem(position);
                 if (!selectedConnections.containsKey(selected.getId())) {
                     selectedConnections.put(selected.getId(), selected);
-                    tvRecipients.setText(participantString + selected.getDisplayName()+ " ");
+                    tvRecipients.setText(participantString + selected.getDisplayName() + " ");
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 // do nothing
@@ -92,8 +97,7 @@ public class AddEventDialogFragment extends DialogFragment {
                 if (Build.VERSION.SDK_INT >= 23) {
                     hour = timePicker.getHour();
                     minute = timePicker.getMinute();
-                }
-                else {
+                } else {
                     hour = timePicker.getCurrentHour();
                     minute = timePicker.getCurrentMinute();
                 }

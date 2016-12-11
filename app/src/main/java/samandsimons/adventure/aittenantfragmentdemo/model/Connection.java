@@ -18,6 +18,8 @@ public class Connection implements Serializable {
     }
 
     public Connection() {
+        id = "";
+        displayName = "";
     }
 
     public Connection(String id, String displayName) {
