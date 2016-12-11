@@ -2,6 +2,7 @@ package samandsimons.adventure.aittenantfragmentdemo.adapter.recycler;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,8 @@ import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
@@ -32,6 +35,12 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             eventList = User.getCurrentUser().getEventsForUser(Dashboard.getFilterId());
         } else {
             eventList = new ArrayList<>(User.getCurrentUser().getEvents());
+            Collections.sort(eventList, new Comparator<Event>() {
+                @Override
+                public int compare(Event o1, Event o2) {
+                    return (int) (o1.getTime() - o2.getTime());
+                }
+            });
         }
         sdf = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
     }
@@ -63,8 +72,31 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             // message is not to/from filter id, ignore it
             return;
         }
-        eventList.add(newEvent);
-        notifyItemInserted(eventList.size() - 1);
+        int index = 0;
+        for (index = eventList.size() - 1; index >= 0; index--) {
+            if (newEvent.getTime() <= eventList.get(index).getTime()) {
+                break;
+            }
+        }
+        index += 1;
+        eventList.add(index, newEvent);
+        notifyItemInserted(index);
+    }
+
+    public void removeItem(Event event) {
+        int index = -1;
+        for (int i = 0; i < eventList.size(); i++) {
+            if (event.getKey().equals(eventList.get(i).getKey())) {
+                index = i;
+                break;
+            }
+        }
+        if (index == -1) {
+            Log.w("TAG", "ERROR REMOVING EVENT");
+            return;
+        }
+        eventList.remove(index);
+        notifyItemRemoved(index);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

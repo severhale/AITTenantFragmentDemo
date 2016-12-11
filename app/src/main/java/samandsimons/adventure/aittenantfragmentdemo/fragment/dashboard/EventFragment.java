@@ -35,6 +35,8 @@ public class EventFragment extends Fragment implements CreateDialogInterface {
     public static final String ADD_EVENT_DIALOG = "ADD_EVENT_DIALOG";
     public static final int ADD_EVENT_REQUEST_CODE = 1;
 
+    private static final long dayInMilliseconds = 86400000L;
+
     private EventRecyclerAdapter recyclerAdapter;
     private LinearLayoutManager layoutManager;
 
@@ -78,7 +80,7 @@ public class EventFragment extends Fragment implements CreateDialogInterface {
                     HashMap<String, Connection> recipients = (HashMap<String, Connection>) data.getSerializableExtra(AddEventDialogFragment.CONNECTION);
 
                     Event event = new Event(id, email, title, date, recipients);
-                    postEvent(event, recipients);
+                    postEvent(event);
 
                 }
                 break;
@@ -88,21 +90,45 @@ public class EventFragment extends Fragment implements CreateDialogInterface {
     @Subscribe
     public void onEvent(Events.EventEvent eventevent) {
         // fuck it
-        recyclerAdapter.addItem(eventevent.getEvent());
-        layoutManager.scrollToPosition(recyclerAdapter.getItemCount() - 1);
+        Event event = eventevent.getEvent();
+        if (System.currentTimeMillis() - event.getTime() >= dayInMilliseconds) {
+            removeEvent(event);
+        }
+        else {
+            recyclerAdapter.addItem(event);
+            layoutManager.scrollToPosition(recyclerAdapter.getItemCount() - 1);
+        }
 
     }
 
-    public void postEvent(Event event, HashMap<String, Connection> recipients) {
+    @Subscribe
+    public void onEvent(Events.EventRemovedEvent event) {
+        recyclerAdapter.removeItem(event.getEvent());
+    }
+
+    public void postEvent(Event event) {
         String fromId = event.getFromId();
         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("users");
 
         DatabaseReference newEventRef = usersRef.child(fromId).child("events").push();
         newEventRef.setValue(event);
 
-        for (String c : recipients.keySet()) {
+        for (String c : event.getEventUsers().keySet()) {
             newEventRef = usersRef.child(c).child("events").push();
             newEventRef.setValue(event);
+        }
+    }
+
+    public void removeEvent(Event event) {
+        String fromId = event.getFromId();
+        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("users");
+
+        DatabaseReference newEventRef = usersRef.child(fromId).child("events").child(event.getKey());
+        newEventRef.removeValue();
+
+        for (String c : event.getEventUsers().keySet()) {
+            newEventRef = usersRef.child(c).child("events").child(event.getKey());
+            newEventRef.removeValue();
         }
     }
 

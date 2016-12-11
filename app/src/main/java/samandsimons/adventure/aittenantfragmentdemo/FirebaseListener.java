@@ -138,6 +138,7 @@ public class FirebaseListener {
                     @Override
                     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                         Event newEvent = dataSnapshot.getValue(Event.class);
+                        newEvent.setKey(dataSnapshot.getKey());
 
                         EventBus.getDefault().post(new Events.EventEvent(newEvent));
                     }
@@ -149,7 +150,12 @@ public class FirebaseListener {
 
                     @Override
                     public void onChildRemoved(DataSnapshot dataSnapshot) {
+                        Event event = dataSnapshot.getValue(Event.class);
+                        event.setKey(dataSnapshot.getKey());
 
+                        Log.d("TAG", "REMOVING EVENT");
+
+                        EventBus.getDefault().post(new Events.EventRemovedEvent(event));
                     }
 
                     @Override

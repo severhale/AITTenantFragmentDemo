@@ -1,5 +1,7 @@
 package samandsimons.adventure.aittenantfragmentdemo.model;
 
+import com.google.firebase.database.Exclude;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,6 +17,9 @@ public class Event {
     private String title;
 
     private HashMap<String, Connection> eventUsers;
+
+    @Exclude
+    private String key;
 
     public Event() {
         eventUsers = new HashMap<>();
@@ -72,5 +77,13 @@ public class Event {
 
     public void addEventUser(Connection user) {
         eventUsers.put(user.getId(), user);
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 }

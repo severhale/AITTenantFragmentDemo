@@ -142,4 +142,16 @@ public class Events {
     }
 
 
+    public static class EventRemovedEvent {
+        private Event event;
+
+        public Event getEvent() {
+            return event;
+        }
+
+        public EventRemovedEvent(Event event) {
+
+            this.event = event;
+        }
+    }
 }
