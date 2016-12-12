@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AITTenantFragmentDemo</string>
+    <string name="app_name">Salmon</string>
     <string name="login">Login</string>
     <string name="register">Register</string>
     <string name="email">Email</string>
@@ -34,6 +34,4 @@
     <string name="new_event_dialog_title">Add new event</string>
     <string name="about_message">Created by Sam Grund (sgrund@oberlin.edu) and\nSimon Ever-Hale (severhal@oberlin.edu)</string>
     <string name="user_created_message">User created</string>
-    <string name="pending_request">Pending Requests...</string>
-    <string name="awaiting_response_from">Awaiting Response From...</string>
 </resources>
