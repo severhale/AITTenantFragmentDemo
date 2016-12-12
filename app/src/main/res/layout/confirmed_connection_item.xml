@@ -30,7 +30,6 @@
     </LinearLayout>
 
     <ImageView
-        android:paddingLeft="10dp"
         android:id="@+id/btnRemoveConnection"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
