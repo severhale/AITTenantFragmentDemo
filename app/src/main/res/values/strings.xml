@@ -27,7 +27,7 @@
     <string name="payment_summary">Payment Summary</string>
     <string name="connections">Connections</string>
     <string name="people_invited">%d people invited</string>
-    <string name="new_connection_dialog_title">Add new connection.</string>
+    <string name="new_connection_dialog_title">Add new connection</string>
     <string name="invalid_connection_error">You must enter a valid username</string>
     <string name="new_message_dialog_title">Send new message</string>
     <string name="new_payment_dialog_title">Send new payment</string>
@@ -36,4 +36,5 @@
     <string name="user_created_message">User created</string>
     <string name="pending_request">Pending Requests...</string>
     <string name="awaiting_response_from">Awaiting Response From...</string>
+    <string name="user_not_found">User not found</string>
 </resources>

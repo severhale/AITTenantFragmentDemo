@@ -30,23 +30,6 @@
             android:hint="@string/password"
             android:inputType="textPassword" />
 
-        <RadioGroup
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:checkedButton="@+id/rbTenant">
-            <RadioButton
-                android:id="@+id/rbLandlord"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Landlord" />
-            <RadioButton
-                android:id="@+id/rbTenant"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Tenant"/>
-        </RadioGroup>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

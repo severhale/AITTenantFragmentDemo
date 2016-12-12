@@ -10,6 +10,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -105,7 +106,7 @@ public class AddConnectionDialogFragment extends DialogFragment {
                                 }
                                 @Override
                                 public void onCancelled(DatabaseError databaseError) {
-                                    etUserName.setError(databaseError.getMessage());
+                                    Toast.makeText(getContext(), R.string.user_not_found, Toast.LENGTH_SHORT).show();
                                 }
                             });
                 }
