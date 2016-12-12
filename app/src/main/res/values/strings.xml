@@ -34,7 +34,14 @@
     <string name="new_event_dialog_title">Add new event</string>
     <string name="about_message">Created by Sam Grund (sgrund@oberlin.edu) and\nSimon Ever-Hale (severhal@oberlin.edu)</string>
     <string name="user_created_message">User created</string>
-    <string name="pending_request">Pending Requests...</string>
-    <string name="awaiting_response_from">Awaiting Response From...</string>
+    <string name="enter_user_email_hint">Enter user email</string>
+    <string name="event_name_hint">Event name</string>
+    <string name="participants_event">Participants:</string>
+    <string name="message_subject_hint">Subject</string>
+    <string name="message_body_hint">Body</string>
+    <string name="payment_name_hint">Name</string>
+    <string name="payment_amount_hint">$</string>
+    <string name="last_month_summary">In the last month</string>
+    <string name="last_year_summary">In the last year</string>
     <string name="user_not_found">User not found</string>
 </resources>

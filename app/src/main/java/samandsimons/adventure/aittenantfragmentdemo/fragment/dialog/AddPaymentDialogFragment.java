@@ -90,10 +90,12 @@ public class AddPaymentDialogFragment extends DialogFragment {
                 if (selectedConnection == null) {
                     selectedConnection = new Connection("placeholderid", "placeholder subject");
                 }
+                String amount = etAmount.getText().toString();
+
                 Intent intent = new Intent();
                 intent.putExtra(CONNECTION, selectedConnection);
                 intent.putExtra(NAME, etName.getText().toString());
-                intent.putExtra(AMOUNT, etAmount.getText().toString());
+                intent.putExtra(AMOUNT, amount.equals("") ? "0" : amount);
                 getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
             }
         });

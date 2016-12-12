@@ -19,13 +19,13 @@
             android:id="@+id/etEventName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Event name" />
+            android:hint="@string/event_name_hint" />
 
         <TextView
             android:id="@+id/tvEventRecipients"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Participants: " />
+            android:text="@string/participants_event" />
 
         <DatePicker
             android:id="@+id/eventDatePicker"

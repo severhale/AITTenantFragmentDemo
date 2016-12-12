@@ -17,7 +17,7 @@
             android:textSize="20sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="In the last month"/>
+            android:text="@string/last_month_summary"/>
 
         <View
             android:layout_width="match_parent"
@@ -82,7 +82,7 @@
             android:textSize="20sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="In the last year"/>
+            android:text="@string/last_year_summary"/>
 
         <View
             android:layout_width="match_parent"
