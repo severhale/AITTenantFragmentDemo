@@ -28,8 +28,6 @@ public class LoginActivity extends ProgressActivity {
     EditText etEmail;
     @BindView(R.id.etPassword)
     EditText etPassword;
-    @BindView(R.id.rbLandlord)
-    RadioButton rbLandlord;
 
     private FirebaseAuth firebaseAuth;
     private DatabaseReference database;

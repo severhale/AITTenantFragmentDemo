@@ -35,13 +35,13 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             eventList = User.getCurrentUser().getEventsForUser(Dashboard.getFilterId());
         } else {
             eventList = new ArrayList<>(User.getCurrentUser().getEvents());
-            Collections.sort(eventList, new Comparator<Event>() {
-                @Override
-                public int compare(Event o1, Event o2) {
-                    return (int) (o1.getTime() - o2.getTime());
-                }
-            });
         }
+        Collections.sort(eventList, new Comparator<Event>() {
+            @Override
+            public int compare(Event o1, Event o2) {
+                return (int) (o2.getTime() - o1.getTime());
+            }
+        });
         sdf = new SimpleDateFormat("EEE, MMM d, yyyy, hh:mm");
     }
 

@@ -1,38 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:layout_margin="10dp">
+    android:layout_height="wrap_content">
 
-    <Spinner
-        android:id="@+id/spEventRecipient"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <EditText
-        android:id="@+id/etEventName"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Event name" />
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tvEventRecipients"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Participants: "/>
 
-    <DatePicker
-        android:id="@+id/eventDatePicker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:calendarViewShown="false"
-        android:datePickerMode="spinner" />
+        <Spinner
+            android:id="@+id/spEventRecipient"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-    <TimePicker
-        android:id="@+id/eventTimePicker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:timePickerMode="spinner" />
+        <EditText
+            android:id="@+id/etEventName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Event name" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/tvEventRecipients"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Participants: " />
+
+        <DatePicker
+            android:id="@+id/eventDatePicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:calendarViewShown="false"
+            android:datePickerMode="spinner" />
+
+        <TimePicker
+            android:id="@+id/eventTimePicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:timePickerMode="spinner" />
+
+    </LinearLayout>
+</ScrollView>

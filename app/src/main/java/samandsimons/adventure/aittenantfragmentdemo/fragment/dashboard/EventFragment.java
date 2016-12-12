@@ -89,8 +89,7 @@ public class EventFragment extends Fragment implements CreateDialogInterface {
         Event event = eventevent.getEvent();
         if (System.currentTimeMillis() - event.getTime() >= dayInMilliseconds) {
             removeEvent(event);
-        }
-        else {
+        } else {
             recyclerAdapter.addItem(event);
             layoutManager.scrollToPosition(recyclerAdapter.getItemCount() - 1);
         }
@@ -111,8 +110,10 @@ public class EventFragment extends Fragment implements CreateDialogInterface {
         newEventRef.setValue(event);
 
         for (String c : event.getEventUsers().keySet()) {
-            newEventRef = usersRef.child(c).child("events").push();
-            newEventRef.setValue(event);
+            if (!c.equals(fromId)) {
+                newEventRef = usersRef.child(c).child("events").push();
+                newEventRef.setValue(event);
+            }
         }
     }
 

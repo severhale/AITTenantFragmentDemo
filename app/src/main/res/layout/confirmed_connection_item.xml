@@ -34,6 +34,6 @@
         android:id="@+id/btnRemoveConnection"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:src="@android:drawable/ic_menu_close_clear_cancel" />
+        android:src="@drawable/ic_cancel" />
 
 </LinearLayout>
