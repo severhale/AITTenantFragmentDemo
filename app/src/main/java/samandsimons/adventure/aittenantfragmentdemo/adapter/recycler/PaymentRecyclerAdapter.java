@@ -88,6 +88,7 @@ public class PaymentRecyclerAdapter extends RecyclerView.Adapter<PaymentRecycler
 
         if (!incoming) {
             holder.btnConfirm.setVisibility(View.GONE);
+            holder.btnDeny.setVisibility(View.GONE);
             holder.name.setText(payment.getToDisplay());
             holder.amount.setText("-$" + payment.getAmount());
         } else {
