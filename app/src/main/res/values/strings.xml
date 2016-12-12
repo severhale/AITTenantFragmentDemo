@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AITTenantFragmentDemo</string>
+    <string name="app_name">Salmon</string>
     <string name="login">Login</string>
     <string name="register">Register</string>
     <string name="email">Email</string>
@@ -27,14 +27,11 @@
     <string name="payment_summary">Payment Summary</string>
     <string name="connections">Connections</string>
     <string name="people_invited">%d people invited</string>
-    <string name="new_connection_dialog_title">Add new connection</string>
+    <string name="new_connection_dialog_title">Add new connection.</string>
     <string name="invalid_connection_error">You must enter a valid username</string>
     <string name="new_message_dialog_title">Send new message</string>
     <string name="new_payment_dialog_title">Send new payment</string>
     <string name="new_event_dialog_title">Add new event</string>
     <string name="about_message">Created by Sam Grund (sgrund@oberlin.edu) and\nSimon Ever-Hale (severhal@oberlin.edu)</string>
     <string name="user_created_message">User created</string>
-    <string name="pending_request">Pending Requests...</string>
-    <string name="awaiting_response_from">Awaiting Response From...</string>
-    <string name="user_not_found">User not found</string>
 </resources>
