@@ -108,10 +108,11 @@ public class EventFragment extends Fragment implements CreateDialogInterface {
 
         DatabaseReference newEventRef = usersRef.child(fromId).child("events").push();
         newEventRef.setValue(event);
+        String key = newEventRef.getKey();
 
         for (String c : event.getEventUsers().keySet()) {
             if (!c.equals(fromId)) {
-                newEventRef = usersRef.child(c).child("events").push();
+                newEventRef = usersRef.child(c).child("events").child(key);
                 newEventRef.setValue(event);
             }
         }

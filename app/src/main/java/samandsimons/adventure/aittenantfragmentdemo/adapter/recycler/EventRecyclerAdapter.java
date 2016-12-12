@@ -131,8 +131,8 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
         newEventRef.removeValue();
 
         for (String c : event.getEventUsers().keySet()) {
-            newEventRef = usersRef.child(c).child("events").child(event.getKey());
-            newEventRef.removeValue();
+            DatabaseReference newRef = usersRef.child(c).child("events").child(event.getKey());
+            newRef.removeValue();
         }
     }
 
