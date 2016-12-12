@@ -88,7 +88,7 @@ public class EventFragment extends Fragment implements CreateDialogInterface {
     public void onEvent(Events.EventEvent eventevent) {
         Event event = eventevent.getEvent();
         if (System.currentTimeMillis() - event.getTime() >= dayInMilliseconds) {
-            removeEvent(event);
+            recyclerAdapter.deleteEventInFirebase(event);
         } else {
             recyclerAdapter.addItem(event);
             layoutManager.scrollToPosition(recyclerAdapter.getItemCount() - 1);
@@ -114,19 +114,6 @@ public class EventFragment extends Fragment implements CreateDialogInterface {
                 newEventRef = usersRef.child(c).child("events").push();
                 newEventRef.setValue(event);
             }
-        }
-    }
-
-    public void removeEvent(Event event) {
-        String fromId = event.getFromId();
-        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("users");
-
-        DatabaseReference newEventRef = usersRef.child(fromId).child("events").child(event.getKey());
-        newEventRef.removeValue();
-
-        for (String c : event.getEventUsers().keySet()) {
-            newEventRef = usersRef.child(c).child("events").child(event.getKey());
-            newEventRef.removeValue();
         }
     }
 

@@ -219,6 +219,22 @@ public class User {
         requestedConnections.remove(index);
     }
 
+    @Subscribe
+    public void onEvent(Events.EventRemovedEvent removedEvent) {
+        Event event = removedEvent.getEvent();
+        int index = -1;
+        for (int i = 0; i < events.size(); i++) {
+            if (event.getKey().equals(events.get(i).getKey())) {
+                index = i;
+                break;
+            }
+        }
+        if (index == -1) {
+            return;
+        }
+        events.remove(index);
+    }
+
     public List<Message> getMessagesForUser(String uid) {
         ArrayList<Message> messagesForUser = new ArrayList<Message>();
         for (Message message : messages) {

@@ -6,7 +6,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -52,6 +56,7 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView title, author, date, peopleAttending;
+        public ImageView delete;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -59,6 +64,7 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             author = (TextView) itemView.findViewById(R.id.tvEventAuthor);
             date = (TextView) itemView.findViewById(R.id.tvEventDate);
             peopleAttending = (TextView) itemView.findViewById(R.id.tvNumPeople);
+            delete = (ImageView) itemView.findViewById(R.id.btnDeleteEvent);
         }
     }
 
@@ -70,11 +76,17 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Event event = eventList.get(position);
+        final Event event = eventList.get(position);
         holder.title.setText(event.getTitle());
         holder.author.setText(event.getFromDisplay());
         holder.date.setText(sdf.format(event.getTime()));
         holder.peopleAttending.setText(String.format(Locale.getDefault(), context.getString(R.string.people_invited), event.getEventUsers().size()));
+        holder.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteEventInFirebase(event);
+            }
+        });
     }
 
     public void addItem(Event newEvent) {
@@ -111,5 +123,17 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
         notifyItemRemoved(index);
     }
 
+    public void deleteEventInFirebase(Event event) {
+        String fromId = event.getFromId();
+        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("users");
+
+        DatabaseReference newEventRef = usersRef.child(fromId).child("events").child(event.getKey());
+        newEventRef.removeValue();
+
+        for (String c : event.getEventUsers().keySet()) {
+            newEventRef = usersRef.child(c).child("events").child(event.getKey());
+            newEventRef.removeValue();
+        }
+    }
 
 }
